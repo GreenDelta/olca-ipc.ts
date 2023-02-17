@@ -5,6 +5,7 @@ await emptyDir("./npm");
 await build({
   entryPoints: ["./mod.ts"],
   outDir: "./npm",
+  typeCheck: false,
   shims: {
     // see JS docs for overview and more options
     // deno: true,
