@@ -1,5 +1,6 @@
 # olca-ipc.ts
 
+A TypeScript implementation of an openLCA IPC client...
 
 ## Building from source
 
