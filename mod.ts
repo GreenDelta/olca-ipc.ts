@@ -1,1 +1,1 @@
-export * from "./schema.ts"
+export * from "./src/schema.ts"
