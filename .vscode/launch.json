@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Deno - Test",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "deno",
+      "runtimeArgs": ["test", "--inspect-brk", "-A", "${file}"],
+      "attachSimplePort": 9229
+    }
+  ]
+}
