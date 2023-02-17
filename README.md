@@ -1,6 +1,5 @@
 # olca-ipc.ts
 
-https://github.com/denoland/dnt/
 
 ## Building from source
 
@@ -12,3 +11,12 @@ schema](https://github.com/GreenDelta/olca-schema) definition using the
 osch ts -o path/to/olca-ipc.ts/schema.ts
 ```
 
+[Deno](https://deno.land/) is used as development tool. The npm package can be
+created via [dnt](https://github.com/denoland/dnt/) with the `build_npm.ts`
+script:
+
+```bash
+deno run --allow-all scripts/build_npm.ts
+cd npm
+npm publish
+```
