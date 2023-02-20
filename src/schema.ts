@@ -4063,3 +4063,17 @@ export class TechFlowValue {
 
 }
 
+export type RootEntity = Actor
+  | Flow
+  | FlowProperty
+  | ImpactCategory
+  | ImpactMethod
+  | Parameter
+  | Process
+  | SocialIndicator
+  | Source
+  | UnitGroup;
+
+export type RefEntity = RootEntity
+  | Unit
+  | NwSet;
