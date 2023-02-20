@@ -1,5 +1,20 @@
 {
   "tasks": {
     "dev": "deno run --watch mod.ts"
+  },
+  "lint": {
+    "rules": {
+      "exclude": ["no-explicit-any"]
+    }
+  },
+  "fmt": {
+    "options": {
+      "useTabs": false,
+      "semiColons": true,
+      "indentWidth": 2,
+      "lineWidth": 80,
+      "proseWrap": "preserve",
+      "singleQuote": false
+    }
   }
 }

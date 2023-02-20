@@ -1,4 +1,8 @@
-import { assert, assertAlmostEquals, assertEquals } from "https://deno.land/std@0.177.0/testing/asserts.ts";
+import {
+  assert,
+  assertAlmostEquals,
+  assertEquals,
+} from "https://deno.land/std@0.177.0/testing/asserts.ts";
 import * as o from "../src/schema.ts";
 
 Deno.test(function testToFromJson() {
@@ -12,7 +16,7 @@ Deno.test(function testToFromJson() {
       }),
       conversionFactor: 1.0,
       isRefFlowProperty: true,
-    })]
+    })],
   }).toJson();
   // console.log(json);
 

@@ -1,4 +1,3 @@
-
 // this file was generated automatically; do not change it but help to make
 // the code generator better; see:
 // https://github.com/GreenDelta/olca-schema/tree/master/osch
@@ -7,7 +6,7 @@
 type Dict = Record<string, unknown>;
 
 interface Dictable {
-  toDict: () => Dict,
+  toDict: () => Dict;
 }
 
 function ifPresent<T>(val: T | undefined, consumer: (val: T) => void) {
@@ -17,7 +16,7 @@ function ifPresent<T>(val: T | undefined, consumer: (val: T) => void) {
 }
 
 function dictAll(list: Array<Dictable> | null): Array<Dict> {
-  return list ? list.map(e => e.toDict()) : [];
+  return list ? list.map((e) => e.toDict()) : [];
 }
 // #endregion
 
@@ -38,12 +37,36 @@ export enum RefType {
   ProductSystem = "ProductSystem",
   Project = "Project",
   Result = "Result",
-  RootEntity = "RootEntity",
   SocialIndicator = "SocialIndicator",
   Source = "Source",
   Unit = "Unit",
   UnitGroup = "UnitGroup",
 }
+
+export type RootEntity =
+  | Actor
+  | Currency
+  | DQSystem
+  | Epd
+  | Flow
+  | FlowMap
+  | FlowProperty
+  | ImpactCategory
+  | ImpactMethod
+  | Location
+  | Parameter
+  | Process
+  | ProductSystem
+  | Project
+  | Result
+  | SocialIndicator
+  | Source
+  | UnitGroup;
+
+export type RefEntity =
+  | RootEntity
+  | NwSet
+  | Unit;
 
 export enum AllocationType {
   PHYSICAL_ALLOCATION = "PHYSICAL_ALLOCATION",
@@ -196,21 +219,21 @@ export class Actor {
   toDict(): Dict {
     const d: Dict = {};
     d["@type"] = "Actor";
-    ifPresent(this.id, v => d["@id"] = v);
-    ifPresent(this.address, v => d.address = v);
-    ifPresent(this.category, v => d.category = v);
-    ifPresent(this.city, v => d.city = v);
-    ifPresent(this.country, v => d.country = v);
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.email, v => d.email = v);
-    ifPresent(this.lastChange, v => d.lastChange = v);
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.tags, v => d.tags = v);
-    ifPresent(this.telefax, v => d.telefax = v);
-    ifPresent(this.telephone, v => d.telephone = v);
-    ifPresent(this.version, v => d.version = v);
-    ifPresent(this.website, v => d.website = v);
-    ifPresent(this.zipCode, v => d.zipCode = v);
+    ifPresent(this.id, (v) => d["@id"] = v);
+    ifPresent(this.address, (v) => d.address = v);
+    ifPresent(this.category, (v) => d.category = v);
+    ifPresent(this.city, (v) => d.city = v);
+    ifPresent(this.country, (v) => d.country = v);
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.email, (v) => d.email = v);
+    ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.tags, (v) => d.tags = v);
+    ifPresent(this.telefax, (v) => d.telefax = v);
+    ifPresent(this.telephone, (v) => d.telephone = v);
+    ifPresent(this.version, (v) => d.version = v);
+    ifPresent(this.website, (v) => d.website = v);
+    ifPresent(this.zipCode, (v) => d.zipCode = v);
     return d;
   }
 
@@ -244,7 +267,6 @@ export class Actor {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IAllocationFactor {
@@ -274,11 +296,11 @@ export class AllocationFactor {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.allocationType, v => d.allocationType = v);
-    ifPresent(this.exchange, v => d.exchange = v?.toDict());
-    ifPresent(this.formula, v => d.formula = v);
-    ifPresent(this.product, v => d.product = v?.toDict());
-    ifPresent(this.value, v => d.value = v);
+    ifPresent(this.allocationType, (v) => d.allocationType = v);
+    ifPresent(this.exchange, (v) => d.exchange = v?.toDict());
+    ifPresent(this.formula, (v) => d.formula = v);
+    ifPresent(this.product, (v) => d.product = v?.toDict());
+    ifPresent(this.value, (v) => d.value = v);
     return d;
   }
 
@@ -302,7 +324,6 @@ export class AllocationFactor {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface ICurrency {
@@ -357,16 +378,16 @@ export class Currency {
   toDict(): Dict {
     const d: Dict = {};
     d["@type"] = "Currency";
-    ifPresent(this.id, v => d["@id"] = v);
-    ifPresent(this.category, v => d.category = v);
-    ifPresent(this.code, v => d.code = v);
-    ifPresent(this.conversionFactor, v => d.conversionFactor = v);
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.lastChange, v => d.lastChange = v);
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.refCurrency, v => d.refCurrency = v?.toDict());
-    ifPresent(this.tags, v => d.tags = v);
-    ifPresent(this.version, v => d.version = v);
+    ifPresent(this.id, (v) => d["@id"] = v);
+    ifPresent(this.category, (v) => d.category = v);
+    ifPresent(this.code, (v) => d.code = v);
+    ifPresent(this.conversionFactor, (v) => d.conversionFactor = v);
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.refCurrency, (v) => d.refCurrency = v?.toDict());
+    ifPresent(this.tags, (v) => d.tags = v);
+    ifPresent(this.version, (v) => d.version = v);
     return d;
   }
 
@@ -395,7 +416,6 @@ export class Currency {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IDQIndicator {
@@ -419,9 +439,9 @@ export class DQIndicator {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.position, v => d.position = v);
-    ifPresent(this.scores, v => d.scores = dictAll(v));
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.position, (v) => d.position = v);
+    ifPresent(this.scores, (v) => d.scores = dictAll(v));
     return d;
   }
 
@@ -445,7 +465,6 @@ export class DQIndicator {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IDQScore {
@@ -472,10 +491,10 @@ export class DQScore {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.label, v => d.label = v);
-    ifPresent(this.position, v => d.position = v);
-    ifPresent(this.uncertainty, v => d.uncertainty = v);
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.label, (v) => d.label = v);
+    ifPresent(this.position, (v) => d.position = v);
+    ifPresent(this.uncertainty, (v) => d.uncertainty = v);
     return d;
   }
 
@@ -498,7 +517,6 @@ export class DQScore {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IDQSystem {
@@ -553,16 +571,16 @@ export class DQSystem {
   toDict(): Dict {
     const d: Dict = {};
     d["@type"] = "DQSystem";
-    ifPresent(this.id, v => d["@id"] = v);
-    ifPresent(this.category, v => d.category = v);
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.hasUncertainties, v => d.hasUncertainties = v);
-    ifPresent(this.indicators, v => d.indicators = dictAll(v));
-    ifPresent(this.lastChange, v => d.lastChange = v);
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.source, v => d.source = v?.toDict());
-    ifPresent(this.tags, v => d.tags = v);
-    ifPresent(this.version, v => d.version = v);
+    ifPresent(this.id, (v) => d["@id"] = v);
+    ifPresent(this.category, (v) => d.category = v);
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.hasUncertainties, (v) => d.hasUncertainties = v);
+    ifPresent(this.indicators, (v) => d.indicators = dictAll(v));
+    ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.source, (v) => d.source = v?.toDict());
+    ifPresent(this.tags, (v) => d.tags = v);
+    ifPresent(this.version, (v) => d.version = v);
     return d;
   }
 
@@ -593,7 +611,6 @@ export class DQSystem {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IEpd {
@@ -660,20 +677,20 @@ export class Epd {
   toDict(): Dict {
     const d: Dict = {};
     d["@type"] = "Epd";
-    ifPresent(this.id, v => d["@id"] = v);
-    ifPresent(this.category, v => d.category = v);
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.lastChange, v => d.lastChange = v);
-    ifPresent(this.manufacturer, v => d.manufacturer = v?.toDict());
-    ifPresent(this.modules, v => d.modules = dictAll(v));
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.pcr, v => d.pcr = v?.toDict());
-    ifPresent(this.product, v => d.product = v?.toDict());
-    ifPresent(this.programOperator, v => d.programOperator = v?.toDict());
-    ifPresent(this.tags, v => d.tags = v);
-    ifPresent(this.urn, v => d.urn = v);
-    ifPresent(this.verifier, v => d.verifier = v?.toDict());
-    ifPresent(this.version, v => d.version = v);
+    ifPresent(this.id, (v) => d["@id"] = v);
+    ifPresent(this.category, (v) => d.category = v);
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.manufacturer, (v) => d.manufacturer = v?.toDict());
+    ifPresent(this.modules, (v) => d.modules = dictAll(v));
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.pcr, (v) => d.pcr = v?.toDict());
+    ifPresent(this.product, (v) => d.product = v?.toDict());
+    ifPresent(this.programOperator, (v) => d.programOperator = v?.toDict());
+    ifPresent(this.tags, (v) => d.tags = v);
+    ifPresent(this.urn, (v) => d.urn = v);
+    ifPresent(this.verifier, (v) => d.verifier = v?.toDict());
+    ifPresent(this.version, (v) => d.version = v);
     return d;
   }
 
@@ -708,7 +725,6 @@ export class Epd {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IEpdModule {
@@ -732,9 +748,9 @@ export class EpdModule {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.multiplier, v => d.multiplier = v);
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.result, v => d.result = v?.toDict());
+    ifPresent(this.multiplier, (v) => d.multiplier = v);
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.result, (v) => d.result = v?.toDict());
     return d;
   }
 
@@ -756,7 +772,6 @@ export class EpdModule {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IEpdProduct {
@@ -783,10 +798,10 @@ export class EpdProduct {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.amount, v => d.amount = v);
-    ifPresent(this.flow, v => d.flow = v?.toDict());
-    ifPresent(this.flowProperty, v => d.flowProperty = v?.toDict());
-    ifPresent(this.unit, v => d.unit = v?.toDict());
+    ifPresent(this.amount, (v) => d.amount = v);
+    ifPresent(this.flow, (v) => d.flow = v?.toDict());
+    ifPresent(this.flowProperty, (v) => d.flowProperty = v?.toDict());
+    ifPresent(this.unit, (v) => d.unit = v?.toDict());
     return d;
   }
 
@@ -809,7 +824,6 @@ export class EpdProduct {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IExchange {
@@ -878,24 +892,27 @@ export class Exchange {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.amount, v => d.amount = v);
-    ifPresent(this.amountFormula, v => d.amountFormula = v);
-    ifPresent(this.baseUncertainty, v => d.baseUncertainty = v);
-    ifPresent(this.costFormula, v => d.costFormula = v);
-    ifPresent(this.costValue, v => d.costValue = v);
-    ifPresent(this.currency, v => d.currency = v?.toDict());
-    ifPresent(this.defaultProvider, v => d.defaultProvider = v?.toDict());
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.dqEntry, v => d.dqEntry = v);
-    ifPresent(this.flow, v => d.flow = v?.toDict());
-    ifPresent(this.flowProperty, v => d.flowProperty = v?.toDict());
-    ifPresent(this.internalId, v => d.internalId = v);
-    ifPresent(this.isAvoidedProduct, v => d.isAvoidedProduct = v);
-    ifPresent(this.isInput, v => d.isInput = v);
-    ifPresent(this.isQuantitativeReference, v => d.isQuantitativeReference = v);
-    ifPresent(this.location, v => d.location = v?.toDict());
-    ifPresent(this.uncertainty, v => d.uncertainty = v?.toDict());
-    ifPresent(this.unit, v => d.unit = v?.toDict());
+    ifPresent(this.amount, (v) => d.amount = v);
+    ifPresent(this.amountFormula, (v) => d.amountFormula = v);
+    ifPresent(this.baseUncertainty, (v) => d.baseUncertainty = v);
+    ifPresent(this.costFormula, (v) => d.costFormula = v);
+    ifPresent(this.costValue, (v) => d.costValue = v);
+    ifPresent(this.currency, (v) => d.currency = v?.toDict());
+    ifPresent(this.defaultProvider, (v) => d.defaultProvider = v?.toDict());
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.dqEntry, (v) => d.dqEntry = v);
+    ifPresent(this.flow, (v) => d.flow = v?.toDict());
+    ifPresent(this.flowProperty, (v) => d.flowProperty = v?.toDict());
+    ifPresent(this.internalId, (v) => d.internalId = v);
+    ifPresent(this.isAvoidedProduct, (v) => d.isAvoidedProduct = v);
+    ifPresent(this.isInput, (v) => d.isInput = v);
+    ifPresent(
+      this.isQuantitativeReference,
+      (v) => d.isQuantitativeReference = v,
+    );
+    ifPresent(this.location, (v) => d.location = v?.toDict());
+    ifPresent(this.uncertainty, (v) => d.uncertainty = v?.toDict());
+    ifPresent(this.unit, (v) => d.unit = v?.toDict());
     return d;
   }
 
@@ -932,7 +949,6 @@ export class Exchange {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IExchangeRef {
@@ -950,7 +966,7 @@ export class ExchangeRef {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.internalId, v => d.internalId = v);
+    ifPresent(this.internalId, (v) => d.internalId = v);
     return d;
   }
 
@@ -970,7 +986,6 @@ export class ExchangeRef {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IFlow {
@@ -1037,20 +1052,20 @@ export class Flow {
   toDict(): Dict {
     const d: Dict = {};
     d["@type"] = "Flow";
-    ifPresent(this.id, v => d["@id"] = v);
-    ifPresent(this.cas, v => d.cas = v);
-    ifPresent(this.category, v => d.category = v);
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.flowProperties, v => d.flowProperties = dictAll(v));
-    ifPresent(this.flowType, v => d.flowType = v);
-    ifPresent(this.formula, v => d.formula = v);
-    ifPresent(this.isInfrastructureFlow, v => d.isInfrastructureFlow = v);
-    ifPresent(this.lastChange, v => d.lastChange = v);
-    ifPresent(this.location, v => d.location = v?.toDict());
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.synonyms, v => d.synonyms = v);
-    ifPresent(this.tags, v => d.tags = v);
-    ifPresent(this.version, v => d.version = v);
+    ifPresent(this.id, (v) => d["@id"] = v);
+    ifPresent(this.cas, (v) => d.cas = v);
+    ifPresent(this.category, (v) => d.category = v);
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.flowProperties, (v) => d.flowProperties = dictAll(v));
+    ifPresent(this.flowType, (v) => d.flowType = v);
+    ifPresent(this.formula, (v) => d.formula = v);
+    ifPresent(this.isInfrastructureFlow, (v) => d.isInfrastructureFlow = v);
+    ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.location, (v) => d.location = v?.toDict());
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.synonyms, (v) => d.synonyms = v);
+    ifPresent(this.tags, (v) => d.tags = v);
+    ifPresent(this.version, (v) => d.version = v);
     return d;
   }
 
@@ -1062,7 +1077,9 @@ export class Flow {
     e.category = d.category as string;
     e.description = d.description as string;
     e.flowProperties = d.flowProperties
-      ? (d.flowProperties as Dict[]).map(FlowPropertyFactor.fromDict) as FlowPropertyFactor[]
+      ? (d.flowProperties as Dict[]).map(
+        FlowPropertyFactor.fromDict,
+      ) as FlowPropertyFactor[]
       : null;
     e.flowType = d.flowType as FlowType;
     e.formula = d.formula as string;
@@ -1085,7 +1102,6 @@ export class Flow {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IFlowMap {
@@ -1140,16 +1156,16 @@ export class FlowMap {
   toDict(): Dict {
     const d: Dict = {};
     d["@type"] = "FlowMap";
-    ifPresent(this.id, v => d["@id"] = v);
-    ifPresent(this.category, v => d.category = v);
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.lastChange, v => d.lastChange = v);
-    ifPresent(this.mappings, v => d.mappings = dictAll(v));
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.source, v => d.source = v?.toDict());
-    ifPresent(this.tags, v => d.tags = v);
-    ifPresent(this.target, v => d.target = v?.toDict());
-    ifPresent(this.version, v => d.version = v);
+    ifPresent(this.id, (v) => d["@id"] = v);
+    ifPresent(this.category, (v) => d.category = v);
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.mappings, (v) => d.mappings = dictAll(v));
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.source, (v) => d.source = v?.toDict());
+    ifPresent(this.tags, (v) => d.tags = v);
+    ifPresent(this.target, (v) => d.target = v?.toDict());
+    ifPresent(this.version, (v) => d.version = v);
     return d;
   }
 
@@ -1180,7 +1196,6 @@ export class FlowMap {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IFlowMapEntry {
@@ -1204,9 +1219,9 @@ export class FlowMapEntry {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.conversionFactor, v => d.conversionFactor = v);
-    ifPresent(this.from, v => d.from = v?.toDict());
-    ifPresent(this.to, v => d.to = v?.toDict());
+    ifPresent(this.conversionFactor, (v) => d.conversionFactor = v);
+    ifPresent(this.from, (v) => d.from = v?.toDict());
+    ifPresent(this.to, (v) => d.to = v?.toDict());
     return d;
   }
 
@@ -1228,7 +1243,6 @@ export class FlowMapEntry {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IFlowMapRef {
@@ -1255,10 +1269,10 @@ export class FlowMapRef {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.flow, v => d.flow = v?.toDict());
-    ifPresent(this.flowProperty, v => d.flowProperty = v?.toDict());
-    ifPresent(this.provider, v => d.provider = v?.toDict());
-    ifPresent(this.unit, v => d.unit = v?.toDict());
+    ifPresent(this.flow, (v) => d.flow = v?.toDict());
+    ifPresent(this.flowProperty, (v) => d.flowProperty = v?.toDict());
+    ifPresent(this.provider, (v) => d.provider = v?.toDict());
+    ifPresent(this.unit, (v) => d.unit = v?.toDict());
     return d;
   }
 
@@ -1281,7 +1295,6 @@ export class FlowMapRef {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IFlowProperty {
@@ -1333,15 +1346,15 @@ export class FlowProperty {
   toDict(): Dict {
     const d: Dict = {};
     d["@type"] = "FlowProperty";
-    ifPresent(this.id, v => d["@id"] = v);
-    ifPresent(this.category, v => d.category = v);
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.flowPropertyType, v => d.flowPropertyType = v);
-    ifPresent(this.lastChange, v => d.lastChange = v);
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.tags, v => d.tags = v);
-    ifPresent(this.unitGroup, v => d.unitGroup = v?.toDict());
-    ifPresent(this.version, v => d.version = v);
+    ifPresent(this.id, (v) => d["@id"] = v);
+    ifPresent(this.category, (v) => d.category = v);
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.flowPropertyType, (v) => d.flowPropertyType = v);
+    ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.tags, (v) => d.tags = v);
+    ifPresent(this.unitGroup, (v) => d.unitGroup = v?.toDict());
+    ifPresent(this.version, (v) => d.version = v);
     return d;
   }
 
@@ -1369,7 +1382,6 @@ export class FlowProperty {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IFlowPropertyFactor {
@@ -1393,9 +1405,9 @@ export class FlowPropertyFactor {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.conversionFactor, v => d.conversionFactor = v);
-    ifPresent(this.flowProperty, v => d.flowProperty = v?.toDict());
-    ifPresent(this.isRefFlowProperty, v => d.isRefFlowProperty = v);
+    ifPresent(this.conversionFactor, (v) => d.conversionFactor = v);
+    ifPresent(this.flowProperty, (v) => d.flowProperty = v?.toDict());
+    ifPresent(this.isRefFlowProperty, (v) => d.isRefFlowProperty = v);
     return d;
   }
 
@@ -1417,7 +1429,6 @@ export class FlowPropertyFactor {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IFlowResult {
@@ -1456,14 +1467,14 @@ export class FlowResult {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.amount, v => d.amount = v);
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.flow, v => d.flow = v?.toDict());
-    ifPresent(this.flowProperty, v => d.flowProperty = v?.toDict());
-    ifPresent(this.isInput, v => d.isInput = v);
-    ifPresent(this.isRefFlow, v => d.isRefFlow = v);
-    ifPresent(this.location, v => d.location = v?.toDict());
-    ifPresent(this.unit, v => d.unit = v?.toDict());
+    ifPresent(this.amount, (v) => d.amount = v);
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.flow, (v) => d.flow = v?.toDict());
+    ifPresent(this.flowProperty, (v) => d.flowProperty = v?.toDict());
+    ifPresent(this.isInput, (v) => d.isInput = v);
+    ifPresent(this.isRefFlow, (v) => d.isRefFlow = v);
+    ifPresent(this.location, (v) => d.location = v?.toDict());
+    ifPresent(this.unit, (v) => d.unit = v?.toDict());
     return d;
   }
 
@@ -1490,7 +1501,6 @@ export class FlowResult {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IImpactCategory {
@@ -1554,19 +1564,19 @@ export class ImpactCategory {
   toDict(): Dict {
     const d: Dict = {};
     d["@type"] = "ImpactCategory";
-    ifPresent(this.id, v => d["@id"] = v);
-    ifPresent(this.category, v => d.category = v);
-    ifPresent(this.code, v => d.code = v);
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.direction, v => d.direction = v);
-    ifPresent(this.impactFactors, v => d.impactFactors = dictAll(v));
-    ifPresent(this.lastChange, v => d.lastChange = v);
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.parameters, v => d.parameters = dictAll(v));
-    ifPresent(this.refUnit, v => d.refUnit = v);
-    ifPresent(this.source, v => d.source = v?.toDict());
-    ifPresent(this.tags, v => d.tags = v);
-    ifPresent(this.version, v => d.version = v);
+    ifPresent(this.id, (v) => d["@id"] = v);
+    ifPresent(this.category, (v) => d.category = v);
+    ifPresent(this.code, (v) => d.code = v);
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.direction, (v) => d.direction = v);
+    ifPresent(this.impactFactors, (v) => d.impactFactors = dictAll(v));
+    ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.parameters, (v) => d.parameters = dictAll(v));
+    ifPresent(this.refUnit, (v) => d.refUnit = v);
+    ifPresent(this.source, (v) => d.source = v?.toDict());
+    ifPresent(this.tags, (v) => d.tags = v);
+    ifPresent(this.version, (v) => d.version = v);
     return d;
   }
 
@@ -1602,7 +1612,6 @@ export class ImpactCategory {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IImpactFactor {
@@ -1638,13 +1647,13 @@ export class ImpactFactor {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.flow, v => d.flow = v?.toDict());
-    ifPresent(this.flowProperty, v => d.flowProperty = v?.toDict());
-    ifPresent(this.formula, v => d.formula = v);
-    ifPresent(this.location, v => d.location = v?.toDict());
-    ifPresent(this.uncertainty, v => d.uncertainty = v?.toDict());
-    ifPresent(this.unit, v => d.unit = v?.toDict());
-    ifPresent(this.value, v => d.value = v);
+    ifPresent(this.flow, (v) => d.flow = v?.toDict());
+    ifPresent(this.flowProperty, (v) => d.flowProperty = v?.toDict());
+    ifPresent(this.formula, (v) => d.formula = v);
+    ifPresent(this.location, (v) => d.location = v?.toDict());
+    ifPresent(this.uncertainty, (v) => d.uncertainty = v?.toDict());
+    ifPresent(this.unit, (v) => d.unit = v?.toDict());
+    ifPresent(this.value, (v) => d.value = v);
     return d;
   }
 
@@ -1670,7 +1679,6 @@ export class ImpactFactor {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IImpactMethod {
@@ -1728,17 +1736,17 @@ export class ImpactMethod {
   toDict(): Dict {
     const d: Dict = {};
     d["@type"] = "ImpactMethod";
-    ifPresent(this.id, v => d["@id"] = v);
-    ifPresent(this.category, v => d.category = v);
-    ifPresent(this.code, v => d.code = v);
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.impactCategories, v => d.impactCategories = dictAll(v));
-    ifPresent(this.lastChange, v => d.lastChange = v);
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.nwSets, v => d.nwSets = dictAll(v));
-    ifPresent(this.source, v => d.source = v?.toDict());
-    ifPresent(this.tags, v => d.tags = v);
-    ifPresent(this.version, v => d.version = v);
+    ifPresent(this.id, (v) => d["@id"] = v);
+    ifPresent(this.category, (v) => d.category = v);
+    ifPresent(this.code, (v) => d.code = v);
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.impactCategories, (v) => d.impactCategories = dictAll(v));
+    ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.nwSets, (v) => d.nwSets = dictAll(v));
+    ifPresent(this.source, (v) => d.source = v?.toDict());
+    ifPresent(this.tags, (v) => d.tags = v);
+    ifPresent(this.version, (v) => d.version = v);
     return d;
   }
 
@@ -1772,7 +1780,6 @@ export class ImpactMethod {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IImpactResult {
@@ -1796,9 +1803,9 @@ export class ImpactResult {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.amount, v => d.amount = v);
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.indicator, v => d.indicator = v?.toDict());
+    ifPresent(this.amount, (v) => d.amount = v);
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.indicator, (v) => d.indicator = v?.toDict());
     return d;
   }
 
@@ -1820,7 +1827,6 @@ export class ImpactResult {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface ILinkingConfig {
@@ -1844,9 +1850,9 @@ export class LinkingConfig {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.cutoff, v => d.cutoff = v);
-    ifPresent(this.preferUnitProcesses, v => d.preferUnitProcesses = v);
-    ifPresent(this.providerLinking, v => d.providerLinking = v);
+    ifPresent(this.cutoff, (v) => d.cutoff = v);
+    ifPresent(this.preferUnitProcesses, (v) => d.preferUnitProcesses = v);
+    ifPresent(this.providerLinking, (v) => d.providerLinking = v);
     return d;
   }
 
@@ -1868,7 +1874,6 @@ export class LinkingConfig {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface ILocation {
@@ -1926,17 +1931,17 @@ export class Location {
   toDict(): Dict {
     const d: Dict = {};
     d["@type"] = "Location";
-    ifPresent(this.id, v => d["@id"] = v);
-    ifPresent(this.category, v => d.category = v);
-    ifPresent(this.code, v => d.code = v);
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.geometry, v => d.geometry = v);
-    ifPresent(this.lastChange, v => d.lastChange = v);
-    ifPresent(this.latitude, v => d.latitude = v);
-    ifPresent(this.longitude, v => d.longitude = v);
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.tags, v => d.tags = v);
-    ifPresent(this.version, v => d.version = v);
+    ifPresent(this.id, (v) => d["@id"] = v);
+    ifPresent(this.category, (v) => d.category = v);
+    ifPresent(this.code, (v) => d.code = v);
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.geometry, (v) => d.geometry = v);
+    ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.latitude, (v) => d.latitude = v);
+    ifPresent(this.longitude, (v) => d.longitude = v);
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.tags, (v) => d.tags = v);
+    ifPresent(this.version, (v) => d.version = v);
     return d;
   }
 
@@ -1966,7 +1971,6 @@ export class Location {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface INwFactor {
@@ -1990,9 +1994,9 @@ export class NwFactor {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.impactCategory, v => d.impactCategory = v?.toDict());
-    ifPresent(this.normalisationFactor, v => d.normalisationFactor = v);
-    ifPresent(this.weightingFactor, v => d.weightingFactor = v);
+    ifPresent(this.impactCategory, (v) => d.impactCategory = v?.toDict());
+    ifPresent(this.normalisationFactor, (v) => d.normalisationFactor = v);
+    ifPresent(this.weightingFactor, (v) => d.weightingFactor = v);
     return d;
   }
 
@@ -2014,7 +2018,6 @@ export class NwFactor {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface INwSet {
@@ -2053,11 +2056,11 @@ export class NwSet {
   toDict(): Dict {
     const d: Dict = {};
     d["@type"] = "NwSet";
-    ifPresent(this.id, v => d["@id"] = v);
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.factors, v => d.factors = dictAll(v));
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.weightedScoreUnit, v => d.weightedScoreUnit = v);
+    ifPresent(this.id, (v) => d["@id"] = v);
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.factors, (v) => d.factors = dictAll(v));
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.weightedScoreUnit, (v) => d.weightedScoreUnit = v);
     return d;
   }
 
@@ -2083,7 +2086,6 @@ export class NwSet {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IParameter {
@@ -2144,18 +2146,18 @@ export class Parameter {
   toDict(): Dict {
     const d: Dict = {};
     d["@type"] = "Parameter";
-    ifPresent(this.id, v => d["@id"] = v);
-    ifPresent(this.category, v => d.category = v);
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.formula, v => d.formula = v);
-    ifPresent(this.isInputParameter, v => d.isInputParameter = v);
-    ifPresent(this.lastChange, v => d.lastChange = v);
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.parameterScope, v => d.parameterScope = v);
-    ifPresent(this.tags, v => d.tags = v);
-    ifPresent(this.uncertainty, v => d.uncertainty = v?.toDict());
-    ifPresent(this.value, v => d.value = v);
-    ifPresent(this.version, v => d.version = v);
+    ifPresent(this.id, (v) => d["@id"] = v);
+    ifPresent(this.category, (v) => d.category = v);
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.formula, (v) => d.formula = v);
+    ifPresent(this.isInputParameter, (v) => d.isInputParameter = v);
+    ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.parameterScope, (v) => d.parameterScope = v);
+    ifPresent(this.tags, (v) => d.tags = v);
+    ifPresent(this.uncertainty, (v) => d.uncertainty = v?.toDict());
+    ifPresent(this.value, (v) => d.value = v);
+    ifPresent(this.version, (v) => d.version = v);
     return d;
   }
 
@@ -2186,7 +2188,6 @@ export class Parameter {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IParameterRedef {
@@ -2219,12 +2220,12 @@ export class ParameterRedef {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.context, v => d.context = v?.toDict());
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.isProtected, v => d.isProtected = v);
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.uncertainty, v => d.uncertainty = v?.toDict());
-    ifPresent(this.value, v => d.value = v);
+    ifPresent(this.context, (v) => d.context = v?.toDict());
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.isProtected, (v) => d.isProtected = v);
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.uncertainty, (v) => d.uncertainty = v?.toDict());
+    ifPresent(this.value, (v) => d.value = v);
     return d;
   }
 
@@ -2249,7 +2250,6 @@ export class ParameterRedef {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IParameterRedefSet {
@@ -2276,10 +2276,10 @@ export class ParameterRedefSet {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.isBaseline, v => d.isBaseline = v);
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.parameters, v => d.parameters = dictAll(v));
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.isBaseline, (v) => d.isBaseline = v);
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.parameters, (v) => d.parameters = dictAll(v));
     return d;
   }
 
@@ -2290,7 +2290,9 @@ export class ParameterRedefSet {
     e.isBaseline = d.isBaseline as boolean;
     e.name = d.name as string;
     e.parameters = d.parameters
-      ? (d.parameters as Dict[]).map(ParameterRedef.fromDict) as ParameterRedef[]
+      ? (d.parameters as Dict[]).map(
+        ParameterRedef.fromDict,
+      ) as ParameterRedef[]
       : null;
     return e;
   }
@@ -2304,7 +2306,6 @@ export class ParameterRedefSet {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IProcess {
@@ -2392,27 +2393,36 @@ export class Process {
   toDict(): Dict {
     const d: Dict = {};
     d["@type"] = "Process";
-    ifPresent(this.id, v => d["@id"] = v);
-    ifPresent(this.allocationFactors, v => d.allocationFactors = dictAll(v));
-    ifPresent(this.category, v => d.category = v);
-    ifPresent(this.defaultAllocationMethod, v => d.defaultAllocationMethod = v);
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.dqEntry, v => d.dqEntry = v);
-    ifPresent(this.dqSystem, v => d.dqSystem = v?.toDict());
-    ifPresent(this.exchangeDqSystem, v => d.exchangeDqSystem = v?.toDict());
-    ifPresent(this.exchanges, v => d.exchanges = dictAll(v));
-    ifPresent(this.isInfrastructureProcess, v => d.isInfrastructureProcess = v);
-    ifPresent(this.lastChange, v => d.lastChange = v);
-    ifPresent(this.lastInternalId, v => d.lastInternalId = v);
-    ifPresent(this.location, v => d.location = v?.toDict());
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.parameters, v => d.parameters = dictAll(v));
-    ifPresent(this.processDocumentation, v => d.processDocumentation = v?.toDict());
-    ifPresent(this.processType, v => d.processType = v);
-    ifPresent(this.socialAspects, v => d.socialAspects = dictAll(v));
-    ifPresent(this.socialDqSystem, v => d.socialDqSystem = v?.toDict());
-    ifPresent(this.tags, v => d.tags = v);
-    ifPresent(this.version, v => d.version = v);
+    ifPresent(this.id, (v) => d["@id"] = v);
+    ifPresent(this.allocationFactors, (v) => d.allocationFactors = dictAll(v));
+    ifPresent(this.category, (v) => d.category = v);
+    ifPresent(
+      this.defaultAllocationMethod,
+      (v) => d.defaultAllocationMethod = v,
+    );
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.dqEntry, (v) => d.dqEntry = v);
+    ifPresent(this.dqSystem, (v) => d.dqSystem = v?.toDict());
+    ifPresent(this.exchangeDqSystem, (v) => d.exchangeDqSystem = v?.toDict());
+    ifPresent(this.exchanges, (v) => d.exchanges = dictAll(v));
+    ifPresent(
+      this.isInfrastructureProcess,
+      (v) => d.isInfrastructureProcess = v,
+    );
+    ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.lastInternalId, (v) => d.lastInternalId = v);
+    ifPresent(this.location, (v) => d.location = v?.toDict());
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.parameters, (v) => d.parameters = dictAll(v));
+    ifPresent(
+      this.processDocumentation,
+      (v) => d.processDocumentation = v?.toDict(),
+    );
+    ifPresent(this.processType, (v) => d.processType = v);
+    ifPresent(this.socialAspects, (v) => d.socialAspects = dictAll(v));
+    ifPresent(this.socialDqSystem, (v) => d.socialDqSystem = v?.toDict());
+    ifPresent(this.tags, (v) => d.tags = v);
+    ifPresent(this.version, (v) => d.version = v);
     return d;
   }
 
@@ -2421,7 +2431,9 @@ export class Process {
     const e = new Process();
     e.id = d["@id"] as string;
     e.allocationFactors = d.allocationFactors
-      ? (d.allocationFactors as Dict[]).map(AllocationFactor.fromDict) as AllocationFactor[]
+      ? (d.allocationFactors as Dict[]).map(
+        AllocationFactor.fromDict,
+      ) as AllocationFactor[]
       : null;
     e.category = d.category as string;
     e.defaultAllocationMethod = d.defaultAllocationMethod as AllocationType;
@@ -2440,7 +2452,9 @@ export class Process {
     e.parameters = d.parameters
       ? (d.parameters as Dict[]).map(Parameter.fromDict) as Parameter[]
       : null;
-    e.processDocumentation = ProcessDocumentation.fromDict(d.processDocumentation as Dict);
+    e.processDocumentation = ProcessDocumentation.fromDict(
+      d.processDocumentation as Dict,
+    );
     e.processType = d.processType as ProcessType;
     e.socialAspects = d.socialAspects
       ? (d.socialAspects as Dict[]).map(SocialAspect.fromDict) as SocialAspect[]
@@ -2460,7 +2474,6 @@ export class Process {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IProcessDocumentation {
@@ -2547,30 +2560,51 @@ export class ProcessDocumentation {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.completenessDescription, v => d.completenessDescription = v);
-    ifPresent(this.creationDate, v => d.creationDate = v);
-    ifPresent(this.dataCollectionDescription, v => d.dataCollectionDescription = v);
-    ifPresent(this.dataDocumentor, v => d.dataDocumentor = v?.toDict());
-    ifPresent(this.dataGenerator, v => d.dataGenerator = v?.toDict());
-    ifPresent(this.dataSelectionDescription, v => d.dataSelectionDescription = v);
-    ifPresent(this.dataSetOwner, v => d.dataSetOwner = v?.toDict());
-    ifPresent(this.dataTreatmentDescription, v => d.dataTreatmentDescription = v);
-    ifPresent(this.geographyDescription, v => d.geographyDescription = v);
-    ifPresent(this.intendedApplication, v => d.intendedApplication = v);
-    ifPresent(this.inventoryMethodDescription, v => d.inventoryMethodDescription = v);
-    ifPresent(this.isCopyrightProtected, v => d.isCopyrightProtected = v);
-    ifPresent(this.modelingConstantsDescription, v => d.modelingConstantsDescription = v);
-    ifPresent(this.projectDescription, v => d.projectDescription = v);
-    ifPresent(this.publication, v => d.publication = v?.toDict());
-    ifPresent(this.restrictionsDescription, v => d.restrictionsDescription = v);
-    ifPresent(this.reviewDetails, v => d.reviewDetails = v);
-    ifPresent(this.reviewer, v => d.reviewer = v?.toDict());
-    ifPresent(this.samplingDescription, v => d.samplingDescription = v);
-    ifPresent(this.sources, v => d.sources = dictAll(v));
-    ifPresent(this.technologyDescription, v => d.technologyDescription = v);
-    ifPresent(this.timeDescription, v => d.timeDescription = v);
-    ifPresent(this.validFrom, v => d.validFrom = v);
-    ifPresent(this.validUntil, v => d.validUntil = v);
+    ifPresent(
+      this.completenessDescription,
+      (v) => d.completenessDescription = v,
+    );
+    ifPresent(this.creationDate, (v) => d.creationDate = v);
+    ifPresent(
+      this.dataCollectionDescription,
+      (v) => d.dataCollectionDescription = v,
+    );
+    ifPresent(this.dataDocumentor, (v) => d.dataDocumentor = v?.toDict());
+    ifPresent(this.dataGenerator, (v) => d.dataGenerator = v?.toDict());
+    ifPresent(
+      this.dataSelectionDescription,
+      (v) => d.dataSelectionDescription = v,
+    );
+    ifPresent(this.dataSetOwner, (v) => d.dataSetOwner = v?.toDict());
+    ifPresent(
+      this.dataTreatmentDescription,
+      (v) => d.dataTreatmentDescription = v,
+    );
+    ifPresent(this.geographyDescription, (v) => d.geographyDescription = v);
+    ifPresent(this.intendedApplication, (v) => d.intendedApplication = v);
+    ifPresent(
+      this.inventoryMethodDescription,
+      (v) => d.inventoryMethodDescription = v,
+    );
+    ifPresent(this.isCopyrightProtected, (v) => d.isCopyrightProtected = v);
+    ifPresent(
+      this.modelingConstantsDescription,
+      (v) => d.modelingConstantsDescription = v,
+    );
+    ifPresent(this.projectDescription, (v) => d.projectDescription = v);
+    ifPresent(this.publication, (v) => d.publication = v?.toDict());
+    ifPresent(
+      this.restrictionsDescription,
+      (v) => d.restrictionsDescription = v,
+    );
+    ifPresent(this.reviewDetails, (v) => d.reviewDetails = v);
+    ifPresent(this.reviewer, (v) => d.reviewer = v?.toDict());
+    ifPresent(this.samplingDescription, (v) => d.samplingDescription = v);
+    ifPresent(this.sources, (v) => d.sources = dictAll(v));
+    ifPresent(this.technologyDescription, (v) => d.technologyDescription = v);
+    ifPresent(this.timeDescription, (v) => d.timeDescription = v);
+    ifPresent(this.validFrom, (v) => d.validFrom = v);
+    ifPresent(this.validUntil, (v) => d.validUntil = v);
     return d;
   }
 
@@ -2615,7 +2649,6 @@ export class ProcessDocumentation {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IProcessLink {
@@ -2642,10 +2675,10 @@ export class ProcessLink {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.exchange, v => d.exchange = v?.toDict());
-    ifPresent(this.flow, v => d.flow = v?.toDict());
-    ifPresent(this.process, v => d.process = v?.toDict());
-    ifPresent(this.provider, v => d.provider = v?.toDict());
+    ifPresent(this.exchange, (v) => d.exchange = v?.toDict());
+    ifPresent(this.flow, (v) => d.flow = v?.toDict());
+    ifPresent(this.process, (v) => d.process = v?.toDict());
+    ifPresent(this.provider, (v) => d.provider = v?.toDict());
     return d;
   }
 
@@ -2668,7 +2701,6 @@ export class ProcessLink {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IProductSystem {
@@ -2738,21 +2770,24 @@ export class ProductSystem {
   toDict(): Dict {
     const d: Dict = {};
     d["@type"] = "ProductSystem";
-    ifPresent(this.id, v => d["@id"] = v);
-    ifPresent(this.category, v => d.category = v);
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.lastChange, v => d.lastChange = v);
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.parameterSets, v => d.parameterSets = dictAll(v));
-    ifPresent(this.processLinks, v => d.processLinks = dictAll(v));
-    ifPresent(this.processes, v => d.processes = dictAll(v));
-    ifPresent(this.refExchange, v => d.refExchange = v?.toDict());
-    ifPresent(this.refProcess, v => d.refProcess = v?.toDict());
-    ifPresent(this.tags, v => d.tags = v);
-    ifPresent(this.targetAmount, v => d.targetAmount = v);
-    ifPresent(this.targetFlowProperty, v => d.targetFlowProperty = v?.toDict());
-    ifPresent(this.targetUnit, v => d.targetUnit = v?.toDict());
-    ifPresent(this.version, v => d.version = v);
+    ifPresent(this.id, (v) => d["@id"] = v);
+    ifPresent(this.category, (v) => d.category = v);
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.parameterSets, (v) => d.parameterSets = dictAll(v));
+    ifPresent(this.processLinks, (v) => d.processLinks = dictAll(v));
+    ifPresent(this.processes, (v) => d.processes = dictAll(v));
+    ifPresent(this.refExchange, (v) => d.refExchange = v?.toDict());
+    ifPresent(this.refProcess, (v) => d.refProcess = v?.toDict());
+    ifPresent(this.tags, (v) => d.tags = v);
+    ifPresent(this.targetAmount, (v) => d.targetAmount = v);
+    ifPresent(
+      this.targetFlowProperty,
+      (v) => d.targetFlowProperty = v?.toDict(),
+    );
+    ifPresent(this.targetUnit, (v) => d.targetUnit = v?.toDict());
+    ifPresent(this.version, (v) => d.version = v);
     return d;
   }
 
@@ -2765,7 +2800,9 @@ export class ProductSystem {
     e.lastChange = d.lastChange as string;
     e.name = d.name as string;
     e.parameterSets = d.parameterSets
-      ? (d.parameterSets as Dict[]).map(ParameterRedefSet.fromDict) as ParameterRedefSet[]
+      ? (d.parameterSets as Dict[]).map(
+        ParameterRedefSet.fromDict,
+      ) as ParameterRedefSet[]
       : null;
     e.processLinks = d.processLinks
       ? (d.processLinks as Dict[]).map(ProcessLink.fromDict) as ProcessLink[]
@@ -2792,7 +2829,6 @@ export class ProductSystem {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IProject {
@@ -2853,18 +2889,18 @@ export class Project {
   toDict(): Dict {
     const d: Dict = {};
     d["@type"] = "Project";
-    ifPresent(this.id, v => d["@id"] = v);
-    ifPresent(this.category, v => d.category = v);
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.impactMethod, v => d.impactMethod = v?.toDict());
-    ifPresent(this.isWithCosts, v => d.isWithCosts = v);
-    ifPresent(this.isWithRegionalization, v => d.isWithRegionalization = v);
-    ifPresent(this.lastChange, v => d.lastChange = v);
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.nwSet, v => d.nwSet = v?.toDict());
-    ifPresent(this.tags, v => d.tags = v);
-    ifPresent(this.variants, v => d.variants = dictAll(v));
-    ifPresent(this.version, v => d.version = v);
+    ifPresent(this.id, (v) => d["@id"] = v);
+    ifPresent(this.category, (v) => d.category = v);
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.impactMethod, (v) => d.impactMethod = v?.toDict());
+    ifPresent(this.isWithCosts, (v) => d.isWithCosts = v);
+    ifPresent(this.isWithRegionalization, (v) => d.isWithRegionalization = v);
+    ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.nwSet, (v) => d.nwSet = v?.toDict());
+    ifPresent(this.tags, (v) => d.tags = v);
+    ifPresent(this.variants, (v) => d.variants = dictAll(v));
+    ifPresent(this.version, (v) => d.version = v);
     return d;
   }
 
@@ -2897,7 +2933,6 @@ export class Project {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IProjectVariant {
@@ -2936,14 +2971,14 @@ export class ProjectVariant {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.allocationMethod, v => d.allocationMethod = v);
-    ifPresent(this.amount, v => d.amount = v);
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.isDisabled, v => d.isDisabled = v);
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.parameterRedefs, v => d.parameterRedefs = dictAll(v));
-    ifPresent(this.productSystem, v => d.productSystem = v?.toDict());
-    ifPresent(this.unit, v => d.unit = v?.toDict());
+    ifPresent(this.allocationMethod, (v) => d.allocationMethod = v);
+    ifPresent(this.amount, (v) => d.amount = v);
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.isDisabled, (v) => d.isDisabled = v);
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.parameterRedefs, (v) => d.parameterRedefs = dictAll(v));
+    ifPresent(this.productSystem, (v) => d.productSystem = v?.toDict());
+    ifPresent(this.unit, (v) => d.unit = v?.toDict());
     return d;
   }
 
@@ -2956,7 +2991,9 @@ export class ProjectVariant {
     e.isDisabled = d.isDisabled as boolean;
     e.name = d.name as string;
     e.parameterRedefs = d.parameterRedefs
-      ? (d.parameterRedefs as Dict[]).map(ParameterRedef.fromDict) as ParameterRedef[]
+      ? (d.parameterRedefs as Dict[]).map(
+        ParameterRedef.fromDict,
+      ) as ParameterRedef[]
       : null;
     e.productSystem = Ref.fromDict(d.productSystem as Dict);
     e.unit = Ref.fromDict(d.unit as Dict);
@@ -2972,7 +3009,6 @@ export class ProjectVariant {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IRef {
@@ -3014,14 +3050,14 @@ export class Ref {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.id, v => d["@id"] = v);
-    ifPresent(this.category, v => d.category = v);
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.flowType, v => d.flowType = v);
-    ifPresent(this.location, v => d.location = v);
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.processType, v => d.processType = v);
-    ifPresent(this.refUnit, v => d.refUnit = v);
+    ifPresent(this.id, (v) => d["@id"] = v);
+    ifPresent(this.category, (v) => d.category = v);
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.flowType, (v) => d.flowType = v);
+    ifPresent(this.location, (v) => d.location = v);
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.processType, (v) => d.processType = v);
+    ifPresent(this.refUnit, (v) => d.refUnit = v);
     return d;
   }
 
@@ -3048,7 +3084,6 @@ export class Ref {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IResult {
@@ -3106,17 +3141,17 @@ export class Result {
   toDict(): Dict {
     const d: Dict = {};
     d["@type"] = "Result";
-    ifPresent(this.id, v => d["@id"] = v);
-    ifPresent(this.category, v => d.category = v);
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.flowResults, v => d.flowResults = dictAll(v));
-    ifPresent(this.impactMethod, v => d.impactMethod = v?.toDict());
-    ifPresent(this.impactResults, v => d.impactResults = dictAll(v));
-    ifPresent(this.lastChange, v => d.lastChange = v);
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.productSystem, v => d.productSystem = v?.toDict());
-    ifPresent(this.tags, v => d.tags = v);
-    ifPresent(this.version, v => d.version = v);
+    ifPresent(this.id, (v) => d["@id"] = v);
+    ifPresent(this.category, (v) => d.category = v);
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.flowResults, (v) => d.flowResults = dictAll(v));
+    ifPresent(this.impactMethod, (v) => d.impactMethod = v?.toDict());
+    ifPresent(this.impactResults, (v) => d.impactResults = dictAll(v));
+    ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.productSystem, (v) => d.productSystem = v?.toDict());
+    ifPresent(this.tags, (v) => d.tags = v);
+    ifPresent(this.version, (v) => d.version = v);
     return d;
   }
 
@@ -3150,7 +3185,6 @@ export class Result {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface ISocialAspect {
@@ -3186,13 +3220,13 @@ export class SocialAspect {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.activityValue, v => d.activityValue = v);
-    ifPresent(this.comment, v => d.comment = v);
-    ifPresent(this.quality, v => d.quality = v);
-    ifPresent(this.rawAmount, v => d.rawAmount = v);
-    ifPresent(this.riskLevel, v => d.riskLevel = v);
-    ifPresent(this.socialIndicator, v => d.socialIndicator = v?.toDict());
-    ifPresent(this.source, v => d.source = v?.toDict());
+    ifPresent(this.activityValue, (v) => d.activityValue = v);
+    ifPresent(this.comment, (v) => d.comment = v);
+    ifPresent(this.quality, (v) => d.quality = v);
+    ifPresent(this.rawAmount, (v) => d.rawAmount = v);
+    ifPresent(this.riskLevel, (v) => d.riskLevel = v);
+    ifPresent(this.socialIndicator, (v) => d.socialIndicator = v?.toDict());
+    ifPresent(this.source, (v) => d.source = v?.toDict());
     return d;
   }
 
@@ -3218,7 +3252,6 @@ export class SocialAspect {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface ISocialIndicator {
@@ -3279,18 +3312,18 @@ export class SocialIndicator {
   toDict(): Dict {
     const d: Dict = {};
     d["@type"] = "SocialIndicator";
-    ifPresent(this.id, v => d["@id"] = v);
-    ifPresent(this.activityQuantity, v => d.activityQuantity = v?.toDict());
-    ifPresent(this.activityUnit, v => d.activityUnit = v?.toDict());
-    ifPresent(this.activityVariable, v => d.activityVariable = v);
-    ifPresent(this.category, v => d.category = v);
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.evaluationScheme, v => d.evaluationScheme = v);
-    ifPresent(this.lastChange, v => d.lastChange = v);
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.tags, v => d.tags = v);
-    ifPresent(this.unitOfMeasurement, v => d.unitOfMeasurement = v);
-    ifPresent(this.version, v => d.version = v);
+    ifPresent(this.id, (v) => d["@id"] = v);
+    ifPresent(this.activityQuantity, (v) => d.activityQuantity = v?.toDict());
+    ifPresent(this.activityUnit, (v) => d.activityUnit = v?.toDict());
+    ifPresent(this.activityVariable, (v) => d.activityVariable = v);
+    ifPresent(this.category, (v) => d.category = v);
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.evaluationScheme, (v) => d.evaluationScheme = v);
+    ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.tags, (v) => d.tags = v);
+    ifPresent(this.unitOfMeasurement, (v) => d.unitOfMeasurement = v);
+    ifPresent(this.version, (v) => d.version = v);
     return d;
   }
 
@@ -3321,7 +3354,6 @@ export class SocialIndicator {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface ISource {
@@ -3379,17 +3411,17 @@ export class Source {
   toDict(): Dict {
     const d: Dict = {};
     d["@type"] = "Source";
-    ifPresent(this.id, v => d["@id"] = v);
-    ifPresent(this.category, v => d.category = v);
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.externalFile, v => d.externalFile = v);
-    ifPresent(this.lastChange, v => d.lastChange = v);
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.tags, v => d.tags = v);
-    ifPresent(this.textReference, v => d.textReference = v);
-    ifPresent(this.url, v => d.url = v);
-    ifPresent(this.version, v => d.version = v);
-    ifPresent(this.year, v => d.year = v);
+    ifPresent(this.id, (v) => d["@id"] = v);
+    ifPresent(this.category, (v) => d.category = v);
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.externalFile, (v) => d.externalFile = v);
+    ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.tags, (v) => d.tags = v);
+    ifPresent(this.textReference, (v) => d.textReference = v);
+    ifPresent(this.url, (v) => d.url = v);
+    ifPresent(this.version, (v) => d.version = v);
+    ifPresent(this.year, (v) => d.year = v);
     return d;
   }
 
@@ -3419,7 +3451,6 @@ export class Source {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IUncertainty {
@@ -3458,14 +3489,14 @@ export class Uncertainty {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.distributionType, v => d.distributionType = v);
-    ifPresent(this.geomMean, v => d.geomMean = v);
-    ifPresent(this.geomSd, v => d.geomSd = v);
-    ifPresent(this.maximum, v => d.maximum = v);
-    ifPresent(this.mean, v => d.mean = v);
-    ifPresent(this.minimum, v => d.minimum = v);
-    ifPresent(this.mode, v => d.mode = v);
-    ifPresent(this.sd, v => d.sd = v);
+    ifPresent(this.distributionType, (v) => d.distributionType = v);
+    ifPresent(this.geomMean, (v) => d.geomMean = v);
+    ifPresent(this.geomSd, (v) => d.geomSd = v);
+    ifPresent(this.maximum, (v) => d.maximum = v);
+    ifPresent(this.mean, (v) => d.mean = v);
+    ifPresent(this.minimum, (v) => d.minimum = v);
+    ifPresent(this.mode, (v) => d.mode = v);
+    ifPresent(this.sd, (v) => d.sd = v);
     return d;
   }
 
@@ -3492,7 +3523,6 @@ export class Uncertainty {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IUnit {
@@ -3534,12 +3564,12 @@ export class Unit {
   toDict(): Dict {
     const d: Dict = {};
     d["@type"] = "Unit";
-    ifPresent(this.id, v => d["@id"] = v);
-    ifPresent(this.conversionFactor, v => d.conversionFactor = v);
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.isRefUnit, v => d.isRefUnit = v);
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.synonyms, v => d.synonyms = v);
+    ifPresent(this.id, (v) => d["@id"] = v);
+    ifPresent(this.conversionFactor, (v) => d.conversionFactor = v);
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.isRefUnit, (v) => d.isRefUnit = v);
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.synonyms, (v) => d.synonyms = v);
     return d;
   }
 
@@ -3564,7 +3594,6 @@ export class Unit {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IUnitGroup {
@@ -3616,15 +3645,18 @@ export class UnitGroup {
   toDict(): Dict {
     const d: Dict = {};
     d["@type"] = "UnitGroup";
-    ifPresent(this.id, v => d["@id"] = v);
-    ifPresent(this.category, v => d.category = v);
-    ifPresent(this.defaultFlowProperty, v => d.defaultFlowProperty = v?.toDict());
-    ifPresent(this.description, v => d.description = v);
-    ifPresent(this.lastChange, v => d.lastChange = v);
-    ifPresent(this.name, v => d.name = v);
-    ifPresent(this.tags, v => d.tags = v);
-    ifPresent(this.units, v => d.units = dictAll(v));
-    ifPresent(this.version, v => d.version = v);
+    ifPresent(this.id, (v) => d["@id"] = v);
+    ifPresent(this.category, (v) => d.category = v);
+    ifPresent(
+      this.defaultFlowProperty,
+      (v) => d.defaultFlowProperty = v?.toDict(),
+    );
+    ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.tags, (v) => d.tags = v);
+    ifPresent(this.units, (v) => d.units = dictAll(v));
+    ifPresent(this.version, (v) => d.version = v);
     return d;
   }
 
@@ -3638,9 +3670,7 @@ export class UnitGroup {
     e.lastChange = d.lastChange as string;
     e.name = d.name as string;
     e.tags = d.tags as string[];
-    e.units = d.units
-      ? (d.units as Dict[]).map(Unit.fromDict) as Unit[]
-      : null;
+    e.units = d.units ? (d.units as Dict[]).map(Unit.fromDict) as Unit[] : null;
     e.version = d.version as string;
     return e;
   }
@@ -3654,7 +3684,6 @@ export class UnitGroup {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface ICalculationSetup {
@@ -3699,16 +3728,16 @@ export class CalculationSetup {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.allocation, v => d.allocation = v);
-    ifPresent(this.amount, v => d.amount = v);
-    ifPresent(this.flowProperty, v => d.flowProperty = v?.toDict());
-    ifPresent(this.impactMethod, v => d.impactMethod = v?.toDict());
-    ifPresent(this.nwSet, v => d.nwSet = v?.toDict());
-    ifPresent(this.parameters, v => d.parameters = dictAll(v));
-    ifPresent(this.target, v => d.target = v?.toDict());
-    ifPresent(this.unit, v => d.unit = v?.toDict());
-    ifPresent(this.withCosts, v => d.withCosts = v);
-    ifPresent(this.withRegionalization, v => d.withRegionalization = v);
+    ifPresent(this.allocation, (v) => d.allocation = v);
+    ifPresent(this.amount, (v) => d.amount = v);
+    ifPresent(this.flowProperty, (v) => d.flowProperty = v?.toDict());
+    ifPresent(this.impactMethod, (v) => d.impactMethod = v?.toDict());
+    ifPresent(this.nwSet, (v) => d.nwSet = v?.toDict());
+    ifPresent(this.parameters, (v) => d.parameters = dictAll(v));
+    ifPresent(this.target, (v) => d.target = v?.toDict());
+    ifPresent(this.unit, (v) => d.unit = v?.toDict());
+    ifPresent(this.withCosts, (v) => d.withCosts = v);
+    ifPresent(this.withRegionalization, (v) => d.withRegionalization = v);
     return d;
   }
 
@@ -3721,7 +3750,9 @@ export class CalculationSetup {
     e.impactMethod = Ref.fromDict(d.impactMethod as Dict);
     e.nwSet = Ref.fromDict(d.nwSet as Dict);
     e.parameters = d.parameters
-      ? (d.parameters as Dict[]).map(ParameterRedef.fromDict) as ParameterRedef[]
+      ? (d.parameters as Dict[]).map(
+        ParameterRedef.fromDict,
+      ) as ParameterRedef[]
       : null;
     e.target = Ref.fromDict(d.target as Dict);
     e.unit = Ref.fromDict(d.unit as Dict);
@@ -3739,7 +3770,6 @@ export class CalculationSetup {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface ICostValue {
@@ -3760,8 +3790,8 @@ export class CostValue {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.amount, v => d.amount = v);
-    ifPresent(this.currency, v => d.currency = v?.toDict());
+    ifPresent(this.amount, (v) => d.amount = v);
+    ifPresent(this.currency, (v) => d.currency = v?.toDict());
     return d;
   }
 
@@ -3782,7 +3812,6 @@ export class CostValue {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IEnviFlow {
@@ -3806,9 +3835,9 @@ export class EnviFlow {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.flow, v => d.flow = v?.toDict());
-    ifPresent(this.isInput, v => d.isInput = v);
-    ifPresent(this.location, v => d.location = v?.toDict());
+    ifPresent(this.flow, (v) => d.flow = v?.toDict());
+    ifPresent(this.isInput, (v) => d.isInput = v);
+    ifPresent(this.location, (v) => d.location = v?.toDict());
     return d;
   }
 
@@ -3830,7 +3859,6 @@ export class EnviFlow {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IEnviFlowValue {
@@ -3851,8 +3879,8 @@ export class EnviFlowValue {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.amount, v => d.amount = v);
-    ifPresent(this.enviFlow, v => d.enviFlow = v?.toDict());
+    ifPresent(this.amount, (v) => d.amount = v);
+    ifPresent(this.enviFlow, (v) => d.enviFlow = v?.toDict());
     return d;
   }
 
@@ -3873,7 +3901,6 @@ export class EnviFlowValue {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IImpactValue {
@@ -3894,8 +3921,8 @@ export class ImpactValue {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.amount, v => d.amount = v);
-    ifPresent(this.impactCategory, v => d.impactCategory = v?.toDict());
+    ifPresent(this.amount, (v) => d.amount = v);
+    ifPresent(this.impactCategory, (v) => d.impactCategory = v?.toDict());
     return d;
   }
 
@@ -3916,7 +3943,6 @@ export class ImpactValue {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface IResultState {
@@ -3946,11 +3972,11 @@ export class ResultState {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.id, v => d["@id"] = v);
-    ifPresent(this.error, v => d.error = v);
-    ifPresent(this.isReady, v => d.isReady = v);
-    ifPresent(this.isScheduled, v => d.isScheduled = v);
-    ifPresent(this.time, v => d.time = v);
+    ifPresent(this.id, (v) => d["@id"] = v);
+    ifPresent(this.error, (v) => d.error = v);
+    ifPresent(this.isReady, (v) => d.isReady = v);
+    ifPresent(this.isScheduled, (v) => d.isScheduled = v);
+    ifPresent(this.time, (v) => d.time = v);
     return d;
   }
 
@@ -3974,7 +4000,6 @@ export class ResultState {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface ITechFlow {
@@ -3995,8 +4020,8 @@ export class TechFlow {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.flow, v => d.flow = v?.toDict());
-    ifPresent(this.provider, v => d.provider = v?.toDict());
+    ifPresent(this.flow, (v) => d.flow = v?.toDict());
+    ifPresent(this.provider, (v) => d.provider = v?.toDict());
     return d;
   }
 
@@ -4017,7 +4042,6 @@ export class TechFlow {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
 
 interface ITechFlowValue {
@@ -4038,8 +4062,8 @@ export class TechFlowValue {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.amount, v => d.amount = v);
-    ifPresent(this.techFlow, v => d.techFlow = v?.toDict());
+    ifPresent(this.amount, (v) => d.amount = v);
+    ifPresent(this.techFlow, (v) => d.techFlow = v?.toDict());
     return d;
   }
 
@@ -4060,20 +4084,4 @@ export class TechFlowValue {
   toJson(): string {
     return JSON.stringify(this.toDict(), null, "  ");
   }
-
 }
-
-export type RootEntity = Actor
-  | Flow
-  | FlowProperty
-  | ImpactCategory
-  | ImpactMethod
-  | Parameter
-  | Process
-  | SocialIndicator
-  | Source
-  | UnitGroup;
-
-export type RefEntity = RootEntity
-  | Unit
-  | NwSet;

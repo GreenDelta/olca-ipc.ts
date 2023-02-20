@@ -4,8 +4,7 @@ A TypeScript implementation of an openLCA IPC client...
 
 ## Building from source
 
-The `schema.ts` module is generated from the [openLCA
-schema](https://github.com/GreenDelta/olca-schema) definition using the
+The `schema.ts` module is generated from the [openLCA schema](https://github.com/GreenDelta/olca-schema) definition using the
 [osch](https://github.com/GreenDelta/olca-schema/tree/master/osch) tool:
 
 ```bash
