@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import * as o from "./schema.ts"
+import * as o from "./schema.ts";
 
 type DictCons = (dict: Record<string, unknown>) => o.RootEntity | null;
 
@@ -61,14 +61,27 @@ export class EntityQuery {
     if (typeof q === "string") {
       return new EntityQuery(q, null);
     }
-    return new EntityQuery(q["id"], q["name"]);
+    if (typeof q === "object") {
+      return new EntityQuery(q["id"], q["name"]);
+    }
+    return new EntityQuery(null, null);
   }
 
   isEmpty(): boolean {
     return !this.id && !this.name;
   }
 
-  toDict(): Record<string, any> {
-
+  toDict(refType?: o.RefType): Record<string, any> {
+    const dict: Record<string, any> = {};
+    if (refType) {
+      dict["@type"] = refType;
+    }
+    if (this.id) {
+      dict["@id"] = this.id;
+    }
+    if (this.name) {
+      dict["name"] = this.name;
+    }
+    return dict;
   }
 }

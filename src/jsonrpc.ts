@@ -20,24 +20,15 @@ export class IpcClient {
     refType: o.RefType,
     q: string | Record<string, string>,
   ): Promise<o.RootEntity | null> {
-    if (!q) {
+    const conf = util.EntityQuery.of(q);
+    if (conf.isEmpty()) {
       throw Error("An ID or name bust be provided");
     }
-    const id = typeof q === "string" ? q : q["id"];
-    const name = typeof q === "object" ? q["name"] : undefined;
-    if (!id && !name) {
-      throw Error("An ID or name bust be provided");
-    }
-    const params: Record<string, string> = {
-      "@type": refType,
-    };
-    if (id) {
-      params["@id"] = id;
-    }
-    if (name) {
-      params["name"] = name;
-    }
-    return await this._call("data/get", params, util.fromDictOf(refType));
+    return await this._call(
+      "data/get",
+      conf.toDict(refType),
+      util.fromDictOf(refType),
+    );
   }
 
   async getAll(refType: o.RefType): Promise<o.RootEntity[]> {
@@ -49,11 +40,72 @@ export class IpcClient {
     return await this._callEach(
       "data/get/descriptors",
       { "@type": refType },
-      (x) => o.Ref.fromDict(x as Dict)!,
+      o.Ref.fromDict,
     );
   }
 
-  async getDescriptor(refType: o.RefType, q: string | Record<string, string>) {
+  async getDescriptor(
+    refType: o.RefType,
+    q: string | Record<string, string>,
+  ): Promise<o.Ref | null> {
+    const conf = util.EntityQuery.of(q);
+    if (conf.isEmpty()) {
+      throw Error("An ID or name bust be provided");
+    }
+    return await this._call(
+      "data/get/descriptor",
+      conf.toDict(refType),
+      o.Ref.fromDict,
+    );
+  }
+
+  async getProviders(flow?: o.Ref): Promise<o.TechFlow[]> {
+    const params = flow ? flow.toDict() : {};
+    return await this._callEach(
+      "data/get/providers",
+      params,
+      o.TechFlow.fromDict,
+    );
+  }
+
+  async getParameters(
+    type: o.RefType,
+    id: string,
+  ): Promise<Array<o.Parameter | o.ParameterRedef>> {
+    const params = {
+      "@type": type,
+      "@id": id,
+    };
+    type Param = o.Parameter | o.ParameterRedef | null;
+    const fn: (d: Dict) => Param =
+      type === o.RefType.Process || o.RefType.ImpactCategory
+        ? o.Parameter.fromDict
+        : o.ParameterRedef.fromDict;
+    return await this._callEach("data/get/parameters", params, fn);
+  }
+
+  async createProductSystem(
+    process: o.Ref | o.Process,
+    config?: o.LinkingConfig,
+  ): Promise<o.Ref | null> {
+    const ref = process instanceof o.Process ? process.toRef() : process;
+    const conf = config ? config : o.LinkingConfig.of({
+      preferUnitProcesses: false,
+      providerLinking: o.ProviderLinking.PREFER_DEFAULTS,
+    });
+    const params = {
+      "process": ref.toDict(),
+      "config": conf.toDict(),
+    };
+    return await this._call("data/create/system", params, o.Ref.fromDict);
+  }
+
+  async delete(model: o.Ref | o.RootEntity): Promise<o.Ref | null> {
+    if (!model) {
+      return null;
+    }
+    const ref = model instanceof o.Ref ? model : model.toRef();
+    return await this._call("data/delete", ref.toDict(), o.Ref.fromDict);
   }
 
   private async _callEach<T>(
