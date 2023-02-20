@@ -1,12 +1,13 @@
 import * as o from "./schema.ts";
 import * as util from "./util.ts";
+import * as protocol from "./protocol.ts";
 
 type Dict = Record<string, unknown>;
 
-export class IpcClient {
+export class IpcClient implements protocol.Client {
   private _id = 0;
 
-  constructor(private url: string) {
+  constructor(private readonly url: string) {
   }
 
   static on(portOrEndpoint: string | number): IpcClient {
@@ -108,7 +109,31 @@ export class IpcClient {
     return await this._call("data/delete", ref.toDict(), o.Ref.fromDict);
   }
 
-  private async _callEach<T>(
+  async calculate(setup: o.CalculationSetup): Promise<IpcResult> {
+    const state = await this._call(
+      "result/calculate",
+      setup.toDict(),
+      o.ResultState.fromDict,
+    );
+    if (!state) {
+      throw Error("calculation failed: no state returned");
+    }
+    return new IpcResult(this, state);
+  }
+
+  async simulate(setup: o.CalculationSetup): Promise<IpcResult> {
+    const state = await this._call(
+      "result/simulate",
+      setup.toDict(),
+      o.ResultState.fromDict,
+    );
+    if (!state) {
+      throw Error("calculation failed: no state returned");
+    }
+    return new IpcResult(this, state);
+  }
+
+  async _callEach<T>(
     method: string,
     params: Dict,
     fn: (resp: any) => T | null,
@@ -127,11 +152,11 @@ export class IpcClient {
     return res;
   }
 
-  private async _call<T>(
+  async _call<T>(
     method: string,
     params: Dict,
     fn: (resp: any) => T,
-  ): Promise<T | null> {
+  ): Promise<T> {
     const id = ++this._id;
     const resp = await (await fetch(this.url, {
       method: "POST",
@@ -145,9 +170,53 @@ export class IpcClient {
 
     const result = resp["result"];
     if (!result) {
-      return null;
+      throw Error(`${method} did not return a result`);
     }
 
     return fn(result);
+  }
+}
+
+class IpcResult implements protocol.Result {
+  private readonly id: string;
+  private error?: o.ResultState;
+
+  constructor(private readonly client: IpcClient, state: o.ResultState) {
+    this.id = state.id || "";
+    if (state.error) {
+      this.error = state;
+    }
+  }
+
+  async getState(): Promise<o.ResultState> {
+    return await this.nextState("result/state");
+  }
+
+  async simulateNext(): Promise<o.ResultState> {
+    return await this.nextState("result/simulate/next");
+  }
+
+  private async nextState(method: string): Promise<o.ResultState> {
+    if (this.error) {
+      return this.error;
+    }
+    const next = await this.client._call(
+      method,
+      { "@id": this.id },
+      o.ResultState.fromDict,
+    );
+    if (!next) {
+      this.error = o.ResultState.of({
+        id: this.id,
+        error: "failed to get result state",
+      });
+      return this.error;
+    }
+    if (next.error) {
+      this.error = next;
+    } else if (this.error) {
+      delete this.error;
+    }
+    return next;
   }
 }
