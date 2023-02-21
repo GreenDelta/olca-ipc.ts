@@ -66,6 +66,8 @@ export interface Client {
     id: string,
   ): Promise<Array<o.Parameter | o.ParameterRedef>>;
 
+  put(model: o.RootEntity): Promise<o.Ref>;
+
   createProductSystem(
     process: o.Ref | o.Process,
     config?: o.LinkingConfig,
@@ -82,4 +84,14 @@ export interface Result {
   getState(): Promise<o.ResultState>;
 
   simulateNext(): Promise<o.ResultState>;
+
+  dispose(): void;
+
+  getDemand(): Promise<o.TechFlowValue>;
+
+  getTechFlows(): Promise<o.TechFlowValue[]>;
+
+  getEnviFlows(): Promise<o.EnviFlowValue[]>;
+
+  getImpactCategories(): Promise<o.Ref[]>;
 }

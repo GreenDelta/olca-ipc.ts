@@ -99,6 +99,11 @@ export class IpcClient implements protocol.Client {
     return resp.orElse([]);
   }
 
+  async put(model: o.RootEntity): Promise<o.Ref> {
+    const resp = await this._call("data/put", model.toDict(), o.Ref.fromDict);
+    return resp.orElseThrow();
+  }
+
   async createProductSystem(
     process: o.Ref | o.Process,
     config?: o.LinkingConfig,
