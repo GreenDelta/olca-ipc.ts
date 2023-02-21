@@ -1,8 +1,16 @@
 import * as o from "./schema.ts";
-import * as util from "./util.ts";
 import * as protocol from "./protocol.ts";
+import * as util from "./util.ts";
 
 type Dict = Record<string, unknown>;
+
+interface Error {
+  code: number;
+  message: string;
+  data?: any;
+}
+
+type None = null | undefined;
 
 export class IpcClient implements protocol.Client {
   private _id = 0;
@@ -25,24 +33,27 @@ export class IpcClient implements protocol.Client {
     if (conf.isEmpty()) {
       throw Error("An ID or name bust be provided");
     }
-    return await this._call(
+    const resp = await this._call(
       "data/get",
       conf.toDict(refType),
       util.fromDictOf(refType),
     );
+    return resp.orElse(null);
   }
 
   async getAll(refType: o.RefType): Promise<o.RootEntity[]> {
     const fn = util.fromDictOf(refType);
-    return await this._callEach("data/get/all", { "@type": refType }, fn);
+    const resp = await this._callEach("data/get/all", { "@type": refType }, fn);
+    return resp.orElseThrow();
   }
 
   async getDescriptors(refType: o.RefType): Promise<o.Ref[]> {
-    return await this._callEach(
+    const resp = await this._callEach(
       "data/get/descriptors",
       { "@type": refType },
       o.Ref.fromDict,
     );
+    return resp.orElseThrow();
   }
 
   async getDescriptor(
@@ -53,20 +64,22 @@ export class IpcClient implements protocol.Client {
     if (conf.isEmpty()) {
       throw Error("An ID or name bust be provided");
     }
-    return await this._call(
+    const resp = await this._call(
       "data/get/descriptor",
       conf.toDict(refType),
       o.Ref.fromDict,
     );
+    return resp.orElse(null);
   }
 
   async getProviders(flow?: o.Ref): Promise<o.TechFlow[]> {
     const params = flow ? flow.toDict() : {};
-    return await this._callEach(
+    const resp = await this._callEach(
       "data/get/providers",
       params,
       o.TechFlow.fromDict,
     );
+    return resp.orElseThrow();
   }
 
   async getParameters(
@@ -82,7 +95,8 @@ export class IpcClient implements protocol.Client {
       type === o.RefType.Process || o.RefType.ImpactCategory
         ? o.Parameter.fromDict
         : o.ParameterRedef.fromDict;
-    return await this._callEach("data/get/parameters", params, fn);
+    const resp = await this._callEach("data/get/parameters", params, fn);
+    return resp.orElse([]);
   }
 
   async createProductSystem(
@@ -98,7 +112,8 @@ export class IpcClient implements protocol.Client {
       "process": ref.toDict(),
       "config": conf.toDict(),
     };
-    return await this._call("data/create/system", params, o.Ref.fromDict);
+    const resp = await this._call("data/create/system", params, o.Ref.fromDict);
+    return resp.orElseThrow();
   }
 
   async delete(model: o.Ref | o.RootEntity): Promise<o.Ref | null> {
@@ -106,30 +121,27 @@ export class IpcClient implements protocol.Client {
       return null;
     }
     const ref = model instanceof o.Ref ? model : model.toRef();
-    return await this._call("data/delete", ref.toDict(), o.Ref.fromDict);
+    const resp = await this._call("data/delete", ref.toDict(), o.Ref.fromDict);
+    return resp.orElse(null);
   }
 
   async calculate(setup: o.CalculationSetup): Promise<IpcResult> {
-    const state = await this._call(
+    const resp = await this._call(
       "result/calculate",
       setup.toDict(),
       o.ResultState.fromDict,
     );
-    if (!state) {
-      throw Error("calculation failed: no state returned");
-    }
+    const state = resp.orElseThrow();
     return new IpcResult(this, state);
   }
 
   async simulate(setup: o.CalculationSetup): Promise<IpcResult> {
-    const state = await this._call(
+    const resp = await this._call(
       "result/simulate",
       setup.toDict(),
       o.ResultState.fromDict,
     );
-    if (!state) {
-      throw Error("calculation failed: no state returned");
-    }
+    const state = resp.orElseThrow();
     return new IpcResult(this, state);
   }
 
@@ -137,10 +149,14 @@ export class IpcClient implements protocol.Client {
     method: string,
     params: Dict,
     fn: (resp: any) => T | null,
-  ): Promise<T[]> {
-    const raw = (await this._call(method, params, (x) => x)) as Array<unknown>;
-    if (!raw) {
-      return [];
+  ): Promise<protocol.Response<T[]>> {
+    const resp = await this._call(method, params, (x) => x);
+    if (resp.isError() || resp.isEmpty()) {
+      return resp;
+    }
+    const raw = resp.value;
+    if (!Array.isArray(raw)) {
+      return protocol.Response.error("returned value is not an array");
     }
     const res: T[] = [];
     for (const e of raw) {
@@ -149,31 +165,33 @@ export class IpcClient implements protocol.Client {
         res.push(t);
       }
     }
-    return res;
+    return protocol.Response.of(res);
   }
 
   async _call<T>(
     method: string,
     params: Dict,
-    fn: (resp: any) => T,
-  ): Promise<T> {
+    fn: (resp: any) => T | null,
+  ): Promise<protocol.Response<T>> {
     const id = ++this._id;
     const resp = await (await fetch(this.url, {
       method: "POST",
       body: JSON.stringify({ jsonrpc: "2.0", id, method, params }),
     })).json();
 
-    const err = resp["error"];
+    const err: Error | None = resp["error"];
     if (err) {
-      throw Error(err);
+      return protocol.Response.error(`${err.code}: ${err.message}`);
     }
-
     const result = resp["result"];
     if (!result) {
-      throw Error(`${method} did not return a result`);
+      return protocol.Response.empty();
     }
-
-    return fn(result);
+    const val = fn(result);
+    if (val == null || val === undefined) {
+      return protocol.Response.empty();
+    }
+    return protocol.Response.of(val);
   }
 }
 
@@ -200,18 +218,26 @@ class IpcResult implements protocol.Result {
     if (this.error) {
       return this.error;
     }
-    const next = await this.client._call(
+    const resp = await this.client._call(
       method,
       { "@id": this.id },
       o.ResultState.fromDict,
     );
-    if (!next) {
+    if (resp.isError()) {
+      this.error = o.ResultState.of({
+        id: this.id,
+        error: resp.error,
+      });
+      return this.error;
+    }
+    if (resp.isEmpty()) {
       this.error = o.ResultState.of({
         id: this.id,
         error: "failed to get result state",
       });
       return this.error;
     }
+    const next = resp.value!;
     if (next.error) {
       this.error = next;
     } else if (this.error) {

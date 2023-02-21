@@ -1,5 +1,49 @@
 import * as o from "./schema.ts";
 
+export class Response<T> {
+  value?: T | null;
+  error?: string | null;
+
+  static of<T>(value: T): Response<T> {
+    const r = new Response<T>();
+    r.value = value;
+    return r;
+  }
+
+  static error<T>(message: string): Response<T> {
+    const r = new Response<T>();
+    r.error = message;
+    return r;
+  }
+
+  static empty<T>(): Response<T> {
+    return new Response<T>();
+  }
+
+  isError(): boolean {
+    return this.error ? true : false;
+  }
+
+  isEmpty(): boolean {
+    return !this.error && (this.value === null || this.value === undefined);
+  }
+
+  orElse<E>(altVal: E): T | E {
+    return this.isError() || this.isEmpty() ? altVal : this.value!;
+  }
+
+  orElseThrow(): T {
+    if (this.error) {
+      throw new Error(this.error);
+    }
+    if (this.value === null || this.value === undefined) {
+      throw new Error("response contains no value");
+    }
+    return this.value!;
+  }
+
+}
+
 export interface Client {
   get(
     refType: o.RefType,

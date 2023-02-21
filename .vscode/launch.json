@@ -4,6 +4,7 @@
     {
       "name": "Deno",
       "type": "node",
+      "request": "launch",
       "cwd": "${workspaceFolder}",
       "runtimeExecutable": "deno",
       "runtimeArgs": [
