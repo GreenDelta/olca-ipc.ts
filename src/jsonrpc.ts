@@ -255,6 +255,17 @@ class IpcResult implements protocol.Result {
     return next;
   }
 
+  async untilReady(pollTime = 1000): Promise<o.ResultState> {
+    let state: o.ResultState;
+    while (!(state = await this.getState()).isReady) {
+      if (state.error) {
+        return state;
+      }
+      await new Promise((r) => setTimeout(r, pollTime));
+    }
+    return state;
+  }
+
   //#region Result elements
 
   async getDemand(): Promise<o.TechFlowValue> {

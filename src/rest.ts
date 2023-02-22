@@ -265,6 +265,17 @@ export class RestResult implements protocol.Result {
     return next;
   }
 
+  async untilReady(pollTime = 1000): Promise<o.ResultState> {
+    let state: o.ResultState;
+    while (!(state = await this.getState()).isReady) {
+      if (state.error) {
+        return state;
+      }
+      await new Promise((r) => setTimeout(r, pollTime));
+    }
+    return state;
+  }
+
   private path(segments: string | Array<string>) {
     let path = `result/${this.id}`;
     if (typeof segments === "string") {

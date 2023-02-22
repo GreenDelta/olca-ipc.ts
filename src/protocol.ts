@@ -86,6 +86,8 @@ export interface Result {
 
   dispose(): void;
 
+  untilReady(pollTime?: number): Promise<o.ResultState>;
+
   //#region Result elements
 
   getDemand(): Promise<o.TechFlowValue>;

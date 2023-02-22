@@ -33,13 +33,9 @@ async function main() {
     impactMethod: method,
   });
   const result = await client.calculate(setup);
-  let state: o.ResultState;
-  while (!(state = await result.getState()).isReady) {
-    if (state.error) {
-      throw Error(`calculation failed: ${state.error}`);
-    }
-    await new Promise((r) => setTimeout(r, 1000));
-    console.log("  ...");
+  const state = await result.untilReady();
+  if (state.error) {
+    throw new Error(`calculation failed: ${state.error}`);
   }
   console.log("  done");
 
