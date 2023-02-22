@@ -41,7 +41,6 @@ export class Response<T> {
     }
     return this.value!;
   }
-
 }
 
 export interface Client {
@@ -87,11 +86,123 @@ export interface Result {
 
   dispose(): void;
 
+  //#region Result elements
+
   getDemand(): Promise<o.TechFlowValue>;
 
-  getTechFlows(): Promise<o.TechFlowValue[]>;
+  getTechFlows(): Promise<o.TechFlow[]>;
 
-  getEnviFlows(): Promise<o.EnviFlowValue[]>;
+  getEnviFlows(): Promise<o.EnviFlow[]>;
 
   getImpactCategories(): Promise<o.Ref[]>;
+
+  //#endregion
+
+  //#region Technosphere flows
+
+  getScalingFactors(): Promise<o.TechFlowValue[]>;
+
+  getTotalRequirements(): Promise<o.TechFlowValue[]>;
+
+  getTotalRequirementsOf(techFlow: o.TechFlow): Promise<o.TechFlowValue>;
+
+  getScaledTechFlowsOf(techFlow: o.TechFlow): Promise<o.TechFlowValue[]>;
+
+  getUnscaledTechFlowsOf(techFlow: o.TechFlow): Promise<o.TechFlowValue[]>;
+
+  //#endregion
+
+  //#region Inventory results
+
+  getTotalFlows(): Promise<o.EnviFlowValue[]>;
+
+  getTotalFlowValueOf(enviFlow: o.EnviFlow): Promise<o.EnviFlowValue[]>;
+
+  getFlowContributionsOf(enviFlow: o.EnviFlow): Promise<o.TechFlowValue[]>;
+
+  getDirectInterventionsOf(techFlow: o.TechFlow): Promise<o.EnviFlowValue[]>;
+
+  getDirectInterventionOf(
+    enviFlow: o.EnviFlow,
+    techFlow: o.TechFlow,
+  ): Promise<o.EnviFlowValue>;
+
+  getFlowIntensitiesOf(techFlow: o.TechFlow): Promise<o.EnviFlowValue[]>;
+
+  getFlowIntensityOf(
+    enviFlow: o.EnviFlow,
+    techFlow: o.TechFlow,
+  ): Promise<o.EnviFlowValue>;
+
+  getTotalInterventionsOf(techFlow: o.TechFlow): Promise<o.EnviFlowValue[]>;
+
+  getTotalInterventionOf(
+    enviFlow: o.EnviFlow,
+    techFlow: o.TechFlow,
+  ): Promise<o.EnviFlowValue>;
+
+  //#endregion
+
+  //#region Impact assessment results
+
+  getTotalImpacts(): Promise<o.ImpactValue[]>;
+
+  getNormalizedImpacts(): Promise<o.ImpactValue[]>;
+
+  getWeightedImpacts(): Promise<o.ImpactValue[]>;
+
+  getTotalImpactValueOf(impactCategory: o.Ref): Promise<o.ImpactValue>;
+
+  getImpactContributionsOf(impactCategory: o.Ref): Promise<o.TechFlowValue[]>;
+
+  getDirectImpactsOf(techFlow: o.TechFlow): Promise<o.ImpactValue[]>;
+
+  getDirectImpactOf(
+    impactCategory: o.Ref,
+    techFlow: o.TechFlow,
+  ): Promise<o.ImpactValue>;
+
+  getImpactIntensitiesOf(techFlow: o.TechFlow): Promise<o.ImpactValue[]>;
+
+  getImpactIntensityOf(
+    impactCategory: o.Ref,
+    techFlow: o.TechFlow,
+  ): Promise<o.ImpactValue>;
+
+  getTotalImpactsOf(techFlow: o.TechFlow): Promise<o.ImpactValue[]>;
+
+  getTotalImpactOf(
+    impactCategory: o.Ref,
+    techFlow: o.TechFlow,
+  ): Promise<o.ImpactValue>;
+
+  getImpactFactorsOf(impactCategory: o.Ref): Promise<o.EnviFlowValue[]>;
+
+  getImpactFactorOf(
+    impactCategory: o.Ref,
+    enviFlow: o.EnviFlow,
+  ): Promise<o.ImpactValue>;
+
+  getFlowImpactsOf(impactCategory: o.Ref): Promise<o.EnviFlowValue[]>;
+
+  getFlowImpactOf(
+    impactCategory: o.Ref,
+    enviFlow: o.EnviFlow,
+  ): Promise<o.ImpactValue>;
+
+  //#endregion
+
+  //#region Cost results
+
+  getTotalCosts(): Promise<o.CostValue>;
+
+  getCostContributions(): Promise<o.TechFlowValue[]>;
+
+  getDirectCostsOf(techFlow: o.TechFlow): Promise<o.CostValue>;
+
+  getCostIntensitiesOf(techFlow: o.TechFlow): Promise<o.CostValue>;
+
+  getTotalCostsOf(techFlow: o.TechFlow): Promise<o.CostValue>;
+
+  //#endregion
 }
