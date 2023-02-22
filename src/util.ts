@@ -51,7 +51,7 @@ export function fromDictOf(type: o.RefType): DictCons {
 type None = null | undefined;
 
 export class EntityQuery {
-  constructor(private id: string | None, private name: string | None) {
+  constructor(public id: string | None, public name: string | None) {
   }
 
   static of(q: string | Record<string, string>): EntityQuery {
@@ -67,8 +67,20 @@ export class EntityQuery {
     return new EntityQuery(null, null);
   }
 
+  hasId(): boolean {
+    return !!this.id;
+  }
+
+  hasName(): boolean {
+    return !!this.name;
+  }
+
   isEmpty(): boolean {
     return !this.id && !this.name;
+  }
+
+  uriName(): string {
+    return this.hasName() ? encodeURIComponent(this.name!) : "";
   }
 
   toDict(refType?: o.RefType): Record<string, any> {
