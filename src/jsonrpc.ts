@@ -219,6 +219,10 @@ class IpcResult implements protocol.Result {
     return await this.nextState("result/simulate/next");
   }
 
+  async dispose(): Promise<void> {
+    await this.client._call("result/dispose", { "@id": this.id }, (x) => x);
+  }
+
   private async nextState(method: string): Promise<o.ResultState> {
     if (this.error) {
       return this.error;
@@ -250,4 +254,362 @@ class IpcResult implements protocol.Result {
     }
     return next;
   }
+
+  //#region Result elements
+
+  async getDemand(): Promise<o.TechFlowValue> {
+    const resp = await this.client._call(
+      "result/demand",
+      { "@id": this.id },
+      o.TechFlowValue.fromDict,
+    );
+    return resp.orElse(o.TechFlowValue.of({ amount: 0 }));
+  }
+
+  async getTechFlows(): Promise<o.TechFlow[]> {
+    const resp = await this.client._callEach("result/tech-flows", {
+      "@id": this.id,
+    }, o.TechFlow.fromDict);
+    return resp.orElse([]);
+  }
+
+  async getEnviFlows(): Promise<o.EnviFlow[]> {
+    const resp = await this.client._callEach("result/envi-flows", {
+      "@id": this.id,
+    }, o.EnviFlow.fromDict);
+    return resp.orElse([]);
+  }
+
+  async getImpactCategories(): Promise<o.Ref[]> {
+    const resp = await this.client._callEach("result/impact-categories", {
+      "@id": this.id,
+    }, o.Ref.fromDict);
+    return resp.orElse([]);
+  }
+
+  //#endregion
+
+  //#region Technosphere flows
+
+  async getScalingFactors(): Promise<o.TechFlowValue[]> {
+    const resp = await this.client._callEach("result/scaling-factors", {
+      "@id": this.id,
+    }, o.TechFlowValue.fromDict);
+    return resp.orElse([]);
+  }
+
+  async getTotalRequirements(): Promise<o.TechFlowValue[]> {
+    const resp = await this.client._callEach("result/total-requirements", {
+      "@id": this.id,
+    }, o.TechFlowValue.fromDict);
+    return resp.orElse([]);
+  }
+
+  async getTotalRequirementsOf(techFlow: o.TechFlow): Promise<o.TechFlowValue> {
+    const resp = await this.client._call("result/total-requirements-of", {
+      "@id": this.id,
+      "techFlow": techFlow.toDict(),
+    }, o.TechFlowValue.fromDict);
+    return resp.orElse(o.TechFlowValue.of({ amount: 0 }));
+  }
+
+  async getScaledTechFlowsOf(techFlow: o.TechFlow): Promise<o.TechFlowValue[]> {
+    const resp = await this.client._callEach("result/scaled-tech-flows-of", {
+      "@id": this.id,
+      "techFlow": techFlow.toDict(),
+    }, o.TechFlowValue.fromDict);
+    return resp.orElse([]);
+  }
+
+  async getUnscaledTechFlowsOf(
+    techFlow: o.TechFlow,
+  ): Promise<o.TechFlowValue[]> {
+    const resp = await this.client._callEach("result/unscaled-tech-flows-of", {
+      "@id": this.id,
+      "techFlow": techFlow.toDict(),
+    }, o.TechFlowValue.fromDict);
+    return resp.orElse([]);
+  }
+
+  //#endregion
+
+  //#region Inventory results
+
+  async getTotalFlows(): Promise<o.EnviFlowValue[]> {
+    const resp = await this.client._callEach("result/total-flows", {
+      "@id": this.id,
+    }, o.EnviFlowValue.fromDict);
+    return resp.orElse([]);
+  }
+
+  async getTotalFlowValueOf(enviFlow: o.EnviFlow): Promise<o.EnviFlowValue[]> {
+    const resp = await this.client._callEach("result/total-flow-value-of", {
+      "@id": this.id,
+      "enviFlow": enviFlow.toDict(),
+    }, o.EnviFlowValue.fromDict);
+    return resp.orElse([]);
+  }
+
+  async getFlowContributionsOf(
+    enviFlow: o.EnviFlow,
+  ): Promise<o.TechFlowValue[]> {
+    const resp = await this.client._callEach("result/flow-contributions-of", {
+      "@id": this.id,
+      "enviFlow": enviFlow.toDict(),
+    }, o.TechFlowValue.fromDict);
+    return resp.orElse([]);
+  }
+
+  async getDirectInterventionsOf(
+    techFlow: o.TechFlow,
+  ): Promise<o.EnviFlowValue[]> {
+    const resp = await this.client._callEach("result/direct-interventions-of", {
+      "@id": this.id,
+      "techFlow": techFlow.toDict(),
+    }, o.EnviFlowValue.fromDict);
+    return resp.orElse([]);
+  }
+
+  async getDirectInterventionOf(
+    enviFlow: o.EnviFlow,
+    techFlow: o.TechFlow,
+  ): Promise<o.EnviFlowValue> {
+    const resp = await this.client._call("result/direct-intervention-of", {
+      "@id": this.id,
+      "enviFlow": enviFlow.toDict(),
+      "techFlow": techFlow.toDict(),
+    }, o.EnviFlowValue.fromDict);
+    return resp.orElse(o.EnviFlowValue.of({ amount: 0 }));
+  }
+
+  async getFlowIntensitiesOf(techFlow: o.TechFlow): Promise<o.EnviFlowValue[]> {
+    const resp = await this.client._callEach("result/flow-intensities-of", {
+      "@id": this.id,
+      "techFlow": techFlow.toDict(),
+    }, o.EnviFlowValue.fromDict);
+    return resp.orElse([]);
+  }
+
+  async getFlowIntensityOf(
+    enviFlow: o.EnviFlow,
+    techFlow: o.TechFlow,
+  ): Promise<o.EnviFlowValue> {
+    const resp = await this.client._call("result/flow-intensity-of", {
+      "@id": this.id,
+      "enviFlow": enviFlow.toDict(),
+      "techFlow": techFlow.toDict(),
+    }, o.EnviFlowValue.fromDict);
+    return resp.orElse(o.EnviFlowValue.of({ amount: 0 }));
+  }
+
+  async getTotalInterventionsOf(
+    techFlow: o.TechFlow,
+  ): Promise<o.EnviFlowValue[]> {
+    const resp = await this.client._callEach("result/total-interventions-of", {
+      "@id": this.id,
+      "techFlow": techFlow.toDict(),
+    }, o.EnviFlowValue.fromDict);
+    return resp.orElse([]);
+  }
+
+  async getTotalInterventionOf(
+    enviFlow: o.EnviFlow,
+    techFlow: o.TechFlow,
+  ): Promise<o.EnviFlowValue> {
+    const resp = await this.client._call("result/total-intervention-of", {
+      "@id": this.id,
+      "enviFlow": enviFlow.toDict(),
+      "techFlow": techFlow.toDict(),
+    }, o.EnviFlowValue.fromDict);
+    return resp.orElse(o.EnviFlowValue.of({ amount: 0 }));
+  }
+
+  //#endregion
+
+  //#region Impact assessment results
+
+  async getTotalImpacts(): Promise<o.ImpactValue[]> {
+    const resp = await this.client._callEach("result/total-impacts", {
+      "@id": this.id,
+    }, o.ImpactValue.fromDict);
+    return resp.orElse([]);
+  }
+
+  async getNormalizedImpacts(): Promise<o.ImpactValue[]> {
+    const resp = await this.client._callEach(
+      "result/total-impacts/normalized",
+      { "@id": this.id },
+      o.ImpactValue.fromDict,
+    );
+    return resp.orElse([]);
+  }
+
+  async getWeightedImpacts(): Promise<o.ImpactValue[]> {
+    const resp = await this.client._callEach("result/total-impacts/weighted", {
+      "@id": this.id,
+    }, o.ImpactValue.fromDict);
+    return resp.orElse([]);
+  }
+
+  async getTotalImpactValueOf(impactCategory: o.Ref): Promise<o.ImpactValue> {
+    const resp = await this.client._call("result/total-impact-value-of", {
+      "@id": this.id,
+      "impactCategory": impactCategory.toDict(),
+    }, o.ImpactValue.fromDict);
+    return resp.orElse(o.ImpactValue.of({ amount: 0 }));
+  }
+
+  async getImpactContributionsOf(
+    impactCategory: o.Ref,
+  ): Promise<o.TechFlowValue[]> {
+    const resp = await this.client._callEach("result/impact-contributions-of", {
+      "@id": this.id,
+      "impactCategory": impactCategory.toDict(),
+    }, o.TechFlowValue.fromDict);
+    return resp.orElse([]);
+  }
+
+  async getDirectImpactsOf(techFlow: o.TechFlow): Promise<o.ImpactValue[]> {
+    const resp = await this.client._callEach("result/direct-impacts-of", {
+      "@id": this.id,
+      "techFlow": techFlow.toDict(),
+    }, o.ImpactValue.fromDict);
+    return resp.orElse([]);
+  }
+
+  async getDirectImpactOf(
+    impactCategory: o.Ref,
+    techFlow: o.TechFlow,
+  ): Promise<o.ImpactValue> {
+    const resp = await this.client._call("result/direct-impact-of", {
+      "@id": this.id,
+      "impactCategory": impactCategory.toDict(),
+      "techFlow": techFlow.toDict(),
+    }, o.ImpactValue.fromDict);
+    return resp.orElse(o.ImpactValue.of({ amount: 0 }));
+  }
+
+  async getImpactIntensitiesOf(techFlow: o.TechFlow): Promise<o.ImpactValue[]> {
+    const resp = await this.client._callEach("result/impact-intensities-of", {
+      "@id": this.id,
+      "techFlow": techFlow.toDict(),
+    }, o.ImpactValue.fromDict);
+    return resp.orElse([]);
+  }
+
+  async getImpactIntensityOf(
+    impactCategory: o.Ref,
+    techFlow: o.TechFlow,
+  ): Promise<o.ImpactValue> {
+    const resp = await this.client._call("result/impact-intensity-of", {
+      "@id": this.id,
+      "impactCategory": impactCategory.toDict(),
+      "techFlow": techFlow.toDict(),
+    }, o.ImpactValue.fromDict);
+    return resp.orElse(o.ImpactValue.of({ amount: 0 }));
+  }
+
+  async getTotalImpactsOf(techFlow: o.TechFlow): Promise<o.ImpactValue[]> {
+    const resp = await this.client._callEach("result/total-impacts-of", {
+      "@id": this.id,
+      "techFlow": techFlow.toDict(),
+    }, o.ImpactValue.fromDict);
+    return resp.orElse([]);
+  }
+
+  async getTotalImpactOf(
+    impactCategory: o.Ref,
+    techFlow: o.TechFlow,
+  ): Promise<o.ImpactValue> {
+    const resp = await this.client._call("result/total-impact-of", {
+      "@id": this.id,
+      "impactCategory": impactCategory.toDict(),
+      "techFlow": techFlow.toDict(),
+    }, o.ImpactValue.fromDict);
+    return resp.orElse(o.ImpactValue.of({ amount: 0 }));
+  }
+
+  async getImpactFactorsOf(impactCategory: o.Ref): Promise<o.EnviFlowValue[]> {
+    const resp = await this.client._callEach("result/impact-factors-of", {
+      "@id": this.id,
+      "impactCategory": impactCategory.toDict(),
+    }, o.EnviFlowValue.fromDict);
+    return resp.orElse([]);
+  }
+
+  async getImpactFactorOf(
+    impactCategory: o.Ref,
+    enviFlow: o.EnviFlow,
+  ): Promise<o.ImpactValue> {
+    const resp = await this.client._call("result/impact-factor-of", {
+      "@id": this.id,
+      "impactCategory": impactCategory.toDict(),
+      "enviFlow": enviFlow.toDict(),
+    }, o.ImpactValue.fromDict);
+    return resp.orElse(o.ImpactValue.of({ amount: 0 }));
+  }
+
+  async getFlowImpactsOf(impactCategory: o.Ref): Promise<o.EnviFlowValue[]> {
+    const resp = await this.client._callEach("result/flow-impacts-of", {
+      "@id": this.id,
+      "impactCategory": impactCategory.toDict(),
+    }, o.EnviFlowValue.fromDict);
+    return resp.orElse([]);
+  }
+
+  async getFlowImpactOf(
+    impactCategory: o.Ref,
+    enviFlow: o.EnviFlow,
+  ): Promise<o.ImpactValue> {
+    const resp = await this.client._call("result/flow-impact-of", {
+      "@id": this.id,
+      "impactCategory": impactCategory.toDict(),
+      "enviFlow": enviFlow.toDict(),
+    }, o.ImpactValue.fromDict);
+    return resp.orElse(o.ImpactValue.of({ amount: 0 }));
+  }
+
+  //#endregion
+
+  //#region Cost results
+
+  async getTotalCosts(): Promise<o.CostValue> {
+    const resp = await this.client._call("result/total-costs", {
+      "@id": this.id,
+    }, o.CostValue.fromDict);
+    return resp.orElse(o.CostValue.of({ amount: 0 }));
+  }
+
+  async getCostContributions(): Promise<o.TechFlowValue[]> {
+    const resp = await this.client._callEach("result/cost-contributions", {
+      "@id": this.id,
+    }, o.TechFlowValue.fromDict);
+    return resp.orElse([]);
+  }
+
+  async getDirectCostsOf(techFlow: o.TechFlow): Promise<o.CostValue> {
+    const resp = await this.client._call("result/direct-costs-of", {
+      "@id": this.id,
+      "techFlow": techFlow.toDict(),
+    }, o.CostValue.fromDict);
+    return resp.orElse(o.CostValue.of({ amount: 0 }));
+  }
+
+  async getCostIntensitiesOf(techFlow: o.TechFlow): Promise<o.CostValue> {
+    const resp = await this.client._call("result/cost-intensities-of", {
+      "@id": this.id,
+      "techFlow": techFlow.toDict(),
+    }, o.CostValue.fromDict);
+    return resp.orElse(o.CostValue.of({ amount: 0 }));
+  }
+
+  async getTotalCostsOf(techFlow: o.TechFlow): Promise<o.CostValue> {
+    const resp = await this.client._call("result/total-costs-of", {
+      "@id": this.id,
+      "techFlow": techFlow.toDict(),
+    }, o.CostValue.fromDict);
+    return resp.orElse(o.CostValue.of({ amount: 0 }));
+  }
+
+  //#endregion
 }
