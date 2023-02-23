@@ -1,10 +1,5 @@
-import {
-  assert,
-  assertEquals,
-} from "https://deno.land/std@0.177.0/testing/asserts.ts";
-
 import * as o from "../mod.ts";
-import { client } from "./config.ts";
+import { assert, assertEquals, client } from "./config.ts";
 
 Deno.test(async function testCrud() {
   // create a process and related data

@@ -1,4 +1,4 @@
-import * as o from "../mod.ts";
+import * as o from "../../mod.ts";
 
 async function main() {
   const client = o.IpcClient.on(8080);

@@ -1,8 +1,4 @@
-import {
-  assert,
-  assertAlmostEquals,
-  assertEquals,
-} from "https://deno.land/std@0.177.0/testing/asserts.ts";
+import { assert, assertAlmostEquals, assertEquals } from "./config.ts";
 import * as o from "../src/schema.ts";
 
 Deno.test(function testToFromJson() {
