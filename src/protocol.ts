@@ -118,7 +118,7 @@ export interface Result {
 
   getTotalFlows(): Promise<o.EnviFlowValue[]>;
 
-  getTotalFlowValueOf(enviFlow: o.EnviFlow): Promise<o.EnviFlowValue[]>;
+  getTotalFlowValueOf(enviFlow: o.EnviFlow): Promise<o.EnviFlowValue>;
 
   getFlowContributionsOf(enviFlow: o.EnviFlow): Promise<o.TechFlowValue[]>;
 

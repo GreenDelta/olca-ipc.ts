@@ -386,12 +386,12 @@ export class RestResult implements protocol.Result {
     return resp.orElse([]);
   }
 
-  async getTotalFlowValueOf(enviFlow: o.EnviFlow): Promise<o.EnviFlowValue[]> {
-    const resp = await this.client._callEach(
+  async getTotalFlowValueOf(enviFlow: o.EnviFlow): Promise<o.EnviFlowValue> {
+    const resp = await this.client._call(
       this.path(["total-flow-value-of", enviIdOf(enviFlow)]),
       o.EnviFlowValue.fromDict,
     );
-    return resp.orElse([]);
+    return resp.orElse(o.EnviFlowValue.of({ amount: 0 }));
   }
 
   async getFlowContributionsOf(

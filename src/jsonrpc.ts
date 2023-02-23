@@ -353,12 +353,12 @@ class IpcResult implements protocol.Result {
     return resp.orElse([]);
   }
 
-  async getTotalFlowValueOf(enviFlow: o.EnviFlow): Promise<o.EnviFlowValue[]> {
-    const resp = await this.client._callEach("result/total-flow-value-of", {
+  async getTotalFlowValueOf(enviFlow: o.EnviFlow): Promise<o.EnviFlowValue> {
+    const resp = await this.client._call("result/total-flow-value-of", {
       "@id": this.id,
       "enviFlow": enviFlow.toDict(),
     }, o.EnviFlowValue.fromDict);
-    return resp.orElse([]);
+    return resp.orElse(o.EnviFlowValue.of({ amount: 0 }));
   }
 
   async getFlowContributionsOf(

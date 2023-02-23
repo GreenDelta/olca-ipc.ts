@@ -25,17 +25,49 @@ Deno.test("simple calculation", async (t) => {
     amount: 2, // kg
   });
   const result = await client.calculate(setup);
+  await result.untilReady();
+  const techFlow =
+    (await result.getTechFlows()).filter((t) =>
+      t.provider?.id === process.id
+    )[0];
+  const enviFlow =
+    (await result.getEnviFlows()).filter((ef) => ef.flow?.id === e.id)[0];
 
-  t.step("demand", async () => {
+  await t.step("demand", async () => {
     const demand = await result.getDemand();
     assertEquals("P", demand.techFlow?.provider?.name);
     assertEquals("p", demand.techFlow?.flow?.name);
     assertAlmostEquals(2, demand.amount!);
   });
 
+  await t.step("inventory values", async () => {
+    const values = [
+      await result.getTotalFlowValueOf(enviFlow),
+      await result.getDirectInterventionOf(enviFlow, techFlow),
+      await result.getTotalInterventionOf(enviFlow, techFlow),
+    ];
+    for (const val of values) {
+      assertEquals("e", val.enviFlow?.flow?.name);
+      assertAlmostEquals(42, val.amount!);
+    }
+  });
+
+  await t.step("impact values", async () => {
+    const iRef = i.toRef();
+    const values = [
+      await result.getTotalImpactValueOf(iRef),
+      await result.getDirectImpactOf(iRef, techFlow),
+      await result.getTotalImpactOf(iRef, techFlow),
+    ];
+    for (const val of values) {
+      assertEquals("i", val.impactCategory?.name);
+      assertAlmostEquals(21, val.amount!);
+    }
+  });
+
   // cleanup
-  result.dispose();
+  await result.dispose();
   for (const entity of entities.reverse()) {
-    client.delete(entity);
+    await client.delete(entity);
   }
 });
