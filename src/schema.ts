@@ -3050,6 +3050,7 @@ export class Ref {
 
   toDict(): Dict {
     const d: Dict = {};
+    ifPresent(this.refType, (v) => d["@type"] = v);
     ifPresent(this.id, (v) => d["@id"] = v);
     ifPresent(this.category, (v) => d.category = v);
     ifPresent(this.description, (v) => d.description = v);

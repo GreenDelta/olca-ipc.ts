@@ -33,3 +33,15 @@ Deno.test(function testStrEnum() {
   const e = d as o.Direction;
   assertEquals(e, o.Direction.INPUT);
 });
+
+Deno.test("toRef", () => {
+  const p = o.Process.of({ name: "P", id: "pp" });
+  const ref = p.toRef();
+  assertEquals("P", ref.name);
+  assertEquals("pp", ref.id);
+  assertEquals("Process", ref.refType);
+  const dict = ref.toDict();
+  assertEquals("Process", dict["@type"]);
+  assertEquals("pp", dict["@id"]);
+  assertEquals("P", dict["name"]);
+});
