@@ -11,7 +11,7 @@ export class RestClient implements protocol.Client {
   static on(portOrEndpoint: string | number): RestClient {
     let base: string;
     if (typeof portOrEndpoint === "number") {
-      base = `http://localhost:${portOrEndpoint}`;
+      base = `http://localhost:${portOrEndpoint}/`;
     } else if (typeof portOrEndpoint === "string") {
       base = !portOrEndpoint.endsWith("/")
         ? portOrEndpoint + "/"
@@ -30,10 +30,10 @@ export class RestClient implements protocol.Client {
     if (conf.isEmpty()) {
       throw Error("An ID or name bust be provided");
     }
-    const suffix = `data/${pathOf(refType)}`;
+    const prefix = `data/${pathOf(refType)}`;
     const path = conf.hasName()
-      ? `${suffix}/name/${conf.uriName()}`
-      : `${suffix}/${conf.id}`;
+      ? `${prefix}/name/${conf.uriName()}`
+      : `${prefix}/${conf.id}`;
     const resp = await this._call(path, util.fromDictOf(refType));
     return resp.orElse(null);
   }
@@ -62,10 +62,10 @@ export class RestClient implements protocol.Client {
     if (conf.isEmpty()) {
       throw Error("An ID or name bust be provided");
     }
-    const suffix = `data/${pathOf(refType)}`;
+    const prefix = `data/${pathOf(refType)}`;
     const path = conf.hasId()
-      ? `${suffix}/${conf.id}/info`
-      : `${suffix}/name/${conf.uriName()}/info`;
+      ? `${prefix}/${conf.id}/info`
+      : `${prefix}/name/${conf.uriName()}/info`;
     const resp = await this._call(path, o.Ref.fromDict);
     return resp.orElse(null);
   }
@@ -188,11 +188,17 @@ export class RestClient implements protocol.Client {
   ): Promise<protocol.Response<T>> {
     const url = `${this.base}${path}`;
 
-    const config: Record<string, any> = { method };
+    const config: Record<string, any> = {
+      method,
+      headers: {
+        "Accept": "application/json",
+      },
+    };
     if (body) {
-      config.body = body;
+      config.headers["Content-Type"] = "application/json";
+      config.body = JSON.stringify(body);
     }
-    const resp = await fetch(url, body);
+    const resp = await fetch(url, config);
     if (!ok(resp.status)) {
       const message = await resp.text();
       return protocol.Response.error(message);
