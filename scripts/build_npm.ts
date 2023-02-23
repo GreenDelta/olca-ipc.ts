@@ -15,8 +15,8 @@ await build({
     // package.json properties
     name: "olca-ipc",
     version: "0.0.1",
-    description: "Calling the openLCA IPC API using the fetch API.",
-    license: "MPL 2.0",
+    description: "An openLCA IPC client library",
+    license: "MPL-2.0",
     repository: {
       type: "git",
       url: "git+https://github.com/GreenDelta/olca-ipc.ts.git",
