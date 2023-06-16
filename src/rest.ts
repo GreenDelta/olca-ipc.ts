@@ -83,7 +83,7 @@ export class RestClient implements protocol.Client {
     const path = `data/${pathOf(type)}/${id}/parameters`;
     type Param = o.Parameter | o.ParameterRedef | null;
     const fn: (d: Record<string, any>) => Param =
-      type === o.RefType.Process || o.RefType.ImpactCategory
+      type === o.RefType.Process || type === o.RefType.ImpactCategory
         ? o.Parameter.fromDict
         : o.ParameterRedef.fromDict;
     const resp = await this._callEach(path, fn);

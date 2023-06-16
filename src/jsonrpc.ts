@@ -92,7 +92,7 @@ export class IpcClient implements protocol.Client {
     };
     type Param = o.Parameter | o.ParameterRedef | null;
     const fn: (d: Dict) => Param =
-      type === o.RefType.Process || o.RefType.ImpactCategory
+      type === o.RefType.Process || type === o.RefType.ImpactCategory
         ? o.Parameter.fromDict
         : o.ParameterRedef.fromDict;
     const resp = await this._callEach("data/get/parameters", params, fn);
