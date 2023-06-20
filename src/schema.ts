@@ -43,7 +43,7 @@ export enum RefType {
   UnitGroup = "UnitGroup",
 }
 
-export type RootEntity = 
+export type RootEntity =
   | Actor
   | Currency
   | DQSystem
@@ -906,7 +906,10 @@ export class Exchange {
     ifPresent(this.internalId, (v) => d.internalId = v);
     ifPresent(this.isAvoidedProduct, (v) => d.isAvoidedProduct = v);
     ifPresent(this.isInput, (v) => d.isInput = v);
-    ifPresent(this.isQuantitativeReference, (v) => d.isQuantitativeReference = v);
+    ifPresent(
+      this.isQuantitativeReference,
+      (v) => d.isQuantitativeReference = v,
+    );
     ifPresent(this.location, (v) => d.location = v?.toDict());
     ifPresent(this.uncertainty, (v) => d.uncertainty = v?.toDict());
     ifPresent(this.unit, (v) => d.unit = v?.toDict());
@@ -1074,7 +1077,9 @@ export class Flow {
     e.category = d.category as string;
     e.description = d.description as string;
     e.flowProperties = d.flowProperties
-      ? (d.flowProperties as Dict[]).map(FlowPropertyFactor.fromDict) as FlowPropertyFactor[]
+      ? (d.flowProperties as Dict[]).map(
+        FlowPropertyFactor.fromDict,
+      ) as FlowPropertyFactor[]
       : null;
     e.flowType = d.flowType as FlowType;
     e.formula = d.formula as string;
@@ -2285,7 +2290,9 @@ export class ParameterRedefSet {
     e.isBaseline = d.isBaseline as boolean;
     e.name = d.name as string;
     e.parameters = d.parameters
-      ? (d.parameters as Dict[]).map(ParameterRedef.fromDict) as ParameterRedef[]
+      ? (d.parameters as Dict[]).map(
+        ParameterRedef.fromDict,
+      ) as ParameterRedef[]
       : null;
     return e;
   }
@@ -2389,19 +2396,28 @@ export class Process {
     ifPresent(this.id, (v) => d["@id"] = v);
     ifPresent(this.allocationFactors, (v) => d.allocationFactors = dictAll(v));
     ifPresent(this.category, (v) => d.category = v);
-    ifPresent(this.defaultAllocationMethod, (v) => d.defaultAllocationMethod = v);
+    ifPresent(
+      this.defaultAllocationMethod,
+      (v) => d.defaultAllocationMethod = v,
+    );
     ifPresent(this.description, (v) => d.description = v);
     ifPresent(this.dqEntry, (v) => d.dqEntry = v);
     ifPresent(this.dqSystem, (v) => d.dqSystem = v?.toDict());
     ifPresent(this.exchangeDqSystem, (v) => d.exchangeDqSystem = v?.toDict());
     ifPresent(this.exchanges, (v) => d.exchanges = dictAll(v));
-    ifPresent(this.isInfrastructureProcess, (v) => d.isInfrastructureProcess = v);
+    ifPresent(
+      this.isInfrastructureProcess,
+      (v) => d.isInfrastructureProcess = v,
+    );
     ifPresent(this.lastChange, (v) => d.lastChange = v);
     ifPresent(this.lastInternalId, (v) => d.lastInternalId = v);
     ifPresent(this.location, (v) => d.location = v?.toDict());
     ifPresent(this.name, (v) => d.name = v);
     ifPresent(this.parameters, (v) => d.parameters = dictAll(v));
-    ifPresent(this.processDocumentation, (v) => d.processDocumentation = v?.toDict());
+    ifPresent(
+      this.processDocumentation,
+      (v) => d.processDocumentation = v?.toDict(),
+    );
     ifPresent(this.processType, (v) => d.processType = v);
     ifPresent(this.socialAspects, (v) => d.socialAspects = dictAll(v));
     ifPresent(this.socialDqSystem, (v) => d.socialDqSystem = v?.toDict());
@@ -2415,7 +2431,9 @@ export class Process {
     const e = new Process();
     e.id = d["@id"] as string;
     e.allocationFactors = d.allocationFactors
-      ? (d.allocationFactors as Dict[]).map(AllocationFactor.fromDict) as AllocationFactor[]
+      ? (d.allocationFactors as Dict[]).map(
+        AllocationFactor.fromDict,
+      ) as AllocationFactor[]
       : null;
     e.category = d.category as string;
     e.defaultAllocationMethod = d.defaultAllocationMethod as AllocationType;
@@ -2434,7 +2452,9 @@ export class Process {
     e.parameters = d.parameters
       ? (d.parameters as Dict[]).map(Parameter.fromDict) as Parameter[]
       : null;
-    e.processDocumentation = ProcessDocumentation.fromDict(d.processDocumentation as Dict);
+    e.processDocumentation = ProcessDocumentation.fromDict(
+      d.processDocumentation as Dict,
+    );
     e.processType = d.processType as ProcessType;
     e.socialAspects = d.socialAspects
       ? (d.socialAspects as Dict[]).map(SocialAspect.fromDict) as SocialAspect[]
@@ -2540,22 +2560,43 @@ export class ProcessDocumentation {
 
   toDict(): Dict {
     const d: Dict = {};
-    ifPresent(this.completenessDescription, (v) => d.completenessDescription = v);
+    ifPresent(
+      this.completenessDescription,
+      (v) => d.completenessDescription = v,
+    );
     ifPresent(this.creationDate, (v) => d.creationDate = v);
-    ifPresent(this.dataCollectionDescription, (v) => d.dataCollectionDescription = v);
+    ifPresent(
+      this.dataCollectionDescription,
+      (v) => d.dataCollectionDescription = v,
+    );
     ifPresent(this.dataDocumentor, (v) => d.dataDocumentor = v?.toDict());
     ifPresent(this.dataGenerator, (v) => d.dataGenerator = v?.toDict());
-    ifPresent(this.dataSelectionDescription, (v) => d.dataSelectionDescription = v);
+    ifPresent(
+      this.dataSelectionDescription,
+      (v) => d.dataSelectionDescription = v,
+    );
     ifPresent(this.dataSetOwner, (v) => d.dataSetOwner = v?.toDict());
-    ifPresent(this.dataTreatmentDescription, (v) => d.dataTreatmentDescription = v);
+    ifPresent(
+      this.dataTreatmentDescription,
+      (v) => d.dataTreatmentDescription = v,
+    );
     ifPresent(this.geographyDescription, (v) => d.geographyDescription = v);
     ifPresent(this.intendedApplication, (v) => d.intendedApplication = v);
-    ifPresent(this.inventoryMethodDescription, (v) => d.inventoryMethodDescription = v);
+    ifPresent(
+      this.inventoryMethodDescription,
+      (v) => d.inventoryMethodDescription = v,
+    );
     ifPresent(this.isCopyrightProtected, (v) => d.isCopyrightProtected = v);
-    ifPresent(this.modelingConstantsDescription, (v) => d.modelingConstantsDescription = v);
+    ifPresent(
+      this.modelingConstantsDescription,
+      (v) => d.modelingConstantsDescription = v,
+    );
     ifPresent(this.projectDescription, (v) => d.projectDescription = v);
     ifPresent(this.publication, (v) => d.publication = v?.toDict());
-    ifPresent(this.restrictionsDescription, (v) => d.restrictionsDescription = v);
+    ifPresent(
+      this.restrictionsDescription,
+      (v) => d.restrictionsDescription = v,
+    );
     ifPresent(this.reviewDetails, (v) => d.reviewDetails = v);
     ifPresent(this.reviewer, (v) => d.reviewer = v?.toDict());
     ifPresent(this.samplingDescription, (v) => d.samplingDescription = v);
@@ -2741,7 +2782,10 @@ export class ProductSystem {
     ifPresent(this.refProcess, (v) => d.refProcess = v?.toDict());
     ifPresent(this.tags, (v) => d.tags = v);
     ifPresent(this.targetAmount, (v) => d.targetAmount = v);
-    ifPresent(this.targetFlowProperty, (v) => d.targetFlowProperty = v?.toDict());
+    ifPresent(
+      this.targetFlowProperty,
+      (v) => d.targetFlowProperty = v?.toDict(),
+    );
     ifPresent(this.targetUnit, (v) => d.targetUnit = v?.toDict());
     ifPresent(this.version, (v) => d.version = v);
     return d;
@@ -2756,7 +2800,9 @@ export class ProductSystem {
     e.lastChange = d.lastChange as string;
     e.name = d.name as string;
     e.parameterSets = d.parameterSets
-      ? (d.parameterSets as Dict[]).map(ParameterRedefSet.fromDict) as ParameterRedefSet[]
+      ? (d.parameterSets as Dict[]).map(
+        ParameterRedefSet.fromDict,
+      ) as ParameterRedefSet[]
       : null;
     e.processLinks = d.processLinks
       ? (d.processLinks as Dict[]).map(ProcessLink.fromDict) as ProcessLink[]
@@ -2945,7 +2991,9 @@ export class ProjectVariant {
     e.isDisabled = d.isDisabled as boolean;
     e.name = d.name as string;
     e.parameterRedefs = d.parameterRedefs
-      ? (d.parameterRedefs as Dict[]).map(ParameterRedef.fromDict) as ParameterRedef[]
+      ? (d.parameterRedefs as Dict[]).map(
+        ParameterRedef.fromDict,
+      ) as ParameterRedef[]
       : null;
     e.productSystem = Ref.fromDict(d.productSystem as Dict);
     e.unit = Ref.fromDict(d.unit as Dict);
@@ -3600,7 +3648,10 @@ export class UnitGroup {
     d["@type"] = "UnitGroup";
     ifPresent(this.id, (v) => d["@id"] = v);
     ifPresent(this.category, (v) => d.category = v);
-    ifPresent(this.defaultFlowProperty, (v) => d.defaultFlowProperty = v?.toDict());
+    ifPresent(
+      this.defaultFlowProperty,
+      (v) => d.defaultFlowProperty = v?.toDict(),
+    );
     ifPresent(this.description, (v) => d.description = v);
     ifPresent(this.lastChange, (v) => d.lastChange = v);
     ifPresent(this.name, (v) => d.name = v);
@@ -3620,9 +3671,7 @@ export class UnitGroup {
     e.lastChange = d.lastChange as string;
     e.name = d.name as string;
     e.tags = d.tags as string[];
-    e.units = d.units
-      ? (d.units as Dict[]).map(Unit.fromDict) as Unit[]
-      : null;
+    e.units = d.units ? (d.units as Dict[]).map(Unit.fromDict) as Unit[] : null;
     e.version = d.version as string;
     return e;
   }
@@ -3702,7 +3751,9 @@ export class CalculationSetup {
     e.impactMethod = Ref.fromDict(d.impactMethod as Dict);
     e.nwSet = Ref.fromDict(d.nwSet as Dict);
     e.parameters = d.parameters
-      ? (d.parameters as Dict[]).map(ParameterRedef.fromDict) as ParameterRedef[]
+      ? (d.parameters as Dict[]).map(
+        ParameterRedef.fromDict,
+      ) as ParameterRedef[]
       : null;
     e.target = Ref.fromDict(d.target as Dict);
     e.unit = Ref.fromDict(d.unit as Dict);
@@ -4087,4 +4138,3 @@ export class UpstreamNode {
     return JSON.stringify(this.toDict(), null, "  ");
   }
 }
-

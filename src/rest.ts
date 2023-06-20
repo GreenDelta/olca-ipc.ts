@@ -473,6 +473,22 @@ export class RestResult implements protocol.Result {
     return resp.orElse(o.EnviFlowValue.of({ amount: 0 }));
   }
 
+  async getUpstreamInterventionsOf(
+    enviFlow: o.EnviFlow,
+    path?: o.TechFlow[],
+  ): Promise<o.UpstreamNode[]> {
+    const resp = await this.client._callEach(
+      this.path([
+        "upstream-interventions-of",
+        enviIdOf(enviFlow),
+      ]),
+      o.UpstreamNode.fromDict,
+      "POST",
+      upstreamPathOf(path),
+    );
+    return resp.orElse([]);
+  }
+
   //#endregion
 
   //#region Impact assessment results
@@ -618,6 +634,22 @@ export class RestResult implements protocol.Result {
     return resp.orElse(o.ImpactValue.of({ amount: 0 }));
   }
 
+  async getUpstreamImpactsOf(
+    impactCategory: o.Ref,
+    path?: o.TechFlow[],
+  ): Promise<o.UpstreamNode[]> {
+    const resp = await this.client._callEach(
+      this.path([
+        "upstream-impacts-of",
+        impactCategory.id!,
+      ]),
+      o.UpstreamNode.fromDict,
+      "POST",
+      upstreamPathOf(path),
+    );
+    return resp.orElse([]);
+  }
+
   //#endregion
 
   //#region Cost results
@@ -662,7 +694,31 @@ export class RestResult implements protocol.Result {
     return resp.orElse(o.CostValue.of({ amount: 0 }));
   }
 
+  async getUpstreamCostsOf(path?: o.TechFlow[]): Promise<o.UpstreamNode[]> {
+    const resp = await this.client._callEach(
+      this.path("upstream-costs-of"),
+      o.UpstreamNode.fromDict,
+      "POST",
+      upstreamPathOf(path),
+    );
+    return resp.orElse([]);
+  }
+
   //#endregion
+}
+
+function upstreamPathOf(path?: o.TechFlow[]): { path?: string } {
+  if (!path || path.length === 0) {
+    return {};
+  }
+  let p = "";
+  for (const techFlow of path) {
+    const providerId = techFlow.provider?.id;
+    const flowId = techFlow.flow?.id;
+    const next = `${providerId}::${flowId}`;
+    p += p.length === 0 ? next : "/" + next;
+  }
+  return { path: p };
 }
 
 function ok(status: number): boolean {

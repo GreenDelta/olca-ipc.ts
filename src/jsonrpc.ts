@@ -435,6 +435,22 @@ class IpcResult implements protocol.Result {
     return resp.orElse(o.EnviFlowValue.of({ amount: 0 }));
   }
 
+  async getUpstreamInterventionsOf(
+    enviFlow: o.EnviFlow,
+    path?: o.TechFlow[],
+  ): Promise<o.UpstreamNode[]> {
+    const resp = await this.client._callEach(
+      "result/upstream-interventions-of",
+      {
+        "@id": this.id,
+        "enviFlow": enviFlow.toDict(),
+        "path": pathOf(path),
+      },
+      o.UpstreamNode.fromDict,
+    );
+    return resp.orElse([]);
+  }
+
   //#endregion
 
   //#region Impact assessment results
@@ -580,6 +596,18 @@ class IpcResult implements protocol.Result {
     return resp.orElse(o.ImpactValue.of({ amount: 0 }));
   }
 
+  async getUpstreamImpactsOf(
+    impactCategory: o.Ref,
+    path?: o.TechFlow[],
+  ): Promise<o.UpstreamNode[]> {
+    const resp = await this.client._callEach("result/upstream-impacts-of", {
+      "@id": this.id,
+      "impactCategory": impactCategory.toDict(),
+      "path": pathOf(path),
+    }, o.UpstreamNode.fromDict);
+    return resp.orElse([]);
+  }
+
   //#endregion
 
   //#region Cost results
@@ -622,5 +650,27 @@ class IpcResult implements protocol.Result {
     return resp.orElse(o.CostValue.of({ amount: 0 }));
   }
 
+  async getUpstreamCostsOf(path: o.TechFlow[]): Promise<o.UpstreamNode[]> {
+    const resp = await this.client._callEach("result/upstream-costs-of", {
+      "@id": this.id,
+      "path": pathOf(path),
+    }, o.UpstreamNode.fromDict);
+    return resp.orElse([]);
+  }
+
   //#endregion
+}
+
+function pathOf(path?: o.TechFlow[]): string | null {
+  if (!path || path.length === 0) {
+    return null;
+  }
+  let p = "";
+  for (const techFlow of path) {
+    const providerId = techFlow.provider?.id;
+    const flowId = techFlow.flow?.id;
+    const next = `${providerId}::${flowId}`;
+    p += p.length === 0 ? next : "/" + next;
+  }
+  return p;
 }
