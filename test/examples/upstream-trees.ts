@@ -9,7 +9,7 @@
 import * as o from "../../mod.ts";
 
 // the minimum result share of nodes that should be drawn
-const MIN_SHARE = 0.25;
+const MIN_SHARE = 0.20;
 // the maximum depth of the tree
 const MAX_DEPTH = 5;
 
