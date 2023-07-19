@@ -1,6 +1,10 @@
 # olca-ipc.ts
 
-A TypeScript implementation of an openLCA IPC client...
+A TypeScript client for the openLCA IPC API. It supports the JSON-RPC and REST
+protocol of this API. See also the [openLCA IPC documentation](https://greendelta.github.io/openLCA-ApiDoc/ipc/)
+and the [examples](./test/examples/) of this repository for more details. There
+is also a small example that shows the usage of that API in a web-ui available
+[here](https://github.com/GreenDelta/olca-ipc-web-example).
 
 ## Building from source
 
@@ -8,7 +12,11 @@ The `schema.ts` module is generated from the [openLCA schema](https://github.com
 [osch](https://github.com/GreenDelta/olca-schema/tree/master/osch) tool:
 
 ```bash
-osch ts -o path/to/olca-ipc.ts/schema.ts
+cd olca-schema/osch
+# go build  # to compile the osch tool
+./osch ts -o path/to/olca-ipc.ts/src/schema.ts
+cd path/to/olca-ipc.ts
+deno fmt    # format the generated code
 ```
 
 [Deno](https://deno.land/) is used as development tool. The npm package can be

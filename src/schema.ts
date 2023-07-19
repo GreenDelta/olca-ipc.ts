@@ -4003,6 +4003,213 @@ export class ResultState {
   }
 }
 
+interface ISankeyEdge {
+  nodeIndex?: number | null;
+  providerIndex?: number | null;
+  upstreamShare?: number | null;
+}
+
+export class SankeyEdge {
+  nodeIndex?: number | null;
+  providerIndex?: number | null;
+  upstreamShare?: number | null;
+
+  static of(i: ISankeyEdge): SankeyEdge {
+    const e = new SankeyEdge();
+    e.nodeIndex = i.nodeIndex;
+    e.providerIndex = i.providerIndex;
+    e.upstreamShare = i.upstreamShare;
+    return e;
+  }
+
+  toDict(): Dict {
+    const d: Dict = {};
+    ifPresent(this.nodeIndex, (v) => d.nodeIndex = v);
+    ifPresent(this.providerIndex, (v) => d.providerIndex = v);
+    ifPresent(this.upstreamShare, (v) => d.upstreamShare = v);
+    return d;
+  }
+
+  static fromDict(d: Dict): SankeyEdge | null {
+    if (!d) return null;
+    const e = new SankeyEdge();
+    e.nodeIndex = d.nodeIndex as number;
+    e.providerIndex = d.providerIndex as number;
+    e.upstreamShare = d.upstreamShare as number;
+    return e;
+  }
+
+  static fromJson(json: string | Dict): SankeyEdge | null {
+    return typeof json === "string"
+      ? SankeyEdge.fromDict(JSON.parse(json) as Dict)
+      : SankeyEdge.fromDict(json);
+  }
+
+  toJson(): string {
+    return JSON.stringify(this.toDict(), null, "  ");
+  }
+}
+
+interface ISankeyGraph {
+  edges?: Array<SankeyEdge> | null;
+  nodes?: Array<SankeyNode> | null;
+  rootIndex?: number | null;
+}
+
+export class SankeyGraph {
+  edges?: Array<SankeyEdge> | null;
+  nodes?: Array<SankeyNode> | null;
+  rootIndex?: number | null;
+
+  static of(i: ISankeyGraph): SankeyGraph {
+    const e = new SankeyGraph();
+    e.edges = i.edges;
+    e.nodes = i.nodes;
+    e.rootIndex = i.rootIndex;
+    return e;
+  }
+
+  toDict(): Dict {
+    const d: Dict = {};
+    ifPresent(this.edges, (v) => d.edges = dictAll(v));
+    ifPresent(this.nodes, (v) => d.nodes = dictAll(v));
+    ifPresent(this.rootIndex, (v) => d.rootIndex = v);
+    return d;
+  }
+
+  static fromDict(d: Dict): SankeyGraph | null {
+    if (!d) return null;
+    const e = new SankeyGraph();
+    e.edges = d.edges
+      ? (d.edges as Dict[]).map(SankeyEdge.fromDict) as SankeyEdge[]
+      : null;
+    e.nodes = d.nodes
+      ? (d.nodes as Dict[]).map(SankeyNode.fromDict) as SankeyNode[]
+      : null;
+    e.rootIndex = d.rootIndex as number;
+    return e;
+  }
+
+  static fromJson(json: string | Dict): SankeyGraph | null {
+    return typeof json === "string"
+      ? SankeyGraph.fromDict(JSON.parse(json) as Dict)
+      : SankeyGraph.fromDict(json);
+  }
+
+  toJson(): string {
+    return JSON.stringify(this.toDict(), null, "  ");
+  }
+}
+
+interface ISankeyNode {
+  directResult?: number | null;
+  index?: number | null;
+  techFlow?: TechFlow | null;
+  totalResult?: number | null;
+}
+
+export class SankeyNode {
+  directResult?: number | null;
+  index?: number | null;
+  techFlow?: TechFlow | null;
+  totalResult?: number | null;
+
+  static of(i: ISankeyNode): SankeyNode {
+    const e = new SankeyNode();
+    e.directResult = i.directResult;
+    e.index = i.index;
+    e.techFlow = i.techFlow;
+    e.totalResult = i.totalResult;
+    return e;
+  }
+
+  toDict(): Dict {
+    const d: Dict = {};
+    ifPresent(this.directResult, (v) => d.directResult = v);
+    ifPresent(this.index, (v) => d.index = v);
+    ifPresent(this.techFlow, (v) => d.techFlow = v?.toDict());
+    ifPresent(this.totalResult, (v) => d.totalResult = v);
+    return d;
+  }
+
+  static fromDict(d: Dict): SankeyNode | null {
+    if (!d) return null;
+    const e = new SankeyNode();
+    e.directResult = d.directResult as number;
+    e.index = d.index as number;
+    e.techFlow = TechFlow.fromDict(d.techFlow as Dict);
+    e.totalResult = d.totalResult as number;
+    return e;
+  }
+
+  static fromJson(json: string | Dict): SankeyNode | null {
+    return typeof json === "string"
+      ? SankeyNode.fromDict(JSON.parse(json) as Dict)
+      : SankeyNode.fromDict(json);
+  }
+
+  toJson(): string {
+    return JSON.stringify(this.toDict(), null, "  ");
+  }
+}
+
+interface ISankeyRequest {
+  enviFlow?: EnviFlow | null;
+  forCosts?: boolean | null;
+  impactCategory?: Ref | null;
+  maxNodes?: number | null;
+  minShare?: number | null;
+}
+
+export class SankeyRequest {
+  enviFlow?: EnviFlow | null;
+  forCosts?: boolean | null;
+  impactCategory?: Ref | null;
+  maxNodes?: number | null;
+  minShare?: number | null;
+
+  static of(i: ISankeyRequest): SankeyRequest {
+    const e = new SankeyRequest();
+    e.enviFlow = i.enviFlow;
+    e.forCosts = i.forCosts;
+    e.impactCategory = i.impactCategory;
+    e.maxNodes = i.maxNodes;
+    e.minShare = i.minShare;
+    return e;
+  }
+
+  toDict(): Dict {
+    const d: Dict = {};
+    ifPresent(this.enviFlow, (v) => d.enviFlow = v?.toDict());
+    ifPresent(this.forCosts, (v) => d.forCosts = v);
+    ifPresent(this.impactCategory, (v) => d.impactCategory = v?.toDict());
+    ifPresent(this.maxNodes, (v) => d.maxNodes = v);
+    ifPresent(this.minShare, (v) => d.minShare = v);
+    return d;
+  }
+
+  static fromDict(d: Dict): SankeyRequest | null {
+    if (!d) return null;
+    const e = new SankeyRequest();
+    e.enviFlow = EnviFlow.fromDict(d.enviFlow as Dict);
+    e.forCosts = d.forCosts as boolean;
+    e.impactCategory = Ref.fromDict(d.impactCategory as Dict);
+    e.maxNodes = d.maxNodes as number;
+    e.minShare = d.minShare as number;
+    return e;
+  }
+
+  static fromJson(json: string | Dict): SankeyRequest | null {
+    return typeof json === "string"
+      ? SankeyRequest.fromDict(JSON.parse(json) as Dict)
+      : SankeyRequest.fromDict(json);
+  }
+
+  toJson(): string {
+    return JSON.stringify(this.toDict(), null, "  ");
+  }
+}
+
 interface ITechFlow {
   flow?: Ref | null;
   provider?: Ref | null;

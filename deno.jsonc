@@ -8,13 +8,11 @@
     }
   },
   "fmt": {
-    "options": {
-      "useTabs": false,
-      "semiColons": true,
-      "indentWidth": 2,
-      "lineWidth": 80,
-      "proseWrap": "preserve",
-      "singleQuote": false
-    }
+    "useTabs": false,
+    "semiColons": true,
+    "indentWidth": 2,
+    "lineWidth": 80,
+    "proseWrap": "preserve",
+    "singleQuote": false
   }
 }
