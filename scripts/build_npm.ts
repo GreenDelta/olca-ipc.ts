@@ -6,6 +6,7 @@ await build({
   entryPoints: ["./mod.ts"],
   outDir: "./npm",
   typeCheck: false,
+  test: false,
   shims: {
     // see JS docs for overview and more options
     // deno: true,
@@ -14,7 +15,7 @@ await build({
   package: {
     // package.json properties
     name: "olca-ipc",
-    version: "0.0.3",
+    version: "0.0.4",
     description: "An openLCA IPC client library",
     license: "MPL-2.0",
     repository: {
