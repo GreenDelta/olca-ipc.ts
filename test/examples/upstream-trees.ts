@@ -1,10 +1,8 @@
-// This example shows how upstream contribution trees can
-// be created via the API. It automatically expands the
-// trees to a maximum depth and minimum result share of
-// the nodes. Note that in a real application you may
-// want to expand these nodes interactively on demand.
-// Also note, that an upstream tree with cycles has
-// an infinite depth.
+// This example shows how upstream contribution trees can be created via the
+// API. It automatically expands the trees to a maximum depth and minimum result
+// share of the nodes. Note that in a real application you may want to expand
+// these nodes interactively on demand. Also note, that an upstream tree with
+// cycles has an infinite depth.
 
 import * as o from "../../mod.ts";
 

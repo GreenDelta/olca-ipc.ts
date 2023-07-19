@@ -219,4 +219,6 @@ export interface Result {
   getUpstreamCostsOf(path?: o.TechFlow[]): Promise<o.UpstreamNode[]>;
 
   //#endregion
+
+  getSankeyGraph(config: o.SankeyRequest): Promise<o.SankeyGraph>;
 }

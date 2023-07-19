@@ -705,6 +705,16 @@ export class RestResult implements protocol.Result {
   }
 
   //#endregion
+
+  async getSankeyGraph(config: o.SankeyRequest): Promise<o.SankeyGraph> {
+    const resp = await this.client._call(
+      this.path("sankey"),
+      o.SankeyGraph.fromDict,
+      "POST",
+      config.toDict(),
+    );
+    return resp.orElseThrow();
+  }
 }
 
 function upstreamPathOf(path?: o.TechFlow[]): { path?: string } {

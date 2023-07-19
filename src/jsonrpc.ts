@@ -659,6 +659,14 @@ class IpcResult implements protocol.Result {
   }
 
   //#endregion
+
+  async getSankeyGraph(config: o.SankeyRequest): Promise<o.SankeyGraph> {
+    const resp = await this.client._call("result/sankey", {
+      "@id": this.id,
+      "config": config.toDict(),
+    }, o.SankeyGraph.fromDict);
+    return resp.orElseThrow();
+  }
 }
 
 function pathOf(path?: o.TechFlow[]): string | null {
