@@ -200,7 +200,7 @@ export class IpcClient implements protocol.Client {
   }
 }
 
-class IpcResult implements protocol.Result {
+export class IpcResult implements protocol.Result {
   private readonly id: string;
   private error?: o.ResultState;
 
