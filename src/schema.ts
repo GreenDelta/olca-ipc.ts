@@ -3065,6 +3065,7 @@ export class Ref {
   static fromDict(d: Dict): Ref | null {
     if (!d) return null;
     const e = new Ref();
+    ifPresent(d["@type"], (v) => e.refType = v as RefType);
     e.id = d["@id"] as string;
     e.category = d.category as string;
     e.description = d.description as string;
