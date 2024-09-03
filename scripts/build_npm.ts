@@ -15,7 +15,7 @@ await build({
   package: {
     // package.json properties
     name: "olca-ipc",
-    version: "0.0.4",
+    version: "0.0.5",
     description: "An openLCA IPC client library",
     license: "MPL-2.0",
     repository: {
