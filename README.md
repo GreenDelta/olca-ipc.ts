@@ -1,6 +1,6 @@
 # olca-ipc.ts
 
-This is a TypeScript client for the openLCA IPC API. It supports the JSON-RPC and REST protocol of that API. See also the [openLCA IPC documentation](https://greendelta.github.io/openLCA-ApiDoc/ipc/) and the [examples](./test/examples/) of this repository for more details. There is also a small example that shows the usage of this package in a web-ui available [here](https://github.com/GreenDelta/olca-ipc-web-example).
+This is a TypeScript client for the openLCA IPC API. It supports the JSON-RPC and REST protocol of that API. See also the [openLCA IPC documentation](https://greendelta.github.io/openLCA-ApiDoc) and the [examples](./test/examples/) of this repository for more details. There is also a small example that shows the usage of this package in a web-ui available [here](https://github.com/GreenDelta/olca-ipc-web-example).
 
 `olca-ipc.ts` is available as [npm package](https://www.npmjs.com/package/olca-ipc). Alternatively, you can directly import the latest version in your modules when you use [Deno](https://deno.com/):
 
