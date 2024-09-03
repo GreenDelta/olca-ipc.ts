@@ -81,6 +81,14 @@ export enum Direction {
   OUTPUT = "OUTPUT",
 }
 
+export enum EpdType {
+  GENERIC_DATASET = "GENERIC_DATASET",
+  REPRESENTATIVE_DATASET = "REPRESENTATIVE_DATASET",
+  AVERAGE_DATASET = "AVERAGE_DATASET",
+  SPECIFIC_DATASET = "SPECIFIC_DATASET",
+  TEMPLATE_DATASET = "TEMPLATE_DATASET",
+}
+
 export enum FlowPropertyType {
   ECONOMIC_QUANTITY = "ECONOMIC_QUANTITY",
   PHYSICAL_QUANTITY = "PHYSICAL_QUANTITY",
@@ -319,6 +327,97 @@ export class AllocationFactor {
     return typeof json === "string"
       ? AllocationFactor.fromDict(JSON.parse(json) as Dict)
       : AllocationFactor.fromDict(json);
+  }
+
+  toJson(): string {
+    return JSON.stringify(this.toDict(), null, "  ");
+  }
+}
+
+interface IAspectValue {
+  aspect?: string | null;
+  value?: string | null;
+}
+
+export class AspectValue {
+  aspect?: string | null;
+  value?: string | null;
+
+  static of(i: IAspectValue): AspectValue {
+    const e = new AspectValue();
+    e.aspect = i.aspect;
+    e.value = i.value;
+    return e;
+  }
+
+  toDict(): Dict {
+    const d: Dict = {};
+    ifPresent(this.aspect, (v) => d.aspect = v);
+    ifPresent(this.value, (v) => d.value = v);
+    return d;
+  }
+
+  static fromDict(d: Dict): AspectValue | null {
+    if (!d) return null;
+    const e = new AspectValue();
+    e.aspect = d.aspect as string;
+    e.value = d.value as string;
+    return e;
+  }
+
+  static fromJson(json: string | Dict): AspectValue | null {
+    return typeof json === "string"
+      ? AspectValue.fromDict(JSON.parse(json) as Dict)
+      : AspectValue.fromDict(json);
+  }
+
+  toJson(): string {
+    return JSON.stringify(this.toDict(), null, "  ");
+  }
+}
+
+interface IComplianceDeclaration {
+  aspects?: Array<AspectValue> | null;
+  comment?: string | null;
+  system?: Ref | null;
+}
+
+export class ComplianceDeclaration {
+  aspects?: Array<AspectValue> | null;
+  comment?: string | null;
+  system?: Ref | null;
+
+  static of(i: IComplianceDeclaration): ComplianceDeclaration {
+    const e = new ComplianceDeclaration();
+    e.aspects = i.aspects;
+    e.comment = i.comment;
+    e.system = i.system;
+    return e;
+  }
+
+  toDict(): Dict {
+    const d: Dict = {};
+    ifPresent(this.aspects, (v) => d.aspects = dictAll(v));
+    ifPresent(this.comment, (v) => d.comment = v);
+    ifPresent(this.system, (v) => d.system = v?.toDict());
+    return d;
+  }
+
+  static fromDict(d: Dict): ComplianceDeclaration | null {
+    if (!d) return null;
+    const e = new ComplianceDeclaration();
+    e.aspects = d.aspects
+      ? (d.aspects as Dict[]).map(AspectValue.fromDict) as AspectValue[]
+      : null;
+    e.comment = d.comment as string;
+    e.system = Ref.fromDict(d.system as Dict);
+    return e;
+  }
+
+  static fromJson(json: string | Dict): ComplianceDeclaration | null {
+    return typeof json === "string"
+      ? ComplianceDeclaration.fromDict(JSON.parse(json) as Dict)
+      : ComplianceDeclaration.fromDict(json);
   }
 
   toJson(): string {
@@ -616,16 +715,26 @@ export class DQSystem {
 interface IEpd {
   id?: string | null;
   category?: string | null;
+  dataGenerator?: Ref | null;
   description?: string | null;
+  epdType?: EpdType | null;
   lastChange?: string | null;
+  location?: Ref | null;
   manufacturer?: Ref | null;
+  manufacturing?: string | null;
   modules?: Array<EpdModule> | null;
   name?: string | null;
+  originalEpd?: Ref | null;
   pcr?: Ref | null;
   product?: EpdProduct | null;
+  productUsage?: string | null;
   programOperator?: Ref | null;
+  registrationId?: string | null;
   tags?: Array<string> | null;
   urn?: string | null;
+  useAdvice?: string | null;
+  validFrom?: string | null;
+  validUntil?: string | null;
   verifier?: Ref | null;
   version?: string | null;
 }
@@ -633,16 +742,26 @@ interface IEpd {
 export class Epd {
   id?: string | null;
   category?: string | null;
+  dataGenerator?: Ref | null;
   description?: string | null;
+  epdType?: EpdType | null;
   lastChange?: string | null;
+  location?: Ref | null;
   manufacturer?: Ref | null;
+  manufacturing?: string | null;
   modules?: Array<EpdModule> | null;
   name?: string | null;
+  originalEpd?: Ref | null;
   pcr?: Ref | null;
   product?: EpdProduct | null;
+  productUsage?: string | null;
   programOperator?: Ref | null;
+  registrationId?: string | null;
   tags?: Array<string> | null;
   urn?: string | null;
+  useAdvice?: string | null;
+  validFrom?: string | null;
+  validUntil?: string | null;
   verifier?: Ref | null;
   version?: string | null;
 
@@ -650,16 +769,26 @@ export class Epd {
     const e = new Epd();
     e.id = i.id;
     e.category = i.category;
+    e.dataGenerator = i.dataGenerator;
     e.description = i.description;
+    e.epdType = i.epdType;
     e.lastChange = i.lastChange;
+    e.location = i.location;
     e.manufacturer = i.manufacturer;
+    e.manufacturing = i.manufacturing;
     e.modules = i.modules;
     e.name = i.name;
+    e.originalEpd = i.originalEpd;
     e.pcr = i.pcr;
     e.product = i.product;
+    e.productUsage = i.productUsage;
     e.programOperator = i.programOperator;
+    e.registrationId = i.registrationId;
     e.tags = i.tags;
     e.urn = i.urn;
+    e.useAdvice = i.useAdvice;
+    e.validFrom = i.validFrom;
+    e.validUntil = i.validUntil;
     e.verifier = i.verifier;
     e.version = i.version;
     return e;
@@ -679,16 +808,26 @@ export class Epd {
     d["@type"] = "Epd";
     ifPresent(this.id, (v) => d["@id"] = v);
     ifPresent(this.category, (v) => d.category = v);
+    ifPresent(this.dataGenerator, (v) => d.dataGenerator = v?.toDict());
     ifPresent(this.description, (v) => d.description = v);
+    ifPresent(this.epdType, (v) => d.epdType = v);
     ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.location, (v) => d.location = v?.toDict());
     ifPresent(this.manufacturer, (v) => d.manufacturer = v?.toDict());
+    ifPresent(this.manufacturing, (v) => d.manufacturing = v);
     ifPresent(this.modules, (v) => d.modules = dictAll(v));
     ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.originalEpd, (v) => d.originalEpd = v?.toDict());
     ifPresent(this.pcr, (v) => d.pcr = v?.toDict());
     ifPresent(this.product, (v) => d.product = v?.toDict());
+    ifPresent(this.productUsage, (v) => d.productUsage = v);
     ifPresent(this.programOperator, (v) => d.programOperator = v?.toDict());
+    ifPresent(this.registrationId, (v) => d.registrationId = v);
     ifPresent(this.tags, (v) => d.tags = v);
     ifPresent(this.urn, (v) => d.urn = v);
+    ifPresent(this.useAdvice, (v) => d.useAdvice = v);
+    ifPresent(this.validFrom, (v) => d.validFrom = v);
+    ifPresent(this.validUntil, (v) => d.validUntil = v);
     ifPresent(this.verifier, (v) => d.verifier = v?.toDict());
     ifPresent(this.version, (v) => d.version = v);
     return d;
@@ -699,18 +838,28 @@ export class Epd {
     const e = new Epd();
     e.id = d["@id"] as string;
     e.category = d.category as string;
+    e.dataGenerator = Ref.fromDict(d.dataGenerator as Dict);
     e.description = d.description as string;
+    e.epdType = d.epdType as EpdType;
     e.lastChange = d.lastChange as string;
+    e.location = Ref.fromDict(d.location as Dict);
     e.manufacturer = Ref.fromDict(d.manufacturer as Dict);
+    e.manufacturing = d.manufacturing as string;
     e.modules = d.modules
       ? (d.modules as Dict[]).map(EpdModule.fromDict) as EpdModule[]
       : null;
     e.name = d.name as string;
+    e.originalEpd = Ref.fromDict(d.originalEpd as Dict);
     e.pcr = Ref.fromDict(d.pcr as Dict);
     e.product = EpdProduct.fromDict(d.product as Dict);
+    e.productUsage = d.productUsage as string;
     e.programOperator = Ref.fromDict(d.programOperator as Dict);
+    e.registrationId = d.registrationId as string;
     e.tags = d.tags as string[];
     e.urn = d.urn as string;
+    e.useAdvice = d.useAdvice as string;
+    e.validFrom = d.validFrom as string;
+    e.validUntil = d.validUntil as string;
     e.verifier = Ref.fromDict(d.verifier as Dict);
     e.version = d.version as string;
     return e;
@@ -2478,6 +2627,7 @@ export class Process {
 
 interface IProcessDocumentation {
   completenessDescription?: string | null;
+  complianceDeclarations?: Array<ComplianceDeclaration> | null;
   creationDate?: string | null;
   dataCollectionDescription?: string | null;
   dataDocumentor?: Ref | null;
@@ -2485,6 +2635,7 @@ interface IProcessDocumentation {
   dataSelectionDescription?: string | null;
   dataSetOwner?: Ref | null;
   dataTreatmentDescription?: string | null;
+  flowCompleteness?: Array<AspectValue> | null;
   geographyDescription?: string | null;
   intendedApplication?: string | null;
   inventoryMethodDescription?: string | null;
@@ -2493,18 +2644,19 @@ interface IProcessDocumentation {
   projectDescription?: string | null;
   publication?: Ref | null;
   restrictionsDescription?: string | null;
-  reviewDetails?: string | null;
-  reviewer?: Ref | null;
+  reviews?: Array<Review> | null;
   samplingDescription?: string | null;
   sources?: Array<Ref> | null;
   technologyDescription?: string | null;
   timeDescription?: string | null;
+  useAdvice?: string | null;
   validFrom?: string | null;
   validUntil?: string | null;
 }
 
 export class ProcessDocumentation {
   completenessDescription?: string | null;
+  complianceDeclarations?: Array<ComplianceDeclaration> | null;
   creationDate?: string | null;
   dataCollectionDescription?: string | null;
   dataDocumentor?: Ref | null;
@@ -2512,6 +2664,7 @@ export class ProcessDocumentation {
   dataSelectionDescription?: string | null;
   dataSetOwner?: Ref | null;
   dataTreatmentDescription?: string | null;
+  flowCompleteness?: Array<AspectValue> | null;
   geographyDescription?: string | null;
   intendedApplication?: string | null;
   inventoryMethodDescription?: string | null;
@@ -2520,18 +2673,19 @@ export class ProcessDocumentation {
   projectDescription?: string | null;
   publication?: Ref | null;
   restrictionsDescription?: string | null;
-  reviewDetails?: string | null;
-  reviewer?: Ref | null;
+  reviews?: Array<Review> | null;
   samplingDescription?: string | null;
   sources?: Array<Ref> | null;
   technologyDescription?: string | null;
   timeDescription?: string | null;
+  useAdvice?: string | null;
   validFrom?: string | null;
   validUntil?: string | null;
 
   static of(i: IProcessDocumentation): ProcessDocumentation {
     const e = new ProcessDocumentation();
     e.completenessDescription = i.completenessDescription;
+    e.complianceDeclarations = i.complianceDeclarations;
     e.creationDate = i.creationDate;
     e.dataCollectionDescription = i.dataCollectionDescription;
     e.dataDocumentor = i.dataDocumentor;
@@ -2539,6 +2693,7 @@ export class ProcessDocumentation {
     e.dataSelectionDescription = i.dataSelectionDescription;
     e.dataSetOwner = i.dataSetOwner;
     e.dataTreatmentDescription = i.dataTreatmentDescription;
+    e.flowCompleteness = i.flowCompleteness;
     e.geographyDescription = i.geographyDescription;
     e.intendedApplication = i.intendedApplication;
     e.inventoryMethodDescription = i.inventoryMethodDescription;
@@ -2547,12 +2702,12 @@ export class ProcessDocumentation {
     e.projectDescription = i.projectDescription;
     e.publication = i.publication;
     e.restrictionsDescription = i.restrictionsDescription;
-    e.reviewDetails = i.reviewDetails;
-    e.reviewer = i.reviewer;
+    e.reviews = i.reviews;
     e.samplingDescription = i.samplingDescription;
     e.sources = i.sources;
     e.technologyDescription = i.technologyDescription;
     e.timeDescription = i.timeDescription;
+    e.useAdvice = i.useAdvice;
     e.validFrom = i.validFrom;
     e.validUntil = i.validUntil;
     return e;
@@ -2563,6 +2718,10 @@ export class ProcessDocumentation {
     ifPresent(
       this.completenessDescription,
       (v) => d.completenessDescription = v,
+    );
+    ifPresent(
+      this.complianceDeclarations,
+      (v) => d.complianceDeclarations = dictAll(v),
     );
     ifPresent(this.creationDate, (v) => d.creationDate = v);
     ifPresent(
@@ -2580,6 +2739,7 @@ export class ProcessDocumentation {
       this.dataTreatmentDescription,
       (v) => d.dataTreatmentDescription = v,
     );
+    ifPresent(this.flowCompleteness, (v) => d.flowCompleteness = dictAll(v));
     ifPresent(this.geographyDescription, (v) => d.geographyDescription = v);
     ifPresent(this.intendedApplication, (v) => d.intendedApplication = v);
     ifPresent(
@@ -2597,12 +2757,12 @@ export class ProcessDocumentation {
       this.restrictionsDescription,
       (v) => d.restrictionsDescription = v,
     );
-    ifPresent(this.reviewDetails, (v) => d.reviewDetails = v);
-    ifPresent(this.reviewer, (v) => d.reviewer = v?.toDict());
+    ifPresent(this.reviews, (v) => d.reviews = dictAll(v));
     ifPresent(this.samplingDescription, (v) => d.samplingDescription = v);
     ifPresent(this.sources, (v) => d.sources = dictAll(v));
     ifPresent(this.technologyDescription, (v) => d.technologyDescription = v);
     ifPresent(this.timeDescription, (v) => d.timeDescription = v);
+    ifPresent(this.useAdvice, (v) => d.useAdvice = v);
     ifPresent(this.validFrom, (v) => d.validFrom = v);
     ifPresent(this.validUntil, (v) => d.validUntil = v);
     return d;
@@ -2612,6 +2772,11 @@ export class ProcessDocumentation {
     if (!d) return null;
     const e = new ProcessDocumentation();
     e.completenessDescription = d.completenessDescription as string;
+    e.complianceDeclarations = d.complianceDeclarations
+      ? (d.complianceDeclarations as Dict[]).map(
+        ComplianceDeclaration.fromDict,
+      ) as ComplianceDeclaration[]
+      : null;
     e.creationDate = d.creationDate as string;
     e.dataCollectionDescription = d.dataCollectionDescription as string;
     e.dataDocumentor = Ref.fromDict(d.dataDocumentor as Dict);
@@ -2619,6 +2784,11 @@ export class ProcessDocumentation {
     e.dataSelectionDescription = d.dataSelectionDescription as string;
     e.dataSetOwner = Ref.fromDict(d.dataSetOwner as Dict);
     e.dataTreatmentDescription = d.dataTreatmentDescription as string;
+    e.flowCompleteness = d.flowCompleteness
+      ? (d.flowCompleteness as Dict[]).map(
+        AspectValue.fromDict,
+      ) as AspectValue[]
+      : null;
     e.geographyDescription = d.geographyDescription as string;
     e.intendedApplication = d.intendedApplication as string;
     e.inventoryMethodDescription = d.inventoryMethodDescription as string;
@@ -2627,14 +2797,16 @@ export class ProcessDocumentation {
     e.projectDescription = d.projectDescription as string;
     e.publication = Ref.fromDict(d.publication as Dict);
     e.restrictionsDescription = d.restrictionsDescription as string;
-    e.reviewDetails = d.reviewDetails as string;
-    e.reviewer = Ref.fromDict(d.reviewer as Dict);
+    e.reviews = d.reviews
+      ? (d.reviews as Dict[]).map(Review.fromDict) as Review[]
+      : null;
     e.samplingDescription = d.samplingDescription as string;
     e.sources = d.sources
       ? (d.sources as Dict[]).map(Ref.fromDict) as Ref[]
       : null;
     e.technologyDescription = d.technologyDescription as string;
     e.timeDescription = d.timeDescription as string;
+    e.useAdvice = d.useAdvice as string;
     e.validFrom = d.validFrom as string;
     e.validUntil = d.validUntil as string;
     return e;
@@ -3065,6 +3237,7 @@ export class Ref {
   static fromDict(d: Dict): Ref | null {
     if (!d) return null;
     const e = new Ref();
+    ifPresent(d["@type"], (v) => e.refType = v as RefType);
     e.id = d["@id"] as string;
     e.category = d.category as string;
     e.description = d.description as string;
@@ -3181,6 +3354,116 @@ export class Result {
     return typeof json === "string"
       ? Result.fromDict(JSON.parse(json) as Dict)
       : Result.fromDict(json);
+  }
+
+  toJson(): string {
+    return JSON.stringify(this.toDict(), null, "  ");
+  }
+}
+
+interface IReview {
+  assessment?: Array<AspectValue> | null;
+  details?: string | null;
+  report?: Ref | null;
+  reviewType?: string | null;
+  reviewers?: Array<Ref> | null;
+  scopes?: Array<ReviewScope> | null;
+}
+
+export class Review {
+  assessment?: Array<AspectValue> | null;
+  details?: string | null;
+  report?: Ref | null;
+  reviewType?: string | null;
+  reviewers?: Array<Ref> | null;
+  scopes?: Array<ReviewScope> | null;
+
+  static of(i: IReview): Review {
+    const e = new Review();
+    e.assessment = i.assessment;
+    e.details = i.details;
+    e.report = i.report;
+    e.reviewType = i.reviewType;
+    e.reviewers = i.reviewers;
+    e.scopes = i.scopes;
+    return e;
+  }
+
+  toDict(): Dict {
+    const d: Dict = {};
+    ifPresent(this.assessment, (v) => d.assessment = dictAll(v));
+    ifPresent(this.details, (v) => d.details = v);
+    ifPresent(this.report, (v) => d.report = v?.toDict());
+    ifPresent(this.reviewType, (v) => d.reviewType = v);
+    ifPresent(this.reviewers, (v) => d.reviewers = dictAll(v));
+    ifPresent(this.scopes, (v) => d.scopes = dictAll(v));
+    return d;
+  }
+
+  static fromDict(d: Dict): Review | null {
+    if (!d) return null;
+    const e = new Review();
+    e.assessment = d.assessment
+      ? (d.assessment as Dict[]).map(AspectValue.fromDict) as AspectValue[]
+      : null;
+    e.details = d.details as string;
+    e.report = Ref.fromDict(d.report as Dict);
+    e.reviewType = d.reviewType as string;
+    e.reviewers = d.reviewers
+      ? (d.reviewers as Dict[]).map(Ref.fromDict) as Ref[]
+      : null;
+    e.scopes = d.scopes
+      ? (d.scopes as Dict[]).map(ReviewScope.fromDict) as ReviewScope[]
+      : null;
+    return e;
+  }
+
+  static fromJson(json: string | Dict): Review | null {
+    return typeof json === "string"
+      ? Review.fromDict(JSON.parse(json) as Dict)
+      : Review.fromDict(json);
+  }
+
+  toJson(): string {
+    return JSON.stringify(this.toDict(), null, "  ");
+  }
+}
+
+interface IReviewScope {
+  methods?: Array<string> | null;
+  name?: string | null;
+}
+
+export class ReviewScope {
+  methods?: Array<string> | null;
+  name?: string | null;
+
+  static of(i: IReviewScope): ReviewScope {
+    const e = new ReviewScope();
+    e.methods = i.methods;
+    e.name = i.name;
+    return e;
+  }
+
+  toDict(): Dict {
+    const d: Dict = {};
+    ifPresent(this.methods, (v) => d.methods = v);
+    ifPresent(this.name, (v) => d.name = v);
+    return d;
+  }
+
+  static fromDict(d: Dict): ReviewScope | null {
+    if (!d) return null;
+    const e = new ReviewScope();
+    e.methods = d.methods as string[];
+    e.name = d.name as string;
+    return e;
+  }
+
+  static fromJson(json: string | Dict): ReviewScope | null {
+    return typeof json === "string"
+      ? ReviewScope.fromDict(JSON.parse(json) as Dict)
+      : ReviewScope.fromDict(json);
   }
 
   toJson(): string {
