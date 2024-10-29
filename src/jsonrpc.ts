@@ -31,7 +31,7 @@ export class IpcClient implements protocol.Client {
   ): Promise<o.RootEntity | null> {
     const conf = util.EntityQuery.of(q);
     if (conf.isEmpty()) {
-      throw Error("An ID or name bust be provided");
+      throw Error("An ID or name must be provided");
     }
     const resp = await this._call(
       "data/get",
@@ -62,7 +62,7 @@ export class IpcClient implements protocol.Client {
   ): Promise<o.Ref | null> {
     const conf = util.EntityQuery.of(q);
     if (conf.isEmpty()) {
-      throw Error("An ID or name bust be provided");
+      throw Error("An ID or name must be provided");
     }
     const resp = await this._call(
       "data/get/descriptor",

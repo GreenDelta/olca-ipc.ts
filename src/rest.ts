@@ -28,7 +28,7 @@ export class RestClient implements protocol.Client {
   ): Promise<o.RootEntity | null> {
     const conf = util.EntityQuery.of(q);
     if (conf.isEmpty()) {
-      throw Error("An ID or name bust be provided");
+      throw Error("An ID or name must be provided");
     }
     const prefix = `data/${pathOf(refType)}`;
     const path = conf.hasName()
@@ -60,7 +60,7 @@ export class RestClient implements protocol.Client {
   ): Promise<o.Ref | null> {
     const conf = util.EntityQuery.of(q);
     if (conf.isEmpty()) {
-      throw Error("An ID or name bust be provided");
+      throw Error("An ID or name must be provided");
     }
     const prefix = `data/${pathOf(refType)}`;
     const path = conf.hasId()
