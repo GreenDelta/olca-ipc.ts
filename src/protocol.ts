@@ -148,6 +148,8 @@ export interface Result {
     path?: o.TechFlow[],
   ): Promise<o.UpstreamNode[]>;
 
+  getGroupedFlowResultsOf(enviFlow: o.EnviFlow): Promise<o.GroupValue[]>;
+
   //#endregion
 
   //#region Impact assessment results
@@ -202,6 +204,8 @@ export interface Result {
     path?: o.TechFlow[],
   ): Promise<o.UpstreamNode[]>;
 
+  getGroupedImpactResultsOf(impactCategory: o.Ref): Promise<o.GroupValue[]>;
+
   //#endregion
 
   //#region Cost results
@@ -217,6 +221,8 @@ export interface Result {
   getTotalCostsOf(techFlow: o.TechFlow): Promise<o.CostValue>;
 
   getUpstreamCostsOf(path?: o.TechFlow[]): Promise<o.UpstreamNode[]>;
+
+  getGroupedCostResults(): Promise<o.GroupValue[]>;
 
   //#endregion
 

@@ -169,7 +169,9 @@ interface IActor {
   description?: string | null;
   email?: string | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   tags?: Array<string> | null;
   telefax?: string | null;
   telephone?: string | null;
@@ -187,7 +189,9 @@ export class Actor {
   description?: string | null;
   email?: string | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   tags?: Array<string> | null;
   telefax?: string | null;
   telephone?: string | null;
@@ -205,7 +209,9 @@ export class Actor {
     e.description = i.description;
     e.email = i.email;
     e.lastChange = i.lastChange;
+    e.library = i.library;
     e.name = i.name;
+    e.otherProperties = i.otherProperties;
     e.tags = i.tags;
     e.telefax = i.telefax;
     e.telephone = i.telephone;
@@ -235,7 +241,9 @@ export class Actor {
     ifPresent(this.description, (v) => d.description = v);
     ifPresent(this.email, (v) => d.email = v);
     ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.library, (v) => d.library = v);
     ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.otherProperties, (v) => d.otherProperties = v);
     ifPresent(this.tags, (v) => d.tags = v);
     ifPresent(this.telefax, (v) => d.telefax = v);
     ifPresent(this.telephone, (v) => d.telephone = v);
@@ -256,7 +264,9 @@ export class Actor {
     e.description = d.description as string;
     e.email = d.email as string;
     e.lastChange = d.lastChange as string;
+    e.library = d.library as string;
     e.name = d.name as string;
+    e.otherProperties = d.otherProperties as Record<string, unknown>;
     e.tags = d.tags as string[];
     e.telefax = d.telefax as string;
     e.telephone = d.telephone as string;
@@ -327,6 +337,55 @@ export class AllocationFactor {
     return typeof json === "string"
       ? AllocationFactor.fromDict(JSON.parse(json) as Dict)
       : AllocationFactor.fromDict(json);
+  }
+
+  toJson(): string {
+    return JSON.stringify(this.toDict(), null, "  ");
+  }
+}
+
+interface IAnalysisGroup {
+  color?: string | null;
+  name?: string | null;
+  processes?: Array<Ref> | null;
+}
+
+export class AnalysisGroup {
+  color?: string | null;
+  name?: string | null;
+  processes?: Array<Ref> | null;
+
+  static of(i: IAnalysisGroup): AnalysisGroup {
+    const e = new AnalysisGroup();
+    e.color = i.color;
+    e.name = i.name;
+    e.processes = i.processes;
+    return e;
+  }
+
+  toDict(): Dict {
+    const d: Dict = {};
+    ifPresent(this.color, (v) => d.color = v);
+    ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.processes, (v) => d.processes = dictAll(v));
+    return d;
+  }
+
+  static fromDict(d: Dict): AnalysisGroup | null {
+    if (!d) return null;
+    const e = new AnalysisGroup();
+    e.color = d.color as string;
+    e.name = d.name as string;
+    e.processes = d.processes
+      ? (d.processes as Dict[]).map(Ref.fromDict) as Ref[]
+      : null;
+    return e;
+  }
+
+  static fromJson(json: string | Dict): AnalysisGroup | null {
+    return typeof json === "string"
+      ? AnalysisGroup.fromDict(JSON.parse(json) as Dict)
+      : AnalysisGroup.fromDict(json);
   }
 
   toJson(): string {
@@ -432,7 +491,9 @@ interface ICurrency {
   conversionFactor?: number | null;
   description?: string | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   refCurrency?: Ref | null;
   tags?: Array<string> | null;
   version?: string | null;
@@ -445,7 +506,9 @@ export class Currency {
   conversionFactor?: number | null;
   description?: string | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   refCurrency?: Ref | null;
   tags?: Array<string> | null;
   version?: string | null;
@@ -458,7 +521,9 @@ export class Currency {
     e.conversionFactor = i.conversionFactor;
     e.description = i.description;
     e.lastChange = i.lastChange;
+    e.library = i.library;
     e.name = i.name;
+    e.otherProperties = i.otherProperties;
     e.refCurrency = i.refCurrency;
     e.tags = i.tags;
     e.version = i.version;
@@ -483,7 +548,9 @@ export class Currency {
     ifPresent(this.conversionFactor, (v) => d.conversionFactor = v);
     ifPresent(this.description, (v) => d.description = v);
     ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.library, (v) => d.library = v);
     ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.otherProperties, (v) => d.otherProperties = v);
     ifPresent(this.refCurrency, (v) => d.refCurrency = v?.toDict());
     ifPresent(this.tags, (v) => d.tags = v);
     ifPresent(this.version, (v) => d.version = v);
@@ -499,7 +566,9 @@ export class Currency {
     e.conversionFactor = d.conversionFactor as number;
     e.description = d.description as string;
     e.lastChange = d.lastChange as string;
+    e.library = d.library as string;
     e.name = d.name as string;
+    e.otherProperties = d.otherProperties as Record<string, unknown>;
     e.refCurrency = Ref.fromDict(d.refCurrency as Dict);
     e.tags = d.tags as string[];
     e.version = d.version as string;
@@ -625,7 +694,9 @@ interface IDQSystem {
   hasUncertainties?: boolean | null;
   indicators?: Array<DQIndicator> | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   source?: Ref | null;
   tags?: Array<string> | null;
   version?: string | null;
@@ -638,7 +709,9 @@ export class DQSystem {
   hasUncertainties?: boolean | null;
   indicators?: Array<DQIndicator> | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   source?: Ref | null;
   tags?: Array<string> | null;
   version?: string | null;
@@ -651,7 +724,9 @@ export class DQSystem {
     e.hasUncertainties = i.hasUncertainties;
     e.indicators = i.indicators;
     e.lastChange = i.lastChange;
+    e.library = i.library;
     e.name = i.name;
+    e.otherProperties = i.otherProperties;
     e.source = i.source;
     e.tags = i.tags;
     e.version = i.version;
@@ -676,7 +751,9 @@ export class DQSystem {
     ifPresent(this.hasUncertainties, (v) => d.hasUncertainties = v);
     ifPresent(this.indicators, (v) => d.indicators = dictAll(v));
     ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.library, (v) => d.library = v);
     ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.otherProperties, (v) => d.otherProperties = v);
     ifPresent(this.source, (v) => d.source = v?.toDict());
     ifPresent(this.tags, (v) => d.tags = v);
     ifPresent(this.version, (v) => d.version = v);
@@ -694,7 +771,9 @@ export class DQSystem {
       ? (d.indicators as Dict[]).map(DQIndicator.fromDict) as DQIndicator[]
       : null;
     e.lastChange = d.lastChange as string;
+    e.library = d.library as string;
     e.name = d.name as string;
+    e.otherProperties = d.otherProperties as Record<string, unknown>;
     e.source = Ref.fromDict(d.source as Dict);
     e.tags = d.tags as string[];
     e.version = d.version as string;
@@ -719,12 +798,14 @@ interface IEpd {
   description?: string | null;
   epdType?: EpdType | null;
   lastChange?: string | null;
+  library?: string | null;
   location?: Ref | null;
   manufacturer?: Ref | null;
   manufacturing?: string | null;
   modules?: Array<EpdModule> | null;
   name?: string | null;
   originalEpd?: Ref | null;
+  otherProperties?: Record<string, unknown> | null;
   pcr?: Ref | null;
   product?: EpdProduct | null;
   productUsage?: string | null;
@@ -746,12 +827,14 @@ export class Epd {
   description?: string | null;
   epdType?: EpdType | null;
   lastChange?: string | null;
+  library?: string | null;
   location?: Ref | null;
   manufacturer?: Ref | null;
   manufacturing?: string | null;
   modules?: Array<EpdModule> | null;
   name?: string | null;
   originalEpd?: Ref | null;
+  otherProperties?: Record<string, unknown> | null;
   pcr?: Ref | null;
   product?: EpdProduct | null;
   productUsage?: string | null;
@@ -773,12 +856,14 @@ export class Epd {
     e.description = i.description;
     e.epdType = i.epdType;
     e.lastChange = i.lastChange;
+    e.library = i.library;
     e.location = i.location;
     e.manufacturer = i.manufacturer;
     e.manufacturing = i.manufacturing;
     e.modules = i.modules;
     e.name = i.name;
     e.originalEpd = i.originalEpd;
+    e.otherProperties = i.otherProperties;
     e.pcr = i.pcr;
     e.product = i.product;
     e.productUsage = i.productUsage;
@@ -812,12 +897,14 @@ export class Epd {
     ifPresent(this.description, (v) => d.description = v);
     ifPresent(this.epdType, (v) => d.epdType = v);
     ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.library, (v) => d.library = v);
     ifPresent(this.location, (v) => d.location = v?.toDict());
     ifPresent(this.manufacturer, (v) => d.manufacturer = v?.toDict());
     ifPresent(this.manufacturing, (v) => d.manufacturing = v);
     ifPresent(this.modules, (v) => d.modules = dictAll(v));
     ifPresent(this.name, (v) => d.name = v);
     ifPresent(this.originalEpd, (v) => d.originalEpd = v?.toDict());
+    ifPresent(this.otherProperties, (v) => d.otherProperties = v);
     ifPresent(this.pcr, (v) => d.pcr = v?.toDict());
     ifPresent(this.product, (v) => d.product = v?.toDict());
     ifPresent(this.productUsage, (v) => d.productUsage = v);
@@ -842,6 +929,7 @@ export class Epd {
     e.description = d.description as string;
     e.epdType = d.epdType as EpdType;
     e.lastChange = d.lastChange as string;
+    e.library = d.library as string;
     e.location = Ref.fromDict(d.location as Dict);
     e.manufacturer = Ref.fromDict(d.manufacturer as Dict);
     e.manufacturing = d.manufacturing as string;
@@ -850,6 +938,7 @@ export class Epd {
       : null;
     e.name = d.name as string;
     e.originalEpd = Ref.fromDict(d.originalEpd as Dict);
+    e.otherProperties = d.otherProperties as Record<string, unknown>;
     e.pcr = Ref.fromDict(d.pcr as Dict);
     e.product = EpdProduct.fromDict(d.product as Dict);
     e.productUsage = d.productUsage as string;
@@ -1147,8 +1236,10 @@ interface IFlow {
   formula?: string | null;
   isInfrastructureFlow?: boolean | null;
   lastChange?: string | null;
+  library?: string | null;
   location?: Ref | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   synonyms?: string | null;
   tags?: Array<string> | null;
   version?: string | null;
@@ -1164,8 +1255,10 @@ export class Flow {
   formula?: string | null;
   isInfrastructureFlow?: boolean | null;
   lastChange?: string | null;
+  library?: string | null;
   location?: Ref | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   synonyms?: string | null;
   tags?: Array<string> | null;
   version?: string | null;
@@ -1181,8 +1274,10 @@ export class Flow {
     e.formula = i.formula;
     e.isInfrastructureFlow = i.isInfrastructureFlow;
     e.lastChange = i.lastChange;
+    e.library = i.library;
     e.location = i.location;
     e.name = i.name;
+    e.otherProperties = i.otherProperties;
     e.synonyms = i.synonyms;
     e.tags = i.tags;
     e.version = i.version;
@@ -1210,8 +1305,10 @@ export class Flow {
     ifPresent(this.formula, (v) => d.formula = v);
     ifPresent(this.isInfrastructureFlow, (v) => d.isInfrastructureFlow = v);
     ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.library, (v) => d.library = v);
     ifPresent(this.location, (v) => d.location = v?.toDict());
     ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.otherProperties, (v) => d.otherProperties = v);
     ifPresent(this.synonyms, (v) => d.synonyms = v);
     ifPresent(this.tags, (v) => d.tags = v);
     ifPresent(this.version, (v) => d.version = v);
@@ -1234,8 +1331,10 @@ export class Flow {
     e.formula = d.formula as string;
     e.isInfrastructureFlow = d.isInfrastructureFlow as boolean;
     e.lastChange = d.lastChange as string;
+    e.library = d.library as string;
     e.location = Ref.fromDict(d.location as Dict);
     e.name = d.name as string;
+    e.otherProperties = d.otherProperties as Record<string, unknown>;
     e.synonyms = d.synonyms as string;
     e.tags = d.tags as string[];
     e.version = d.version as string;
@@ -1258,8 +1357,10 @@ interface IFlowMap {
   category?: string | null;
   description?: string | null;
   lastChange?: string | null;
+  library?: string | null;
   mappings?: Array<FlowMapEntry> | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   source?: Ref | null;
   tags?: Array<string> | null;
   target?: Ref | null;
@@ -1271,8 +1372,10 @@ export class FlowMap {
   category?: string | null;
   description?: string | null;
   lastChange?: string | null;
+  library?: string | null;
   mappings?: Array<FlowMapEntry> | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   source?: Ref | null;
   tags?: Array<string> | null;
   target?: Ref | null;
@@ -1284,8 +1387,10 @@ export class FlowMap {
     e.category = i.category;
     e.description = i.description;
     e.lastChange = i.lastChange;
+    e.library = i.library;
     e.mappings = i.mappings;
     e.name = i.name;
+    e.otherProperties = i.otherProperties;
     e.source = i.source;
     e.tags = i.tags;
     e.target = i.target;
@@ -1309,8 +1414,10 @@ export class FlowMap {
     ifPresent(this.category, (v) => d.category = v);
     ifPresent(this.description, (v) => d.description = v);
     ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.library, (v) => d.library = v);
     ifPresent(this.mappings, (v) => d.mappings = dictAll(v));
     ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.otherProperties, (v) => d.otherProperties = v);
     ifPresent(this.source, (v) => d.source = v?.toDict());
     ifPresent(this.tags, (v) => d.tags = v);
     ifPresent(this.target, (v) => d.target = v?.toDict());
@@ -1325,10 +1432,12 @@ export class FlowMap {
     e.category = d.category as string;
     e.description = d.description as string;
     e.lastChange = d.lastChange as string;
+    e.library = d.library as string;
     e.mappings = d.mappings
       ? (d.mappings as Dict[]).map(FlowMapEntry.fromDict) as FlowMapEntry[]
       : null;
     e.name = d.name as string;
+    e.otherProperties = d.otherProperties as Record<string, unknown>;
     e.source = Ref.fromDict(d.source as Dict);
     e.tags = d.tags as string[];
     e.target = Ref.fromDict(d.target as Dict);
@@ -1452,7 +1561,9 @@ interface IFlowProperty {
   description?: string | null;
   flowPropertyType?: FlowPropertyType | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   tags?: Array<string> | null;
   unitGroup?: Ref | null;
   version?: string | null;
@@ -1464,7 +1575,9 @@ export class FlowProperty {
   description?: string | null;
   flowPropertyType?: FlowPropertyType | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   tags?: Array<string> | null;
   unitGroup?: Ref | null;
   version?: string | null;
@@ -1476,7 +1589,9 @@ export class FlowProperty {
     e.description = i.description;
     e.flowPropertyType = i.flowPropertyType;
     e.lastChange = i.lastChange;
+    e.library = i.library;
     e.name = i.name;
+    e.otherProperties = i.otherProperties;
     e.tags = i.tags;
     e.unitGroup = i.unitGroup;
     e.version = i.version;
@@ -1500,7 +1615,9 @@ export class FlowProperty {
     ifPresent(this.description, (v) => d.description = v);
     ifPresent(this.flowPropertyType, (v) => d.flowPropertyType = v);
     ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.library, (v) => d.library = v);
     ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.otherProperties, (v) => d.otherProperties = v);
     ifPresent(this.tags, (v) => d.tags = v);
     ifPresent(this.unitGroup, (v) => d.unitGroup = v?.toDict());
     ifPresent(this.version, (v) => d.version = v);
@@ -1515,7 +1632,9 @@ export class FlowProperty {
     e.description = d.description as string;
     e.flowPropertyType = d.flowPropertyType as FlowPropertyType;
     e.lastChange = d.lastChange as string;
+    e.library = d.library as string;
     e.name = d.name as string;
+    e.otherProperties = d.otherProperties as Record<string, unknown>;
     e.tags = d.tags as string[];
     e.unitGroup = Ref.fromDict(d.unitGroup as Dict);
     e.version = d.version as string;
@@ -1660,7 +1779,9 @@ interface IImpactCategory {
   direction?: Direction | null;
   impactFactors?: Array<ImpactFactor> | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   parameters?: Array<Parameter> | null;
   refUnit?: string | null;
   source?: Ref | null;
@@ -1676,7 +1797,9 @@ export class ImpactCategory {
   direction?: Direction | null;
   impactFactors?: Array<ImpactFactor> | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   parameters?: Array<Parameter> | null;
   refUnit?: string | null;
   source?: Ref | null;
@@ -1692,7 +1815,9 @@ export class ImpactCategory {
     e.direction = i.direction;
     e.impactFactors = i.impactFactors;
     e.lastChange = i.lastChange;
+    e.library = i.library;
     e.name = i.name;
+    e.otherProperties = i.otherProperties;
     e.parameters = i.parameters;
     e.refUnit = i.refUnit;
     e.source = i.source;
@@ -1720,7 +1845,9 @@ export class ImpactCategory {
     ifPresent(this.direction, (v) => d.direction = v);
     ifPresent(this.impactFactors, (v) => d.impactFactors = dictAll(v));
     ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.library, (v) => d.library = v);
     ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.otherProperties, (v) => d.otherProperties = v);
     ifPresent(this.parameters, (v) => d.parameters = dictAll(v));
     ifPresent(this.refUnit, (v) => d.refUnit = v);
     ifPresent(this.source, (v) => d.source = v?.toDict());
@@ -1741,7 +1868,9 @@ export class ImpactCategory {
       ? (d.impactFactors as Dict[]).map(ImpactFactor.fromDict) as ImpactFactor[]
       : null;
     e.lastChange = d.lastChange as string;
+    e.library = d.library as string;
     e.name = d.name as string;
+    e.otherProperties = d.otherProperties as Record<string, unknown>;
     e.parameters = d.parameters
       ? (d.parameters as Dict[]).map(Parameter.fromDict) as Parameter[]
       : null;
@@ -1837,8 +1966,10 @@ interface IImpactMethod {
   description?: string | null;
   impactCategories?: Array<Ref> | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
   nwSets?: Array<NwSet> | null;
+  otherProperties?: Record<string, unknown> | null;
   source?: Ref | null;
   tags?: Array<string> | null;
   version?: string | null;
@@ -1851,8 +1982,10 @@ export class ImpactMethod {
   description?: string | null;
   impactCategories?: Array<Ref> | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
   nwSets?: Array<NwSet> | null;
+  otherProperties?: Record<string, unknown> | null;
   source?: Ref | null;
   tags?: Array<string> | null;
   version?: string | null;
@@ -1865,8 +1998,10 @@ export class ImpactMethod {
     e.description = i.description;
     e.impactCategories = i.impactCategories;
     e.lastChange = i.lastChange;
+    e.library = i.library;
     e.name = i.name;
     e.nwSets = i.nwSets;
+    e.otherProperties = i.otherProperties;
     e.source = i.source;
     e.tags = i.tags;
     e.version = i.version;
@@ -1891,8 +2026,10 @@ export class ImpactMethod {
     ifPresent(this.description, (v) => d.description = v);
     ifPresent(this.impactCategories, (v) => d.impactCategories = dictAll(v));
     ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.library, (v) => d.library = v);
     ifPresent(this.name, (v) => d.name = v);
     ifPresent(this.nwSets, (v) => d.nwSets = dictAll(v));
+    ifPresent(this.otherProperties, (v) => d.otherProperties = v);
     ifPresent(this.source, (v) => d.source = v?.toDict());
     ifPresent(this.tags, (v) => d.tags = v);
     ifPresent(this.version, (v) => d.version = v);
@@ -1910,10 +2047,12 @@ export class ImpactMethod {
       ? (d.impactCategories as Dict[]).map(Ref.fromDict) as Ref[]
       : null;
     e.lastChange = d.lastChange as string;
+    e.library = d.library as string;
     e.name = d.name as string;
     e.nwSets = d.nwSets
       ? (d.nwSets as Dict[]).map(NwSet.fromDict) as NwSet[]
       : null;
+    e.otherProperties = d.otherProperties as Record<string, unknown>;
     e.source = Ref.fromDict(d.source as Dict);
     e.tags = d.tags as string[];
     e.version = d.version as string;
@@ -2033,8 +2172,10 @@ interface ILocation {
   geometry?: Record<string, unknown> | null;
   lastChange?: string | null;
   latitude?: number | null;
+  library?: string | null;
   longitude?: number | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   tags?: Array<string> | null;
   version?: string | null;
 }
@@ -2047,8 +2188,10 @@ export class Location {
   geometry?: Record<string, unknown> | null;
   lastChange?: string | null;
   latitude?: number | null;
+  library?: string | null;
   longitude?: number | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   tags?: Array<string> | null;
   version?: string | null;
 
@@ -2061,8 +2204,10 @@ export class Location {
     e.geometry = i.geometry;
     e.lastChange = i.lastChange;
     e.latitude = i.latitude;
+    e.library = i.library;
     e.longitude = i.longitude;
     e.name = i.name;
+    e.otherProperties = i.otherProperties;
     e.tags = i.tags;
     e.version = i.version;
     return e;
@@ -2087,8 +2232,10 @@ export class Location {
     ifPresent(this.geometry, (v) => d.geometry = v);
     ifPresent(this.lastChange, (v) => d.lastChange = v);
     ifPresent(this.latitude, (v) => d.latitude = v);
+    ifPresent(this.library, (v) => d.library = v);
     ifPresent(this.longitude, (v) => d.longitude = v);
     ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.otherProperties, (v) => d.otherProperties = v);
     ifPresent(this.tags, (v) => d.tags = v);
     ifPresent(this.version, (v) => d.version = v);
     return d;
@@ -2104,8 +2251,10 @@ export class Location {
     e.geometry = d.geometry as Record<string, unknown>;
     e.lastChange = d.lastChange as string;
     e.latitude = d.latitude as number;
+    e.library = d.library as string;
     e.longitude = d.longitude as number;
     e.name = d.name as string;
+    e.otherProperties = d.otherProperties as Record<string, unknown>;
     e.tags = d.tags as string[];
     e.version = d.version as string;
     return e;
@@ -2244,7 +2393,9 @@ interface IParameter {
   formula?: string | null;
   isInputParameter?: boolean | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   parameterScope?: ParameterScope | null;
   tags?: Array<string> | null;
   uncertainty?: Uncertainty | null;
@@ -2259,7 +2410,9 @@ export class Parameter {
   formula?: string | null;
   isInputParameter?: boolean | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   parameterScope?: ParameterScope | null;
   tags?: Array<string> | null;
   uncertainty?: Uncertainty | null;
@@ -2274,7 +2427,9 @@ export class Parameter {
     e.formula = i.formula;
     e.isInputParameter = i.isInputParameter;
     e.lastChange = i.lastChange;
+    e.library = i.library;
     e.name = i.name;
+    e.otherProperties = i.otherProperties;
     e.parameterScope = i.parameterScope;
     e.tags = i.tags;
     e.uncertainty = i.uncertainty;
@@ -2301,7 +2456,9 @@ export class Parameter {
     ifPresent(this.formula, (v) => d.formula = v);
     ifPresent(this.isInputParameter, (v) => d.isInputParameter = v);
     ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.library, (v) => d.library = v);
     ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.otherProperties, (v) => d.otherProperties = v);
     ifPresent(this.parameterScope, (v) => d.parameterScope = v);
     ifPresent(this.tags, (v) => d.tags = v);
     ifPresent(this.uncertainty, (v) => d.uncertainty = v?.toDict());
@@ -2319,7 +2476,9 @@ export class Parameter {
     e.formula = d.formula as string;
     e.isInputParameter = d.isInputParameter as boolean;
     e.lastChange = d.lastChange as string;
+    e.library = d.library as string;
     e.name = d.name as string;
+    e.otherProperties = d.otherProperties as Record<string, unknown>;
     e.parameterScope = d.parameterScope as ParameterScope;
     e.tags = d.tags as string[];
     e.uncertainty = Uncertainty.fromDict(d.uncertainty as Dict);
@@ -2470,8 +2629,10 @@ interface IProcess {
   isInfrastructureProcess?: boolean | null;
   lastChange?: string | null;
   lastInternalId?: number | null;
+  library?: string | null;
   location?: Ref | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   parameters?: Array<Parameter> | null;
   processDocumentation?: ProcessDocumentation | null;
   processType?: ProcessType | null;
@@ -2494,8 +2655,10 @@ export class Process {
   isInfrastructureProcess?: boolean | null;
   lastChange?: string | null;
   lastInternalId?: number | null;
+  library?: string | null;
   location?: Ref | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   parameters?: Array<Parameter> | null;
   processDocumentation?: ProcessDocumentation | null;
   processType?: ProcessType | null;
@@ -2518,8 +2681,10 @@ export class Process {
     e.isInfrastructureProcess = i.isInfrastructureProcess;
     e.lastChange = i.lastChange;
     e.lastInternalId = i.lastInternalId;
+    e.library = i.library;
     e.location = i.location;
     e.name = i.name;
+    e.otherProperties = i.otherProperties;
     e.parameters = i.parameters;
     e.processDocumentation = i.processDocumentation;
     e.processType = i.processType;
@@ -2560,8 +2725,10 @@ export class Process {
     );
     ifPresent(this.lastChange, (v) => d.lastChange = v);
     ifPresent(this.lastInternalId, (v) => d.lastInternalId = v);
+    ifPresent(this.library, (v) => d.library = v);
     ifPresent(this.location, (v) => d.location = v?.toDict());
     ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.otherProperties, (v) => d.otherProperties = v);
     ifPresent(this.parameters, (v) => d.parameters = dictAll(v));
     ifPresent(
       this.processDocumentation,
@@ -2596,8 +2763,10 @@ export class Process {
     e.isInfrastructureProcess = d.isInfrastructureProcess as boolean;
     e.lastChange = d.lastChange as string;
     e.lastInternalId = d.lastInternalId as number;
+    e.library = d.library as string;
     e.location = Ref.fromDict(d.location as Dict);
     e.name = d.name as string;
+    e.otherProperties = d.otherProperties as Record<string, unknown>;
     e.parameters = d.parameters
       ? (d.parameters as Dict[]).map(Parameter.fromDict) as Parameter[]
       : null;
@@ -2877,10 +3046,13 @@ export class ProcessLink {
 
 interface IProductSystem {
   id?: string | null;
+  analysisGroups?: Array<AnalysisGroup> | null;
   category?: string | null;
   description?: string | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   parameterSets?: Array<ParameterRedefSet> | null;
   processLinks?: Array<ProcessLink> | null;
   processes?: Array<Ref> | null;
@@ -2895,10 +3067,13 @@ interface IProductSystem {
 
 export class ProductSystem {
   id?: string | null;
+  analysisGroups?: Array<AnalysisGroup> | null;
   category?: string | null;
   description?: string | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   parameterSets?: Array<ParameterRedefSet> | null;
   processLinks?: Array<ProcessLink> | null;
   processes?: Array<Ref> | null;
@@ -2913,10 +3088,13 @@ export class ProductSystem {
   static of(i: IProductSystem): ProductSystem {
     const e = new ProductSystem();
     e.id = i.id;
+    e.analysisGroups = i.analysisGroups;
     e.category = i.category;
     e.description = i.description;
     e.lastChange = i.lastChange;
+    e.library = i.library;
     e.name = i.name;
+    e.otherProperties = i.otherProperties;
     e.parameterSets = i.parameterSets;
     e.processLinks = i.processLinks;
     e.processes = i.processes;
@@ -2943,10 +3121,13 @@ export class ProductSystem {
     const d: Dict = {};
     d["@type"] = "ProductSystem";
     ifPresent(this.id, (v) => d["@id"] = v);
+    ifPresent(this.analysisGroups, (v) => d.analysisGroups = dictAll(v));
     ifPresent(this.category, (v) => d.category = v);
     ifPresent(this.description, (v) => d.description = v);
     ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.library, (v) => d.library = v);
     ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.otherProperties, (v) => d.otherProperties = v);
     ifPresent(this.parameterSets, (v) => d.parameterSets = dictAll(v));
     ifPresent(this.processLinks, (v) => d.processLinks = dictAll(v));
     ifPresent(this.processes, (v) => d.processes = dictAll(v));
@@ -2967,10 +3148,17 @@ export class ProductSystem {
     if (!d) return null;
     const e = new ProductSystem();
     e.id = d["@id"] as string;
+    e.analysisGroups = d.analysisGroups
+      ? (d.analysisGroups as Dict[]).map(
+        AnalysisGroup.fromDict,
+      ) as AnalysisGroup[]
+      : null;
     e.category = d.category as string;
     e.description = d.description as string;
     e.lastChange = d.lastChange as string;
+    e.library = d.library as string;
     e.name = d.name as string;
+    e.otherProperties = d.otherProperties as Record<string, unknown>;
     e.parameterSets = d.parameterSets
       ? (d.parameterSets as Dict[]).map(
         ParameterRedefSet.fromDict,
@@ -3011,8 +3199,10 @@ interface IProject {
   isWithCosts?: boolean | null;
   isWithRegionalization?: boolean | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
   nwSet?: NwSet | null;
+  otherProperties?: Record<string, unknown> | null;
   tags?: Array<string> | null;
   variants?: Array<ProjectVariant> | null;
   version?: string | null;
@@ -3026,8 +3216,10 @@ export class Project {
   isWithCosts?: boolean | null;
   isWithRegionalization?: boolean | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
   nwSet?: NwSet | null;
+  otherProperties?: Record<string, unknown> | null;
   tags?: Array<string> | null;
   variants?: Array<ProjectVariant> | null;
   version?: string | null;
@@ -3041,8 +3233,10 @@ export class Project {
     e.isWithCosts = i.isWithCosts;
     e.isWithRegionalization = i.isWithRegionalization;
     e.lastChange = i.lastChange;
+    e.library = i.library;
     e.name = i.name;
     e.nwSet = i.nwSet;
+    e.otherProperties = i.otherProperties;
     e.tags = i.tags;
     e.variants = i.variants;
     e.version = i.version;
@@ -3068,8 +3262,10 @@ export class Project {
     ifPresent(this.isWithCosts, (v) => d.isWithCosts = v);
     ifPresent(this.isWithRegionalization, (v) => d.isWithRegionalization = v);
     ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.library, (v) => d.library = v);
     ifPresent(this.name, (v) => d.name = v);
     ifPresent(this.nwSet, (v) => d.nwSet = v?.toDict());
+    ifPresent(this.otherProperties, (v) => d.otherProperties = v);
     ifPresent(this.tags, (v) => d.tags = v);
     ifPresent(this.variants, (v) => d.variants = dictAll(v));
     ifPresent(this.version, (v) => d.version = v);
@@ -3086,8 +3282,10 @@ export class Project {
     e.isWithCosts = d.isWithCosts as boolean;
     e.isWithRegionalization = d.isWithRegionalization as boolean;
     e.lastChange = d.lastChange as string;
+    e.library = d.library as string;
     e.name = d.name as string;
     e.nwSet = NwSet.fromDict(d.nwSet as Dict);
+    e.otherProperties = d.otherProperties as Record<string, unknown>;
     e.tags = d.tags as string[];
     e.variants = d.variants
       ? (d.variants as Dict[]).map(ProjectVariant.fromDict) as ProjectVariant[]
@@ -3188,6 +3386,7 @@ interface IRef {
   category?: string | null;
   description?: string | null;
   flowType?: FlowType | null;
+  library?: string | null;
   location?: string | null;
   name?: string | null;
   processType?: ProcessType | null;
@@ -3200,6 +3399,7 @@ export class Ref {
   category?: string | null;
   description?: string | null;
   flowType?: FlowType | null;
+  library?: string | null;
   location?: string | null;
   name?: string | null;
   processType?: ProcessType | null;
@@ -3212,6 +3412,7 @@ export class Ref {
     e.category = i.category;
     e.description = i.description;
     e.flowType = i.flowType;
+    e.library = i.library;
     e.location = i.location;
     e.name = i.name;
     e.processType = i.processType;
@@ -3227,6 +3428,7 @@ export class Ref {
     ifPresent(this.category, (v) => d.category = v);
     ifPresent(this.description, (v) => d.description = v);
     ifPresent(this.flowType, (v) => d.flowType = v);
+    ifPresent(this.library, (v) => d.library = v);
     ifPresent(this.location, (v) => d.location = v);
     ifPresent(this.name, (v) => d.name = v);
     ifPresent(this.processType, (v) => d.processType = v);
@@ -3242,6 +3444,7 @@ export class Ref {
     e.category = d.category as string;
     e.description = d.description as string;
     e.flowType = d.flowType as FlowType;
+    e.library = d.library as string;
     e.location = d.location as string;
     e.name = d.name as string;
     e.processType = d.processType as ProcessType;
@@ -3268,7 +3471,9 @@ interface IResult {
   impactMethod?: Ref | null;
   impactResults?: Array<ImpactResult> | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   productSystem?: Ref | null;
   tags?: Array<string> | null;
   version?: string | null;
@@ -3282,7 +3487,9 @@ export class Result {
   impactMethod?: Ref | null;
   impactResults?: Array<ImpactResult> | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   productSystem?: Ref | null;
   tags?: Array<string> | null;
   version?: string | null;
@@ -3296,7 +3503,9 @@ export class Result {
     e.impactMethod = i.impactMethod;
     e.impactResults = i.impactResults;
     e.lastChange = i.lastChange;
+    e.library = i.library;
     e.name = i.name;
+    e.otherProperties = i.otherProperties;
     e.productSystem = i.productSystem;
     e.tags = i.tags;
     e.version = i.version;
@@ -3322,7 +3531,9 @@ export class Result {
     ifPresent(this.impactMethod, (v) => d.impactMethod = v?.toDict());
     ifPresent(this.impactResults, (v) => d.impactResults = dictAll(v));
     ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.library, (v) => d.library = v);
     ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.otherProperties, (v) => d.otherProperties = v);
     ifPresent(this.productSystem, (v) => d.productSystem = v?.toDict());
     ifPresent(this.tags, (v) => d.tags = v);
     ifPresent(this.version, (v) => d.version = v);
@@ -3343,7 +3554,9 @@ export class Result {
       ? (d.impactResults as Dict[]).map(ImpactResult.fromDict) as ImpactResult[]
       : null;
     e.lastChange = d.lastChange as string;
+    e.library = d.library as string;
     e.name = d.name as string;
+    e.otherProperties = d.otherProperties as Record<string, unknown>;
     e.productSystem = Ref.fromDict(d.productSystem as Dict);
     e.tags = d.tags as string[];
     e.version = d.version as string;
@@ -3547,7 +3760,9 @@ interface ISocialIndicator {
   description?: string | null;
   evaluationScheme?: string | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   tags?: Array<string> | null;
   unitOfMeasurement?: string | null;
   version?: string | null;
@@ -3562,7 +3777,9 @@ export class SocialIndicator {
   description?: string | null;
   evaluationScheme?: string | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   tags?: Array<string> | null;
   unitOfMeasurement?: string | null;
   version?: string | null;
@@ -3577,7 +3794,9 @@ export class SocialIndicator {
     e.description = i.description;
     e.evaluationScheme = i.evaluationScheme;
     e.lastChange = i.lastChange;
+    e.library = i.library;
     e.name = i.name;
+    e.otherProperties = i.otherProperties;
     e.tags = i.tags;
     e.unitOfMeasurement = i.unitOfMeasurement;
     e.version = i.version;
@@ -3604,7 +3823,9 @@ export class SocialIndicator {
     ifPresent(this.description, (v) => d.description = v);
     ifPresent(this.evaluationScheme, (v) => d.evaluationScheme = v);
     ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.library, (v) => d.library = v);
     ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.otherProperties, (v) => d.otherProperties = v);
     ifPresent(this.tags, (v) => d.tags = v);
     ifPresent(this.unitOfMeasurement, (v) => d.unitOfMeasurement = v);
     ifPresent(this.version, (v) => d.version = v);
@@ -3622,7 +3843,9 @@ export class SocialIndicator {
     e.description = d.description as string;
     e.evaluationScheme = d.evaluationScheme as string;
     e.lastChange = d.lastChange as string;
+    e.library = d.library as string;
     e.name = d.name as string;
+    e.otherProperties = d.otherProperties as Record<string, unknown>;
     e.tags = d.tags as string[];
     e.unitOfMeasurement = d.unitOfMeasurement as string;
     e.version = d.version as string;
@@ -3646,7 +3869,9 @@ interface ISource {
   description?: string | null;
   externalFile?: string | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   tags?: Array<string> | null;
   textReference?: string | null;
   url?: string | null;
@@ -3660,7 +3885,9 @@ export class Source {
   description?: string | null;
   externalFile?: string | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   tags?: Array<string> | null;
   textReference?: string | null;
   url?: string | null;
@@ -3674,7 +3901,9 @@ export class Source {
     e.description = i.description;
     e.externalFile = i.externalFile;
     e.lastChange = i.lastChange;
+    e.library = i.library;
     e.name = i.name;
+    e.otherProperties = i.otherProperties;
     e.tags = i.tags;
     e.textReference = i.textReference;
     e.url = i.url;
@@ -3700,7 +3929,9 @@ export class Source {
     ifPresent(this.description, (v) => d.description = v);
     ifPresent(this.externalFile, (v) => d.externalFile = v);
     ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.library, (v) => d.library = v);
     ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.otherProperties, (v) => d.otherProperties = v);
     ifPresent(this.tags, (v) => d.tags = v);
     ifPresent(this.textReference, (v) => d.textReference = v);
     ifPresent(this.url, (v) => d.url = v);
@@ -3717,7 +3948,9 @@ export class Source {
     e.description = d.description as string;
     e.externalFile = d.externalFile as string;
     e.lastChange = d.lastChange as string;
+    e.library = d.library as string;
     e.name = d.name as string;
+    e.otherProperties = d.otherProperties as Record<string, unknown>;
     e.tags = d.tags as string[];
     e.textReference = d.textReference as string;
     e.url = d.url as string;
@@ -3886,7 +4119,9 @@ interface IUnitGroup {
   defaultFlowProperty?: Ref | null;
   description?: string | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   tags?: Array<string> | null;
   units?: Array<Unit> | null;
   version?: string | null;
@@ -3898,7 +4133,9 @@ export class UnitGroup {
   defaultFlowProperty?: Ref | null;
   description?: string | null;
   lastChange?: string | null;
+  library?: string | null;
   name?: string | null;
+  otherProperties?: Record<string, unknown> | null;
   tags?: Array<string> | null;
   units?: Array<Unit> | null;
   version?: string | null;
@@ -3910,7 +4147,9 @@ export class UnitGroup {
     e.defaultFlowProperty = i.defaultFlowProperty;
     e.description = i.description;
     e.lastChange = i.lastChange;
+    e.library = i.library;
     e.name = i.name;
+    e.otherProperties = i.otherProperties;
     e.tags = i.tags;
     e.units = i.units;
     e.version = i.version;
@@ -3937,7 +4176,9 @@ export class UnitGroup {
     );
     ifPresent(this.description, (v) => d.description = v);
     ifPresent(this.lastChange, (v) => d.lastChange = v);
+    ifPresent(this.library, (v) => d.library = v);
     ifPresent(this.name, (v) => d.name = v);
+    ifPresent(this.otherProperties, (v) => d.otherProperties = v);
     ifPresent(this.tags, (v) => d.tags = v);
     ifPresent(this.units, (v) => d.units = dictAll(v));
     ifPresent(this.version, (v) => d.version = v);
@@ -3952,7 +4193,9 @@ export class UnitGroup {
     e.defaultFlowProperty = Ref.fromDict(d.defaultFlowProperty as Dict);
     e.description = d.description as string;
     e.lastChange = d.lastChange as string;
+    e.library = d.library as string;
     e.name = d.name as string;
+    e.otherProperties = d.otherProperties as Record<string, unknown>;
     e.tags = d.tags as string[];
     e.units = d.units ? (d.units as Dict[]).map(Unit.fromDict) as Unit[] : null;
     e.version = d.version as string;
@@ -4180,6 +4423,48 @@ export class EnviFlowValue {
     return typeof json === "string"
       ? EnviFlowValue.fromDict(JSON.parse(json) as Dict)
       : EnviFlowValue.fromDict(json);
+  }
+
+  toJson(): string {
+    return JSON.stringify(this.toDict(), null, "  ");
+  }
+}
+
+interface IGroupValue {
+  amount?: number | null;
+  group?: string | null;
+}
+
+export class GroupValue {
+  amount?: number | null;
+  group?: string | null;
+
+  static of(i: IGroupValue): GroupValue {
+    const e = new GroupValue();
+    e.amount = i.amount;
+    e.group = i.group;
+    return e;
+  }
+
+  toDict(): Dict {
+    const d: Dict = {};
+    ifPresent(this.amount, (v) => d.amount = v);
+    ifPresent(this.group, (v) => d.group = v);
+    return d;
+  }
+
+  static fromDict(d: Dict): GroupValue | null {
+    if (!d) return null;
+    const e = new GroupValue();
+    e.amount = d.amount as number;
+    e.group = d.group as string;
+    return e;
+  }
+
+  static fromJson(json: string | Dict): GroupValue | null {
+    return typeof json === "string"
+      ? GroupValue.fromDict(JSON.parse(json) as Dict)
+      : GroupValue.fromDict(json);
   }
 
   toJson(): string {

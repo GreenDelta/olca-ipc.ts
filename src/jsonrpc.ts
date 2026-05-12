@@ -451,6 +451,18 @@ export class IpcResult implements protocol.Result {
     return resp.orElse([]);
   }
 
+  async getGroupedFlowResultsOf(enviFlow: o.EnviFlow): Promise<o.GroupValue[]> {
+    const resp = await this.client._callEach(
+      "result/grouped-flow-results-of",
+      {
+        "@id": this.id,
+        enviFlow: enviFlow.toDict(),
+      },
+      o.GroupValue.fromDict,
+    );
+    return resp.orElse([]);
+  }
+
   //#endregion
 
   //#region Impact assessment results
@@ -608,6 +620,20 @@ export class IpcResult implements protocol.Result {
     return resp.orElse([]);
   }
 
+  async getGroupedImpactResultsOf(
+    impactCategory: o.Ref,
+  ): Promise<o.GroupValue[]> {
+    const resp = await this.client._callEach(
+      "result/grouped-impact-results-of",
+      {
+        "@id": this.id,
+        impactCategory: impactCategory.toDict(),
+      },
+      o.GroupValue.fromDict,
+    );
+    return resp.orElse([]);
+  }
+
   //#endregion
 
   //#region Cost results
@@ -655,6 +681,17 @@ export class IpcResult implements protocol.Result {
       "@id": this.id,
       "path": pathOf(path),
     }, o.UpstreamNode.fromDict);
+    return resp.orElse([]);
+  }
+
+  async getGroupedCostResults(): Promise<o.GroupValue[]> {
+    const resp = await this.client._callEach(
+      "result/grouped-cost-results",
+      {
+        "@id": this.id,
+      },
+      o.GroupValue.fromDict,
+    );
     return resp.orElse([]);
   }
 

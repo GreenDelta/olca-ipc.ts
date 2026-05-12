@@ -489,6 +489,14 @@ export class RestResult implements protocol.Result {
     return resp.orElse([]);
   }
 
+  async getGroupedFlowResultsOf(enviFlow: o.EnviFlow): Promise<o.GroupValue[]> {
+    const resp = await this.client._callEach(
+      this.path(["grouped-flow-results-of", enviIdOf(enviFlow)]),
+      o.GroupValue.fromDict,
+    );
+    return resp.orElse([]);
+  }
+
   //#endregion
 
   //#region Impact assessment results
@@ -650,6 +658,16 @@ export class RestResult implements protocol.Result {
     return resp.orElse([]);
   }
 
+  async getGroupedImpactResultsOf(
+    impactCategory: o.Ref,
+  ): Promise<o.GroupValue[]> {
+    const resp = await this.client._callEach(
+      this.path(["grouped-impact-results-of", impactCategory.id!]),
+      o.GroupValue.fromDict,
+    );
+    return resp.orElse([]);
+  }
+
   //#endregion
 
   //#region Cost results
@@ -700,6 +718,14 @@ export class RestResult implements protocol.Result {
       o.UpstreamNode.fromDict,
       "POST",
       upstreamPathOf(path),
+    );
+    return resp.orElse([]);
+  }
+
+  async getGroupedCostResults(): Promise<o.GroupValue[]> {
+    const resp = await this.client._callEach(
+      this.path("grouped-cost-results"),
+      o.GroupValue.fromDict,
     );
     return resp.orElse([]);
   }
