@@ -1,15 +1,15 @@
 {
   "imports": {
-    "dnt": "https://deno.land/x/dnt@0.33.1/mod.ts"
+    "dnt": "https://deno.land/x/dnt@0.40.0/mod.ts",
   },
-  
+
   "tasks": {
-    "dev": "deno run --watch mod.ts"
+    "dev": "deno run --watch mod.ts",
   },
   "lint": {
     "rules": {
-      "exclude": ["no-explicit-any"]
-    }
+      "exclude": ["no-explicit-any"],
+    },
   },
   "fmt": {
     "useTabs": false,
@@ -17,6 +17,6 @@
     "indentWidth": 2,
     "lineWidth": 80,
     "proseWrap": "preserve",
-    "singleQuote": false
-  }
+    "singleQuote": false,
+  },
 }
