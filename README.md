@@ -31,5 +31,6 @@ deno run --allow-all scripts/build_npm.ts
 # publish on npm; make sure to update the version in build_npm.ts
 # also, you need to be signed into npmjs.org and verify the update
 cd npm
+npm login  # sometimes you need to do this more than once
 npm publish
 ```
