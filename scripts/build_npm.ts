@@ -15,7 +15,7 @@ await build({
   package: {
     // package.json properties
     name: "olca-ipc",
-    version: "2.6.1",
+    version: "2.6.2",
     description: "An openLCA IPC client library",
     license: "MPL-2.0",
     repository: {
@@ -31,3 +31,4 @@ await build({
 // post build steps
 Deno.copyFileSync("LICENSE", "npm/LICENSE");
 Deno.copyFileSync("README.md", "npm/README.md");
+Deno.remove("npm/.npmignore");
