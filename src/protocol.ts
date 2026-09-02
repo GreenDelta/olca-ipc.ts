@@ -226,5 +226,17 @@ export interface Result {
 
   //#endregion
 
+  // #region Tag results
+
+
+  getTagResultsOfFlow(enviFlow: o.EnviFlow): Promise<o.TagValue[]>;
+
+
+  getTagResultsOfImpact(impactCategory: o.Ref): Promise<o.TagValue[]>;
+
+  getTagResultsOfCosts(): Promise<o.TagValue[]>
+
+  //#endregion
+
   getSankeyGraph(config: o.SankeyRequest): Promise<o.SankeyGraph>;
 }

@@ -732,6 +732,35 @@ export class RestResult implements protocol.Result {
 
   //#endregion
 
+  //#region Tag Results
+
+
+  async getTagResultsOfFlow(enviFlow: o.EnviFlow): Promise<o.TagValue[]> {
+    const resp = await this.client._callEach(
+      this.path(["tag-results-of-flow", enviIdOf(enviFlow)]),
+      o.TagValue.fromDict,
+    );
+    return resp.orElse([]);
+  }
+
+  async getTagResultsOfImpact(impactCategory: o.Ref): Promise<o.TagValue[]> {
+    const resp = await this.client._callEach(
+      this.path(["tag-results-of-impact", impactCategory.id!]),
+      o.TagValue.fromDict,
+    );
+    return resp.orElse([]);
+  }
+
+  async getTagResultsOfCosts(): Promise<o.TagValue[]> {
+    const resp = await this.client._callEach(
+      this.path("tag-results-of-costs"),
+      o.TagValue.fromDict,
+    );
+    return resp.orElse([]);
+  }
+
+  //#endregion
+
   async getSankeyGraph(config: o.SankeyRequest): Promise<o.SankeyGraph> {
     const resp = await this.client._call(
       this.path("sankey"),

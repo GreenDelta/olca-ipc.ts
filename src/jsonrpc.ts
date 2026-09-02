@@ -697,6 +697,34 @@ export class IpcResult implements protocol.Result {
 
   //#endregion
 
+  //#region Tag Results
+
+
+  async getTagResultsOfFlow(enviFlow: o.EnviFlow): Promise<o.TagValue[]> {
+    const resp = await this.client._callEach("result/tag-results-of-flow", {
+      "@id": this.id,
+      "enviFlow": enviFlow.toDict(),
+    }, o.TagValue.fromDict);
+    return resp.orElse([]);
+  }
+
+  async getTagResultsOfImpact(impactCategory: o.Ref): Promise<o.TagValue[]> {
+    const resp = await this.client._callEach("result/tag-results-of-impact", {
+      "@id": this.id,
+      "impactCategory": impactCategory.toDict(),
+    }, o.TagValue.fromDict);
+    return resp.orElse([]);
+  }
+
+  async getTagResultsOfCosts(): Promise<o.TagValue[]> {
+    const resp = await this.client._callEach("result/tag-results-of-costs", {
+      "@id": this.id,
+    }, o.TagValue.fromDict);
+    return resp.orElse([]);
+  }
+
+  //#endregion
+
   async getSankeyGraph(config: o.SankeyRequest): Promise<o.SankeyGraph> {
     const resp = await this.client._call("result/sankey", {
       "@id": this.id,
