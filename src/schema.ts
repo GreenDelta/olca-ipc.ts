@@ -4778,6 +4778,48 @@ export class SankeyRequest {
   }
 }
 
+interface ITagValue {
+  amount?: number | null;
+  tag?: string | null;
+}
+
+export class TagValue {
+  amount?: number | null;
+  tag?: string | null;
+
+  static of(i: ITagValue): TagValue {
+    const e = new TagValue();
+    e.amount = i.amount;
+    e.tag = i.tag;
+    return e;
+  }
+
+  toDict(): Dict {
+    const d: Dict = {};
+    ifPresent(this.amount, (v) => d.amount = v);
+    ifPresent(this.tag, (v) => d.tag = v);
+    return d;
+  }
+
+  static fromDict(d: Dict): TagValue | null {
+    if (!d) return null;
+    const e = new TagValue();
+    e.amount = d.amount as number;
+    e.tag = d.tag as string;
+    return e;
+  }
+
+  static fromJson(json: string | Dict): TagValue | null {
+    return typeof json === "string"
+      ? TagValue.fromDict(JSON.parse(json) as Dict)
+      : TagValue.fromDict(json);
+  }
+
+  toJson(): string {
+    return JSON.stringify(this.toDict(), null, "  ");
+  }
+}
+
 interface ITechFlow {
   flow?: Ref | null;
   provider?: Ref | null;
